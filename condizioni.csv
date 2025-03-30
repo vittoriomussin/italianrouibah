@@ -1,0 +1,5 @@
+category,contrary,prime,target,soa,condizione_fon,condizione_sem,corretta_risposta
+"ANIMALI","OGGETTI","RATTO","gatto",147,"rima","correlato","s"
+"ANIMALI","OGGETTI","CANE","cane",147,"no_rima","correlato","s"
+"ANIMALI","OGGETTI","RATTO","tetto",147,"rima","correlato","s"
+"ANIMALI","OGGETTI","CANE","pane",147,"no_rima","correlato","s"
