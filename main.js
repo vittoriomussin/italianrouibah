@@ -3,6 +3,8 @@
  *************/
 
 import { core, data, sound, util, visual, hardware } from './lib/psychojs-2024.2.4.js';
+import * as pd from 'pandas';
+import * as random from 'random';
 const { PsychoJS } = core;
 const { TrialHandler, MultiStairHandler } = data;
 const { Scheduler } = util;
@@ -111,8 +113,6 @@ async function experimentInit() {
   // Initialize components for Routine "CodeRoutine"
   CodeRoutineClock = new util.Clock();
   // Run 'Begin Experiment' code from code
-  import * as pd from 'pandas';
-  import * as random from 'random';
   df_categorie = pd.read_csv("condizioni.csv");
   riga_casuale = Math.random.choice(df_categorie.to_dict("records"));
   expInfo["category"] = riga_casuale["category"];
