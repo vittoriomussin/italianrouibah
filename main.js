@@ -3,8 +3,6 @@
  *************/
 
 import { core, data, sound, util, visual, hardware } from './lib/psychojs-2024.2.4.js';
-import * as pd from 'pandas';
-import * as random from 'random';
 const { PsychoJS } = core;
 const { TrialHandler, MultiStairHandler } = data;
 const { Scheduler } = util;
@@ -17,7 +15,6 @@ const { round } = util;
 let expName = 'main';  // from the Builder filename that created this script
 let expInfo = {
     'participant': `${util.pad(Number.parseFloat(util.randint(0, 999999)).toFixed(0), 6)}`,
-    'session': '001',
 };
 
 // Start code blocks for 'Before Experiment'
@@ -82,6 +79,9 @@ psychoJS.start({
 
 psychoJS.experimentLogger.setLevel(core.Logger.ServerLevel.INFO);
 
+
+var currentLoop;
+var frameDur;
 async function updateInfo() {
   currentLoop = psychoJS.experiment;  // right now there are no loops
   expInfo['date'] = util.MonotonicClock.getDateStr();  // add a simple timestamp
@@ -109,20 +109,74 @@ async function updateInfo() {
   return Scheduler.Event.NEXT;
 }
 
+
+var CodeRoutineClock;
+var instructionRoutineClock;
+var InstructionText;
+var key_resp;
+var SemanticCategoryClock;
+var category_text;
+var trialRoutineClock;
+var Prime;
+var Mask;
+var EmptyInterval;
+var Target;
+var key_resp_2;
+var ThanksRoutineClock;
+var text_3;
+var globalClock;
+var routineTimer;
 async function experimentInit() {
   // Initialize components for Routine "CodeRoutine"
   CodeRoutineClock = new util.Clock();
-  // Run 'Begin Experiment' code from code
-  df_categorie = pd.read_csv("condizioni.csv");
-  riga_casuale = Math.random.choice(df_categorie.to_dict("records"));
-  expInfo["category"] = riga_casuale["category"];
-  expInfo["contrary"] = riga_casuale["contrary"];
+  // Run 'Begin Experiment' code from SamplingCSV
+  // Begin Experiment (JavaScript)
+  function loadAndProcessCSV() {
+    // Use XMLHttpRequest for synchronous loading
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'condizioni.csv', false);  // false makes it synchronous
+    xhr.send();
+    
+    if (xhr.status === 200) {
+      // Parse CSV
+      const csvText = xhr.responseText;
+      const lines = csvText.split('\n');
+      const headers = lines[0].split(',');
+      const records = [];
+      
+      for (let i = 1; i < lines.length; i++) {
+        if (lines[i].trim() === '') continue;
+        
+        const values = lines[i].split(',');
+        const record = {};
+        
+        for (let j = 0; j < headers.length; j++) {
+          record[headers[j].trim()] = values[j].trim();
+        }
+        
+        records.push(record);
+      }
+      
+      // Pick a random row
+      const riga_casuale = records[Math.floor(Math.random() * records.length)];
+      
+      // Save to expInfo
+      expInfo["category"] = riga_casuale["category"];
+      expInfo["contrary"] = riga_casuale["contrary"];
+      
+      console.log("CSV loaded successfully: ", riga_casuale);
+    } else {
+      console.error("Error loading CSV:", xhr.status);
+    }
+  }
   
+  // Call the function to process immediately
+  loadAndProcessCSV();
   // Initialize components for Routine "instructionRoutine"
   instructionRoutineClock = new util.Clock();
-  text = new visual.TextStim({
+  InstructionText = new visual.TextStim({
     win: psychoJS.window,
-    name: 'text',
+    name: 'InstructionText',
     text: 'Benvenuto!\n\nIn questo eperimento il tuo compito è indicare se la parola appartiene alla categoria indicata con i tasti freccia sinistra (<-) e freccia destra (->)\n\nCerca di rispondere il più velocemente possibile!\n\npremi [SPAZIO] per continuare',
     font: 'Arial',
     units: undefined, 
@@ -221,6 +275,13 @@ async function experimentInit() {
   return Scheduler.Event.NEXT;
 }
 
+
+var t;
+var frameN;
+var continueRoutine;
+var CodeRoutineMaxDurationReached;
+var CodeRoutineMaxDuration;
+var CodeRoutineComponents;
 function CodeRoutineRoutineBegin(snapshot) {
   return async function () {
     TrialHandler.fromSnapshot(snapshot); // ensure that .thisN vals are up to date
@@ -244,6 +305,7 @@ function CodeRoutineRoutineBegin(snapshot) {
     return Scheduler.Event.NEXT;
   }
 }
+
 
 function CodeRoutineRoutineEachFrame() {
   return async function () {
@@ -278,6 +340,7 @@ function CodeRoutineRoutineEachFrame() {
   };
 }
 
+
 function CodeRoutineRoutineEnd(snapshot) {
   return async function () {
     //--- Ending Routine 'CodeRoutine' ---
@@ -298,6 +361,11 @@ function CodeRoutineRoutineEnd(snapshot) {
   }
 }
 
+
+var instructionRoutineMaxDurationReached;
+var _key_resp_allKeys;
+var instructionRoutineMaxDuration;
+var instructionRoutineComponents;
 function instructionRoutineRoutineBegin(snapshot) {
   return async function () {
     TrialHandler.fromSnapshot(snapshot); // ensure that .thisN vals are up to date
@@ -317,7 +385,7 @@ function instructionRoutineRoutineBegin(snapshot) {
     instructionRoutineMaxDuration = null
     // keep track of which components have finished
     instructionRoutineComponents = [];
-    instructionRoutineComponents.push(text);
+    instructionRoutineComponents.push(InstructionText);
     instructionRoutineComponents.push(key_resp);
     
     for (const thisComponent of instructionRoutineComponents)
@@ -327,6 +395,7 @@ function instructionRoutineRoutineBegin(snapshot) {
   }
 }
 
+
 function instructionRoutineRoutineEachFrame() {
   return async function () {
     //--- Loop for each frame of Routine 'instructionRoutine' ---
@@ -335,13 +404,13 @@ function instructionRoutineRoutineEachFrame() {
     frameN = frameN + 1;// number of completed frames (so 0 is the first frame)
     // update/draw components on each frame
     
-    // *text* updates
-    if (t >= 0.0 && text.status === PsychoJS.Status.NOT_STARTED) {
+    // *InstructionText* updates
+    if (t >= 0.0 && InstructionText.status === PsychoJS.Status.NOT_STARTED) {
       // keep track of start time/frame for later
-      text.tStart = t;  // (not accounting for frame time here)
-      text.frameNStart = frameN;  // exact frame index
+      InstructionText.tStart = t;  // (not accounting for frame time here)
+      InstructionText.frameNStart = frameN;  // exact frame index
       
-      text.setAutoDraw(true);
+      InstructionText.setAutoDraw(true);
     }
     
     
@@ -395,6 +464,7 @@ function instructionRoutineRoutineEachFrame() {
   };
 }
 
+
 function instructionRoutineRoutineEnd(snapshot) {
   return async function () {
     //--- Ending Routine 'instructionRoutine' ---
@@ -427,6 +497,13 @@ function instructionRoutineRoutineEnd(snapshot) {
   }
 }
 
+
+var SemanticCategoryMaxDurationReached;
+var category;
+var contrary;
+var testo_dinamico;
+var SemanticCategoryMaxDuration;
+var SemanticCategoryComponents;
 function SemanticCategoryRoutineBegin(snapshot) {
   return async function () {
     TrialHandler.fromSnapshot(snapshot); // ensure that .thisN vals are up to date
@@ -461,6 +538,8 @@ function SemanticCategoryRoutineBegin(snapshot) {
   }
 }
 
+
+var frameRemains;
 function SemanticCategoryRoutineEachFrame() {
   return async function () {
     //--- Loop for each frame of Routine 'SemanticCategory' ---
@@ -509,6 +588,7 @@ function SemanticCategoryRoutineEachFrame() {
   };
 }
 
+
 function SemanticCategoryRoutineEnd(snapshot) {
   return async function () {
     //--- Ending Routine 'SemanticCategory' ---
@@ -531,6 +611,8 @@ function SemanticCategoryRoutineEnd(snapshot) {
   }
 }
 
+
+var trials;
 function trialsLoopBegin(trialsLoopScheduler, snapshot) {
   return async function() {
     TrialHandler.fromSnapshot(snapshot); // update internal variables (.thisN etc) of the loop
@@ -560,6 +642,7 @@ function trialsLoopBegin(trialsLoopScheduler, snapshot) {
   }
 }
 
+
 async function trialsLoopEnd() {
   // terminate loop
   psychoJS.experiment.removeLoop(trials);
@@ -570,6 +653,7 @@ async function trialsLoopEnd() {
     currentLoop = psychoJS.experiment;  // so we use addData from the experiment
   return Scheduler.Event.NEXT;
 }
+
 
 function trialsLoopEndIteration(scheduler, snapshot) {
   // ------Prepare for next entry------
@@ -590,6 +674,11 @@ function trialsLoopEndIteration(scheduler, snapshot) {
   };
 }
 
+
+var trialRoutineMaxDurationReached;
+var _key_resp_2_allKeys;
+var trialRoutineMaxDuration;
+var trialRoutineComponents;
 function trialRoutineRoutineBegin(snapshot) {
   return async function () {
     TrialHandler.fromSnapshot(snapshot); // ensure that .thisN vals are up to date
@@ -623,6 +712,7 @@ function trialRoutineRoutineBegin(snapshot) {
     return Scheduler.Event.NEXT;
   }
 }
+
 
 function trialRoutineRoutineEachFrame() {
   return async function () {
@@ -743,6 +833,7 @@ function trialRoutineRoutineEachFrame() {
   };
 }
 
+
 function trialRoutineRoutineEnd(snapshot) {
   return async function () {
     //--- Ending Routine 'trialRoutine' ---
@@ -785,6 +876,10 @@ function trialRoutineRoutineEnd(snapshot) {
   }
 }
 
+
+var ThanksRoutineMaxDurationReached;
+var ThanksRoutineMaxDuration;
+var ThanksRoutineComponents;
 function ThanksRoutineRoutineBegin(snapshot) {
   return async function () {
     TrialHandler.fromSnapshot(snapshot); // ensure that .thisN vals are up to date
@@ -798,13 +893,13 @@ function ThanksRoutineRoutineBegin(snapshot) {
     ThanksRoutineMaxDurationReached = false;
     // update component parameters for each repeat
     // Disable downloading results to browser
-    psychoJS_saveResults = 0;
+    psychoJS._saveResults = 0;
     
     // Generate filename for results
-    let filename = psychoJS_experiment_experimentName + '_' + psychoJS_experiment_datetime + '.csv';
+    let filename = psychoJS._experiment._experimentName + '_' + psychoJS._experiment._datetime + '.csv';
     
     // Extract data object from experiment
-    let dataObj = psychoJS_experiment_trialsData;
+    let dataObj = psychoJS._experiment._trialsData;
     
     // Convert data object to CSV
     let data = [Object.keys(dataObj[0])].concat(dataObj).map(it => {
@@ -843,6 +938,7 @@ function ThanksRoutineRoutineBegin(snapshot) {
     return Scheduler.Event.NEXT;
   }
 }
+
 
 function ThanksRoutineRoutineEachFrame() {
   return async function () {
@@ -892,6 +988,7 @@ function ThanksRoutineRoutineEachFrame() {
   };
 }
 
+
 function ThanksRoutineRoutineEnd(snapshot) {
   return async function () {
     //--- Ending Routine 'ThanksRoutine' ---
@@ -914,12 +1011,14 @@ function ThanksRoutineRoutineEnd(snapshot) {
   }
 }
 
+
 function importConditions(currentLoop) {
   return async function () {
     psychoJS.importAttributes(currentLoop.getCurrentTrial());
     return Scheduler.Event.NEXT;
     };
 }
+
 
 async function quitPsychoJS(message, isCompleted) {
   // Check for and save orphaned data
