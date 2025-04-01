@@ -65,7 +65,6 @@ psychoJS.start({
   expInfo: expInfo,
   resources: [
     // resources:
-    {'name': 'condizioni.csv', 'path': 'condizioni.csv'},
   ]
 });
 
@@ -103,6 +102,7 @@ async function updateInfo() {
 
 
 var CodeRoutineClock;
+var empty_text_duration;
 var instructionRoutineClock;
 var InstructionText;
 var key_resp;
@@ -122,54 +122,83 @@ async function experimentInit() {
   // Initialize components for Routine "CodeRoutine"
   CodeRoutineClock = new util.Clock();
   // Run 'Begin Experiment' code from SamplingCSV
-  // Begin Experiment (JavaScript)
-  function loadAndProcessCSV() {
-    // Use XMLHttpRequest for synchronous loading
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'condizioni.csv', false);  // false makes it synchronous
-    xhr.send();
-    
-    if (xhr.status === 200) {
-      // Parse CSV
-      const csvText = xhr.responseText;
-      const lines = csvText.split('\n');
-      const headers = lines[0].split(',');
-      const records = [];
-      
-      for (let i = 1; i < lines.length; i++) {
-        if (lines[i].trim() === '') continue;
-        
-        const values = lines[i].split(',');
-        const record = {};
-        
-        for (let j = 0; j < headers.length; j++) {
-          record[headers[j].trim()] = values[j].trim();
-        }
-        
-        records.push(record);
+  // Inserire questo codice in una componente "Begin Experiment"
+  async function loadAndProcessCSV() {
+      try {
+          // 1. Caricamento CSV con cache-buster
+          const cacheBuster = `?t=${new Date().getTime()}`;
+          const response = await fetch(`condizioni.csv${cacheBuster}`);
+          
+          if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          
+          const csvText = await response.text();
+          
+          // 2. Parsing avanzato del CSV
+          const lines = csvText.split(/\r\n|\n/).filter(line => line.trim() !== '');
+          const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+          
+          const records = [];
+          for (let i = 1; i < lines.length; i++) {
+              const values = lines[i].split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/)
+                               .map(v => v.trim().replace(/^"|"$/g, ''));
+              
+              const record = {};
+              for (let j = 0; j < headers.length; j++) {
+                  record[headers[j]] = values[j] || '';
+              }
+              records.push(record);
+          }
+          
+          // 3. Log di debug
+          console.log('CSV caricato correttamente:');
+          console.log('Headers:', headers);
+          console.log('Prime 3 righe:', records.slice(0, 3));
+          console.log('Ultime 3 righe:', records.slice(-3));
+          
+          // 4. Selezione casuale della categoria
+          const categories = [...new Set(records.map(r => r.category))];
+          console.log("categories", categories);
+          const selectedCategory = categories[Math.floor(Math.random() * categories.length)];
+          
+          // 5. Filtro dei dati
+          expInfo.filtered_data = records.filter(r => r.category === selectedCategory);
+          expInfo.category = selectedCategory;
+          
+          // 6. Setup variabili globali
+          psychoJS.experiment.addData('selected_category', selectedCategory);
+          expInfo.all_categories = categories;
+          
+          console.log(`Categoria selezionata: ${selectedCategory}`);
+          console.log(`Righe filtrate: ${expInfo.filtered_data.length}`);
+          
+      } catch (error) {
+          console.error('Errore critico:', error);
+          psychoJS.gui.dialog.error({
+              msg: `Errore nel caricamento del CSV: ${error.message}\n\nVerifica che: 
+              - Il file condizioni.csv esista
+              - Sia nella stessa cartella dell'esperimento
+              - Abbia i permessi corretti`
+          });
+          psychoJS.core.quit();
       }
-      
-      // Pick a random row
-      const riga_casuale = records[Math.floor(Math.random() * records.length)];
-      
-      // Save to expInfo
-      expInfo["category"] = riga_casuale["category"];
-      expInfo["contrary"] = riga_casuale["contrary"];
-      
-      console.log("CSV loaded successfully: ", riga_casuale);
-    } else {
-      console.error("Error loading CSV:", xhr.status);
-    }
   }
   
-  // Call the function to process immediately
-  loadAndProcessCSV();
+  // Esegui la funzione e gestisci promise
+  loadAndProcessCSV().catch(error => {
+      console.error('Errore non gestito:', error);
+      psychoJS.core.quit();
+  });
+  // Imposta la durata casuale
+  empty_text_duration = Math.random() < 0.5 ? 0.049 : 0.301;
+  expInfo["blankDuration"] = empty_text_duration;
   // Initialize components for Routine "instructionRoutine"
   instructionRoutineClock = new util.Clock();
   InstructionText = new visual.TextStim({
     win: psychoJS.window,
     name: 'InstructionText',
-    text: 'Benvenuto!\n\nIn questo eperimento il tuo compito è indicare se la parola appartiene alla categoria indicata con i tasti freccia sinistra (<-) e freccia destra (->)\n\nCerca di rispondere il più velocemente possibile!\n\npremi [SPAZIO] per continuare',
+    text: 'Benvenuto!\n\nIn questo eperimento il tuo compito è indicare se la parola appartiene alla categoria indicata con il tasto freccia sinistra (<-) e freccia destra (->) se non appartiene alla categoria indicata\n\nCerca di rispondere il più velocemente possibile!\n\nLa categoria ti apparirà nelllo step successivo\n\npremi [SPAZIO] per continuare',
     font: 'Arial',
     units: undefined, 
     pos: [0, 0], draggable: false, height: 0.05,  wrapWidth: undefined, ori: 0.0,
@@ -205,7 +234,7 @@ async function experimentInit() {
     pos: [0, 0], draggable: false, height: 0.05,  wrapWidth: undefined, ori: 0.0,
     languageStyle: 'LTR',
     color: new util.Color('white'),  opacity: undefined,
-    depth: 0.0 
+    depth: -1.0 
   });
   
   Mask = new visual.TextStim({
@@ -217,7 +246,7 @@ async function experimentInit() {
     pos: [0, 0], draggable: false, height: 0.05,  wrapWidth: undefined, ori: 0.0,
     languageStyle: 'LTR',
     color: new util.Color('white'),  opacity: undefined,
-    depth: -1.0 
+    depth: -2.0 
   });
   
   EmptyInterval = new visual.TextStim({
@@ -229,7 +258,7 @@ async function experimentInit() {
     pos: [0, 0], draggable: false, height: 0.05,  wrapWidth: undefined, ori: 0.0,
     languageStyle: 'LTR',
     color: new util.Color('white'),  opacity: undefined,
-    depth: -2.0 
+    depth: -3.0 
   });
   
   Target = new visual.TextStim({
@@ -241,7 +270,7 @@ async function experimentInit() {
     pos: [0, 0], draggable: false, height: 0.05,  wrapWidth: undefined, ori: 0.0,
     languageStyle: 'LTR',
     color: new util.Color('white'),  opacity: undefined,
-    depth: -3.0 
+    depth: -4.0 
   });
   
   key_resp_2 = new core.Keyboard({psychoJS: psychoJS, clock: new util.Clock(), waitForStart: true});
@@ -494,7 +523,6 @@ function instructionRoutineRoutineEnd(snapshot) {
 
 var SemanticCategoryMaxDurationReached;
 var category;
-var contrary;
 var testo_dinamico;
 var SemanticCategoryMaxDuration;
 var SemanticCategoryComponents;
@@ -507,15 +535,13 @@ function SemanticCategoryRoutineBegin(snapshot) {
     frameN = -1;
     continueRoutine = true; // until we're told otherwise
     SemanticCategoryClock.reset(routineTimer.getTime());
-    routineTimer.add(2.498000);
+    routineTimer.add(1.498000);
     SemanticCategoryMaxDurationReached = false;
     // update component parameters for each repeat
     // Run 'Begin Routine' code from code_2
     category = expInfo["category"];
-    contrary = expInfo["contrary"];
     testo_dinamico = `
-    Classifica le parole come:
-    ${category} (<-) VS ${contrary} (->)`
+    ${category} (<-)`
     ;
     category_text.setText(testo_dinamico);
     
@@ -552,7 +578,7 @@ function SemanticCategoryRoutineEachFrame() {
       category_text.setAutoDraw(true);
     }
     
-    frameRemains = 0.0 + 2.498 - psychoJS.window.monitorFramePeriod * 0.75;// most of one frame period left
+    frameRemains = 0.0 + 1.498 - psychoJS.window.monitorFramePeriod * 0.75;// most of one frame period left
     if (category_text.status === PsychoJS.Status.STARTED && t >= frameRemains) {
       category_text.setAutoDraw(false);
     }
@@ -596,7 +622,7 @@ function SemanticCategoryRoutineEnd(snapshot) {
     if (SemanticCategoryMaxDurationReached) {
         SemanticCategoryClock.add(SemanticCategoryMaxDuration);
     } else {
-        SemanticCategoryClock.add(2.498000);
+        SemanticCategoryClock.add(1.498000);
     }
     // Routines running outside a loop should always advance the datafile row
     if (currentLoop === psychoJS.experiment) {
@@ -617,7 +643,7 @@ function trialsLoopBegin(trialsLoopScheduler, snapshot) {
       psychoJS: psychoJS,
       nReps: 1, method: TrialHandler.Method.RANDOM,
       extraInfo: expInfo, originPath: undefined,
-      trialList: 'condizioni.csv',
+      trialList: expInfo.filtered_data,
       seed: undefined, name: 'trials'
     });
     psychoJS.experiment.addLoop(trials); // add the loop to the experiment
@@ -672,6 +698,7 @@ function trialsLoopEndIteration(scheduler, snapshot) {
 
 
 var trialRoutineMaxDurationReached;
+var target_text_start;
 var _key_resp_2_allKeys;
 var trialRoutineMaxDuration;
 var trialRoutineComponents;
@@ -687,7 +714,11 @@ function trialRoutineRoutineBegin(snapshot) {
     routineTimer.reset();
     trialRoutineMaxDurationReached = false;
     // update component parameters for each repeat
+    // Nel tab "Begin Routine"
+    empty_text_duration = expInfo['blankDuration']
+    target_text_start = empty_text_duration + 0.098
     Prime.setText(prime);
+    EmptyInterval.setText('');
     Target.setText(target);
     key_resp_2.keys = undefined;
     key_resp_2.rt = undefined;
@@ -735,7 +766,7 @@ function trialRoutineRoutineEachFrame() {
     
     
     // *Mask* updates
-    if (t >= 0.0 && Mask.status === PsychoJS.Status.NOT_STARTED) {
+    if (t >= 0.049 && Mask.status === PsychoJS.Status.NOT_STARTED) {
       // keep track of start time/frame for later
       Mask.tStart = t;  // (not accounting for frame time here)
       Mask.frameNStart = frameN;  // exact frame index
@@ -743,14 +774,14 @@ function trialRoutineRoutineEachFrame() {
       Mask.setAutoDraw(true);
     }
     
-    frameRemains = 0.0 + 0.049 - psychoJS.window.monitorFramePeriod * 0.75;// most of one frame period left
+    frameRemains = 0.049 + 0.049 - psychoJS.window.monitorFramePeriod * 0.75;// most of one frame period left
     if (Mask.status === PsychoJS.Status.STARTED && t >= frameRemains) {
       Mask.setAutoDraw(false);
     }
     
     
     // *EmptyInterval* updates
-    if (t >= 0.0 && EmptyInterval.status === PsychoJS.Status.NOT_STARTED) {
+    if (t >= 0.098 && EmptyInterval.status === PsychoJS.Status.NOT_STARTED) {
       // keep track of start time/frame for later
       EmptyInterval.tStart = t;  // (not accounting for frame time here)
       EmptyInterval.frameNStart = frameN;  // exact frame index
@@ -758,14 +789,14 @@ function trialRoutineRoutineEachFrame() {
       EmptyInterval.setAutoDraw(true);
     }
     
-    frameRemains = 0.0 + 0.049 - psychoJS.window.monitorFramePeriod * 0.75;// most of one frame period left
+    frameRemains = 0.098 + empty_text_duration - psychoJS.window.monitorFramePeriod * 0.75;// most of one frame period left
     if (EmptyInterval.status === PsychoJS.Status.STARTED && t >= frameRemains) {
       EmptyInterval.setAutoDraw(false);
     }
     
     
     // *Target* updates
-    if (t >= 0.0 && Target.status === PsychoJS.Status.NOT_STARTED) {
+    if (t >= target_text_start && Target.status === PsychoJS.Status.NOT_STARTED) {
       // keep track of start time/frame for later
       Target.tStart = t;  // (not accounting for frame time here)
       Target.frameNStart = frameN;  // exact frame index
@@ -862,6 +893,9 @@ function trialRoutineRoutineEnd(snapshot) {
         }
     
     key_resp_2.stop();
+    // Run 'End Routine' code from saveBlankDuration
+    psychoJS._experiment.addData("blankDuration", empty_text_duration);
+    
     // the Routine "trialRoutine" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset();
     
@@ -890,7 +924,7 @@ function ThanksRoutineRoutineBegin(snapshot) {
     ThanksRoutineMaxDurationReached = false;
     // update component parameters for each repeat
     // Disable downloading results to browser
-    psychoJS._saveResults = 0;
+    psychoJS._saveResults = 1; //should be set to 0
     
     // Generate filename for results
     let filename = psychoJS._experiment._experimentName + '_' + psychoJS._experiment._datetime + '.csv';
