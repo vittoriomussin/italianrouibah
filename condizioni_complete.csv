@@ -1,0 +1,100 @@
+category,target,prime,relation,similarity,lev-distance,frequency,is_in_category
+CIBO,biscotto,RISOTTO,Related-Rhyme,,,,correct
+CIBO,biscotto,TORTA,Related-Nonrhyme,,,,correct
+CIBO,biscotto,CAPPOTTO,Unrelated-Rhyme,,,,correct
+CIBO,biscotto,VELO,Unrelated-Nonrhyme,,,,correct
+PAESAGGIO_NATURALE,bosco,SCARPA,Unrelated-Nonrhyme,,,,correct
+PAESAGGIO_NATURALE,bosco,MUSCHIO,Related-Rhyme,,,,correct
+PAESAGGIO_NATURALE,bosco,FORESTA,Related-Nonrhyme,,,,correct
+PAESAGGIO_NATURALE,bosco,CHIOSCO,Unrelated-Rhyme,,,,correct
+ANIMALI,flauto,,Random,,,,incorrect
+ANIMALI,matita,,Random,,,,incorrect
+ANIMALI,cigno ,MAPPA,Unrelated-Nonrhyme,,,,correct
+ANIMALI,cigno ,RAGNO,Related-Rhyme,,,,correct
+ANIMALI,cigno ,OCA,Related-Nonrhyme,,,,correct
+ANIMALI,cigno ,LEGNO,Unrelated-Rhyme,,,,correct
+ANIMALI,porta,,Random,,,,incorrect
+ANIMALI,secchio,,Random,,,,incorrect
+ANIMALI,sveglia,,Random,,,,incorrect
+ANIMALI,gallina ,MATTINA,Related-Rhyme,,,,correct
+ANIMALI,gallina ,ANATRA,Related-Nonrhyme,,,,correct
+ANIMALI,gallina ,PANCHINA,Unrelated-Rhyme,,,,correct
+ANIMALI,gallina ,PONTE,Unrelated-Nonrhyme,,,,correct
+ANIMALI,gatto ,RATTO ,Related-Rhyme,,,,correct
+ANIMALI,gatto ,CANE,Related-Nonrhyme,,,,correct
+ANIMALI,gatto ,PIATTO,Unrelated-Rhyme,,,,correct
+ANIMALI,gatto ,TAVOLO,Unrelated-Nonrhyme,,,,correct
+CIBO,palla,,Random,,,,incorrect
+COLORI,giallo,CORALLO,Related-Rhyme,,,,correct
+COLORI,giallo,BLU,Related-Nonrhyme,,,,correct
+COLORI,giallo,CAVALLO,Unrelated-Rhyme,,,,correct
+COLORI,giallo,TAZZA,Unrelated-Nonrhyme,,,,correct
+CIBO,limone,MELONE,Related-Rhyme,,,,correct
+CIBO,limone,ARANCIA,Related-Nonrhyme,,,,correct
+CIBO,limone,SAPONE,Unrelated-Rhyme,,,,correct
+CIBO,limone,TUTA,Unrelated-Nonrhyme,,,,correct
+PAESAGGIO_NATURALE,luna,DUNA,Related-Rhyme,,,,correct
+PAESAGGIO_NATURALE,luna,STELLE,Related-Nonrhyme,,,,correct
+PAESAGGIO_NATURALE,luna,CULLA,Unrelated-Rhyme,,,,correct
+PAESAGGIO_NATURALE,luna,VINO,Unrelated-Nonrhyme,,,,correct
+CIBO,piede,,Random,,,,incorrect
+COLORI,marrone,MATTONE,Related-Rhyme,,,,correct
+COLORI,marrone,GIALLO,Related-Nonrhyme,,,,correct
+COLORI,marrone,PALLONE,Unrelated-Rhyme,,,,correct
+COLORI,marrone,QUADRO,Unrelated-Nonrhyme,,,,correct
+PAESAGGIO_NATURALE,montagna,SEDIA,Unrelated-Nonrhyme,,,,correct
+PAESAGGIO_NATURALE,montagna,CAMPAGNA,Related-Rhyme,,,,correct
+PAESAGGIO_NATURALE,montagna,COLLINA,Related-Nonrhyme,,,,correct
+PAESAGGIO_NATURALE,montagna,LASAGNA,Unrelated-Rhyme,,,,correct
+CIBO,scopa,,Random,,,,incorrect
+PAESAGGIO_NATURALE,nebbia,BANCO,Unrelated-Nonrhyme,,,,correct
+PAESAGGIO_NATURALE,nebbia,SABBIA,Related-Rhyme,,,,correct
+PAESAGGIO_NATURALE,nebbia,FOSCHIA,Related-Nonrhyme,,,,correct
+PAESAGGIO_NATURALE,nebbia,GABBIA,Unrelated-Rhyme,,,,correct
+CIBO,vaso,,Random,,,,incorrect
+CIBO,olio,CHIAVE,Unrelated-Nonrhyme,,,,correct
+CIBO,olio,AGLIO,Related-Rhyme,,,,correct
+CIBO,olio,ACETO,Related-Nonrhyme,,,,correct
+CIBO,olio,FOGLIO,Unrelated-Rhyme,,,,correct
+CIBO,zaino,,Random,,,,incorrect
+CIBO,pane ,SALAME,Related-Rhyme,,,,correct
+CIBO,pane ,PASTA,Related-Nonrhyme,,,,correct
+CIBO,pane ,CANE,Unrelated-Rhyme,,,,correct
+CIBO,pane ,TETTO,Unrelated-Nonrhyme,,,,correct
+CIBO,patata,CAROTA,Related-Nonrhyme,,,,correct
+CIBO,patata,CIABATTA ,Unrelated-Rhyme,,,,correct
+CIBO,patata,PELO,Unrelated-Nonrhyme,,,,correct
+COLORI,borsa,,Random,,,,incorrect
+PAESAGGIO_NATURALE,pianura,PACCO,Unrelated-Nonrhyme,,,,correct
+PAESAGGIO_NATURALE,pianura,NATURA,Related-Rhyme,,,,correct
+PAESAGGIO_NATURALE,pianura,CAMPO,Related-Nonrhyme,,,,correct
+PAESAGGIO_NATURALE,pianura,PAURA,Unrelated-Rhyme,,,,correct
+COLORI,mano,,Random,,,,incorrect
+ANIMALI,pollo,GALLO,Related-Rhyme,,,,correct
+ANIMALI,pollo,TOPO,Related-Nonrhyme,,,,correct
+ANIMALI,pollo,COLLO,Unrelated-Rhyme,,,,correct
+ANIMALI,pollo,TRUCCO,Unrelated-Nonrhyme,,,,correct
+COLORI,penna,,Random,,,,incorrect
+COLORI,radio,,Random,,,,incorrect
+COLORI,rosso,ROSA,Related-Rhyme,,,,correct
+COLORI,rosso,VERDE,Related-Nonrhyme,,,,correct
+COLORI,rosso,FOSSO,Unrelated-Rhyme,,,,correct
+COLORI,rosso,MURO,Unrelated-Nonrhyme,,,,correct
+COLORI,scala,,Random,,,,incorrect
+PAESAGGIO_NATURALE,bocca,,Random,,,,incorrect
+PAESAGGIO_NATURALE,denti,,Random,,,,incorrect
+PAESAGGIO_NATURALE,naso,,Random,,,,incorrect
+PAESAGGIO_NATURALE,occhio,,Random,,,,incorrect
+ANIMALI,topo,SACCO,Unrelated-Nonrhyme,,,,correct
+ANIMALI,topo,POLPO,Related-Rhyme,,,,correct
+ANIMALI,topo,GATTO,Related-Nonrhyme,,,,correct
+ANIMALI,topo,GIOCO,Unrelated-Rhyme,,,,correct
+COLORI,verde,CELESTE,Related-Rhyme,,,,correct
+COLORI,verde,ROSSO,Related-Nonrhyme,,,,correct
+COLORI,verde,VERME,Unrelated-Rhyme,,,,correct
+COLORI,verde,CASA,Unrelated-Nonrhyme,,,,correct
+COLORI,viola,BAFFO,Unrelated-Nonrhyme,,,,correct
+COLORI,viola,LILLA,Related-Rhyme,,,,correct
+COLORI,viola,ARANCIO,Related-Nonrhyme,,,,correct
+COLORI,viola,SCUOLA,Unrelated-Rhyme,,,,correct
+PAESAGGIO_NATURALE,testa,,Random,,,,incorrect

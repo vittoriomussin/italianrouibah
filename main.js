@@ -51,9 +51,6 @@ flowScheduler.add(CodeRoutineRoutineEnd());
 flowScheduler.add(instructionRoutineRoutineBegin());
 flowScheduler.add(instructionRoutineRoutineEachFrame());
 flowScheduler.add(instructionRoutineRoutineEnd());
-flowScheduler.add(SemanticCategoryRoutineBegin());
-flowScheduler.add(SemanticCategoryRoutineEachFrame());
-flowScheduler.add(SemanticCategoryRoutineEnd());
 const trialsLoopScheduler = new Scheduler(psychoJS);
 flowScheduler.add(trialsLoopBegin(trialsLoopScheduler));
 flowScheduler.add(trialsLoopScheduler);
@@ -114,9 +111,8 @@ var empty_text_duration;
 var instructionRoutineClock;
 var InstructionText;
 var key_resp;
-var SemanticCategoryClock;
-var category_text;
 var trialRoutineClock;
+var Category;
 var Prime;
 var Mask;
 var EmptyInterval;
@@ -135,7 +131,7 @@ async function experimentInit() {
       try {
           // 1. Caricamento CSV con cache-buster
           const cacheBuster = `?t=${new Date().getTime()}`;
-          const response = await fetch(`condizioni.csv${cacheBuster}`);
+          const response = await fetch(`condizioni_complete.csv${cacheBuster}`);
           
           if (!response.ok) {
               throw new Error(`HTTP error! Status: ${response.status}`);
@@ -159,27 +155,55 @@ async function experimentInit() {
               records.push(record);
           }
           
-          // 3. Log di debug
+          // 3. Log di debug SICURO
           console.log('CSV caricato correttamente:');
           console.log('Headers:', headers);
-          console.log('Prime 3 righe:', records.slice(0, 3));
-          console.log('Ultime 3 righe:', records.slice(-3));
+          console.log('Prime 3 righe:', JSON.stringify(records.slice(0, 3), null, 2));
+          console.log('Ultime 3 righe:', JSON.stringify(records.slice(-3), null, 2));
           
-          // 4. Selezione casuale della categoria
-          const categories = [...new Set(records.map(r => r.category))];
-          console.log("categories", categories);
-          const selectedCategory = categories[Math.floor(Math.random() * categories.length)];
+          // 4. Selezione casuale della relazione (escludendo "Random")
+          const relations = [...new Set(records.map(r => r.relation))]
+                            .filter(r => r !== "Random");
+          console.log("Relation options:", relations);
+          const selectedRelation = relations[Math.floor(Math.random() * relations.length)];
           
-          // 5. Filtro dei dati
-          expInfo.filtered_data = records.filter(r => r.category === selectedCategory);
-          expInfo.category = selectedCategory;
+          // 5. Filtro dei dati e creazione copie
+          expInfo.filtered_data = records.filter(r => 
+              r.relation === selectedRelation || r.relation === "Random"
+          ).map(row => ({ ...row })); // Crea copie per evitare side effects
           
-          // 6. Setup variabili globali
-          psychoJS.experiment.addData('selected_category', selectedCategory);
-          expInfo.all_categories = categories;
+          // 6. Raccogli righe scartate
+          const discardedRows = records.filter(r => 
+              r.relation !== selectedRelation && r.relation !== "Random"
+          );
           
-          console.log(`Categoria selezionata: ${selectedCategory}`);
+          // 7. Estrai primes validi dalle righe scartate
+          const availablePrimes = discardedRows
+              .map(r => r.prime)
+              .filter(p => p.trim() !== "");
+          
+          // 8. Assegnazione casuale dei prime alle righe "Random"
+          if (availablePrimes.length > 0) {
+              expInfo.filtered_data.forEach(row => {
+                  if (row.relation === "Random") {
+                      const randomIndex = Math.floor(Math.random() * availablePrimes.length);
+                      row.prime = availablePrimes[randomIndex];
+                      row.original_prime = row.original_prime || row.prime; // Mantiene traccia
+                  }
+              });
+          } else {
+              console.warn("Nessun prime disponibile dalle righe scartate");
+          }
+          
+          // 9. Setup variabili globali
+          expInfo.relation = selectedRelation;
+          psychoJS.experiment.addData('selected_relation', selectedRelation);
+          expInfo.all_relations = [...new Set(records.map(r => r.relation))];
+          
+          console.log(`Relazione selezionata: ${selectedRelation}`);
+          console.log(`Prime disponibili: ${availablePrimes.length}`);
           console.log(`Righe filtrate: ${expInfo.filtered_data.length}`);
+          console.log('Dati finali:', JSON.stringify(expInfo.filtered_data.slice(0, 3), null, 2));
           
       } catch (error) {
           console.error('Errore critico:', error);
@@ -217,11 +241,11 @@ async function experimentInit() {
   
   key_resp = new core.Keyboard({psychoJS: psychoJS, clock: new util.Clock(), waitForStart: true});
   
-  // Initialize components for Routine "SemanticCategory"
-  SemanticCategoryClock = new util.Clock();
-  category_text = new visual.TextStim({
+  // Initialize components for Routine "trialRoutine"
+  trialRoutineClock = new util.Clock();
+  Category = new visual.TextStim({
     win: psychoJS.window,
-    name: 'category_text',
+    name: 'Category',
     text: '',
     font: 'Arial',
     units: undefined, 
@@ -231,8 +255,6 @@ async function experimentInit() {
     depth: -1.0 
   });
   
-  // Initialize components for Routine "trialRoutine"
-  trialRoutineClock = new util.Clock();
   Prime = new visual.TextStim({
     win: psychoJS.window,
     name: 'Prime',
@@ -242,7 +264,7 @@ async function experimentInit() {
     pos: [0, 0], draggable: false, height: 0.05,  wrapWidth: undefined, ori: 0.0,
     languageStyle: 'LTR',
     color: new util.Color('white'),  opacity: undefined,
-    depth: -1.0 
+    depth: -2.0 
   });
   
   Mask = new visual.TextStim({
@@ -254,7 +276,7 @@ async function experimentInit() {
     pos: [0, 0], draggable: false, height: 0.05,  wrapWidth: undefined, ori: 0.0,
     languageStyle: 'LTR',
     color: new util.Color('white'),  opacity: undefined,
-    depth: -2.0 
+    depth: -3.0 
   });
   
   EmptyInterval = new visual.TextStim({
@@ -266,7 +288,7 @@ async function experimentInit() {
     pos: [0, 0], draggable: false, height: 0.05,  wrapWidth: undefined, ori: 0.0,
     languageStyle: 'LTR',
     color: new util.Color('white'),  opacity: undefined,
-    depth: -3.0 
+    depth: -4.0 
   });
   
   Target = new visual.TextStim({
@@ -278,7 +300,7 @@ async function experimentInit() {
     pos: [0, 0], draggable: false, height: 0.05,  wrapWidth: undefined, ori: 0.0,
     languageStyle: 'LTR',
     color: new util.Color('white'),  opacity: undefined,
-    depth: -4.0 
+    depth: -5.0 
   });
   
   key_resp_2 = new core.Keyboard({psychoJS: psychoJS, clock: new util.Clock(), waitForStart: true});
@@ -527,117 +549,6 @@ function instructionRoutineRoutineEnd(snapshot) {
 }
 
 
-var SemanticCategoryMaxDurationReached;
-var category;
-var testo_dinamico;
-var SemanticCategoryMaxDuration;
-var SemanticCategoryComponents;
-function SemanticCategoryRoutineBegin(snapshot) {
-  return async function () {
-    TrialHandler.fromSnapshot(snapshot); // ensure that .thisN vals are up to date
-    
-    //--- Prepare to start Routine 'SemanticCategory' ---
-    t = 0;
-    frameN = -1;
-    continueRoutine = true; // until we're told otherwise
-    SemanticCategoryClock.reset(routineTimer.getTime());
-    routineTimer.add(1.498000);
-    SemanticCategoryMaxDurationReached = false;
-    // update component parameters for each repeat
-    // Run 'Begin Routine' code from code_2
-    category = expInfo["category"];
-    testo_dinamico = `
-    ${category} (<-)`
-    ;
-    category_text.setText(testo_dinamico);
-    
-    psychoJS.experiment.addData('SemanticCategory.started', globalClock.getTime());
-    SemanticCategoryMaxDuration = null
-    // keep track of which components have finished
-    SemanticCategoryComponents = [];
-    SemanticCategoryComponents.push(category_text);
-    
-    for (const thisComponent of SemanticCategoryComponents)
-      if ('status' in thisComponent)
-        thisComponent.status = PsychoJS.Status.NOT_STARTED;
-    return Scheduler.Event.NEXT;
-  }
-}
-
-
-var frameRemains;
-function SemanticCategoryRoutineEachFrame() {
-  return async function () {
-    //--- Loop for each frame of Routine 'SemanticCategory' ---
-    // get current time
-    t = SemanticCategoryClock.getTime();
-    frameN = frameN + 1;// number of completed frames (so 0 is the first frame)
-    // update/draw components on each frame
-    
-    // *category_text* updates
-    if (t >= 0.0 && category_text.status === PsychoJS.Status.NOT_STARTED) {
-      // keep track of start time/frame for later
-      category_text.tStart = t;  // (not accounting for frame time here)
-      category_text.frameNStart = frameN;  // exact frame index
-      
-      category_text.setAutoDraw(true);
-    }
-    
-    frameRemains = 0.0 + 1.498 - psychoJS.window.monitorFramePeriod * 0.75;// most of one frame period left
-    if (category_text.status === PsychoJS.Status.STARTED && t >= frameRemains) {
-      category_text.setAutoDraw(false);
-    }
-    
-    // check for quit (typically the Esc key)
-    if (psychoJS.experiment.experimentEnded || psychoJS.eventManager.getKeys({keyList:['escape']}).length > 0) {
-      return quitPsychoJS('The [Escape] key was pressed. Goodbye!', false);
-    }
-    
-    // check if the Routine should terminate
-    if (!continueRoutine) {  // a component has requested a forced-end of Routine
-      return Scheduler.Event.NEXT;
-    }
-    
-    continueRoutine = false;  // reverts to True if at least one component still running
-    for (const thisComponent of SemanticCategoryComponents)
-      if ('status' in thisComponent && thisComponent.status !== PsychoJS.Status.FINISHED) {
-        continueRoutine = true;
-        break;
-      }
-    
-    // refresh the screen if continuing
-    if (continueRoutine && routineTimer.getTime() > 0) {
-      return Scheduler.Event.FLIP_REPEAT;
-    } else {
-      return Scheduler.Event.NEXT;
-    }
-  };
-}
-
-
-function SemanticCategoryRoutineEnd(snapshot) {
-  return async function () {
-    //--- Ending Routine 'SemanticCategory' ---
-    for (const thisComponent of SemanticCategoryComponents) {
-      if (typeof thisComponent.setAutoDraw === 'function') {
-        thisComponent.setAutoDraw(false);
-      }
-    }
-    psychoJS.experiment.addData('SemanticCategory.stopped', globalClock.getTime());
-    if (SemanticCategoryMaxDurationReached) {
-        SemanticCategoryClock.add(SemanticCategoryMaxDuration);
-    } else {
-        SemanticCategoryClock.add(1.498000);
-    }
-    // Routines running outside a loop should always advance the datafile row
-    if (currentLoop === psychoJS.experiment) {
-      psychoJS.experiment.nextEntry(snapshot);
-    }
-    return Scheduler.Event.NEXT;
-  }
-}
-
-
 var trials;
 function trialsLoopBegin(trialsLoopScheduler, snapshot) {
   return async function() {
@@ -702,7 +613,14 @@ function trialsLoopEndIteration(scheduler, snapshot) {
 
 
 var trialRoutineMaxDurationReached;
+var category_duration;
+var prime_start;
+var prime_duration;
+var mask_start;
+var mask_duration;
+var empty_text_start;
 var target_text_start;
+var currentCategoryText;
 var _key_resp_2_allKeys;
 var trialRoutineMaxDuration;
 var trialRoutineComponents;
@@ -719,8 +637,22 @@ function trialRoutineRoutineBegin(snapshot) {
     trialRoutineMaxDurationReached = false;
     // update component parameters for each repeat
     // Nel tab "Begin Routine"
-    empty_text_duration = expInfo['blankDuration']
-    target_text_start = empty_text_duration + 0.098
+    
+    category_duration = 1.498;
+    
+    prime_start = category_duration;
+    prime_duration = 0.049;
+    
+    mask_start = prime_start + prime_duration;
+    mask_duration = 0.049;
+    
+    empty_text_start = mask_start + mask_duration;
+    empty_text_duration = expInfo['blankDuration'];
+    
+    target_text_start = empty_text_start + empty_text_duration;
+    
+    currentCategoryText = `È ${category}?`;
+    Category.setText(currentCategoryText);
     Prime.setText(prime);
     EmptyInterval.setText('');
     Target.setText(target);
@@ -731,6 +663,7 @@ function trialRoutineRoutineBegin(snapshot) {
     trialRoutineMaxDuration = null
     // keep track of which components have finished
     trialRoutineComponents = [];
+    trialRoutineComponents.push(Category);
     trialRoutineComponents.push(Prime);
     trialRoutineComponents.push(Mask);
     trialRoutineComponents.push(EmptyInterval);
@@ -745,6 +678,7 @@ function trialRoutineRoutineBegin(snapshot) {
 }
 
 
+var frameRemains;
 function trialRoutineRoutineEachFrame() {
   return async function () {
     //--- Loop for each frame of Routine 'trialRoutine' ---
@@ -753,8 +687,23 @@ function trialRoutineRoutineEachFrame() {
     frameN = frameN + 1;// number of completed frames (so 0 is the first frame)
     // update/draw components on each frame
     
+    // *Category* updates
+    if (t >= 0.0 && Category.status === PsychoJS.Status.NOT_STARTED) {
+      // keep track of start time/frame for later
+      Category.tStart = t;  // (not accounting for frame time here)
+      Category.frameNStart = frameN;  // exact frame index
+      
+      Category.setAutoDraw(true);
+    }
+    
+    frameRemains = 0.0 + category_duration - psychoJS.window.monitorFramePeriod * 0.75;// most of one frame period left
+    if (Category.status === PsychoJS.Status.STARTED && t >= frameRemains) {
+      Category.setAutoDraw(false);
+    }
+    
+    
     // *Prime* updates
-    if (t >= 0.0 && Prime.status === PsychoJS.Status.NOT_STARTED) {
+    if (t >= prime_start && Prime.status === PsychoJS.Status.NOT_STARTED) {
       // keep track of start time/frame for later
       Prime.tStart = t;  // (not accounting for frame time here)
       Prime.frameNStart = frameN;  // exact frame index
@@ -762,14 +711,14 @@ function trialRoutineRoutineEachFrame() {
       Prime.setAutoDraw(true);
     }
     
-    frameRemains = 0.0 + 0.049 - psychoJS.window.monitorFramePeriod * 0.75;// most of one frame period left
+    frameRemains = prime_start + prime_duration - psychoJS.window.monitorFramePeriod * 0.75;// most of one frame period left
     if (Prime.status === PsychoJS.Status.STARTED && t >= frameRemains) {
       Prime.setAutoDraw(false);
     }
     
     
     // *Mask* updates
-    if (t >= 0.049 && Mask.status === PsychoJS.Status.NOT_STARTED) {
+    if (t >= mask_start && Mask.status === PsychoJS.Status.NOT_STARTED) {
       // keep track of start time/frame for later
       Mask.tStart = t;  // (not accounting for frame time here)
       Mask.frameNStart = frameN;  // exact frame index
@@ -777,14 +726,14 @@ function trialRoutineRoutineEachFrame() {
       Mask.setAutoDraw(true);
     }
     
-    frameRemains = 0.049 + 0.049 - psychoJS.window.monitorFramePeriod * 0.75;// most of one frame period left
+    frameRemains = mask_start + mask_duration - psychoJS.window.monitorFramePeriod * 0.75;// most of one frame period left
     if (Mask.status === PsychoJS.Status.STARTED && t >= frameRemains) {
       Mask.setAutoDraw(false);
     }
     
     
     // *EmptyInterval* updates
-    if (t >= 0.098 && EmptyInterval.status === PsychoJS.Status.NOT_STARTED) {
+    if (t >= empty_text_start && EmptyInterval.status === PsychoJS.Status.NOT_STARTED) {
       // keep track of start time/frame for later
       EmptyInterval.tStart = t;  // (not accounting for frame time here)
       EmptyInterval.frameNStart = frameN;  // exact frame index
@@ -792,7 +741,7 @@ function trialRoutineRoutineEachFrame() {
       EmptyInterval.setAutoDraw(true);
     }
     
-    frameRemains = 0.098 + empty_text_duration - psychoJS.window.monitorFramePeriod * 0.75;// most of one frame period left
+    frameRemains = empty_text_start + empty_text_duration - psychoJS.window.monitorFramePeriod * 0.75;// most of one frame period left
     if (EmptyInterval.status === PsychoJS.Status.STARTED && t >= frameRemains) {
       EmptyInterval.setAutoDraw(false);
     }
