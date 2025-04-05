@@ -107,7 +107,6 @@ async function updateInfo() {
 
 
 var CodeRoutineClock;
-var empty_text_duration;
 var instructionRoutineClock;
 var InstructionText;
 var rightKey;
@@ -316,36 +315,8 @@ async function experimentInit() {
           
           // 9. Setup variabili globali
           expInfo.relation = selectedRelation;
-          
-          // Debugging: controlla la struttura dei dati prima di salvarli
-          console.log('Esempio struttura riga dati:', JSON.stringify(expInfo.filtered_data[0], null, 2));
-          
-          // 10. NUOVO: Aggiungiamo una funzione per salvare i dati in modo corretto
-          // Questa funzione dovrebbe essere chiamata all'inizio di ogni trial
-          expInfo.saveCurrentTrialData = function(trialIndex) {
-              if (trialIndex >= 0 && trialIndex < expInfo.filtered_data.length) {
-                  const row = expInfo.filtered_data[trialIndex];
-                  
-                  // Salva ogni campo primitivo separatamente
-                  for (const [key, value] of Object.entries(row)) {
-                      // Converte oggetti/array in stringhe JSON
-                      if (value !== null && typeof value === 'object') {
-                          psychoJS.experiment.addData(key, JSON.stringify(value));
-                      } else {
-                          psychoJS.experiment.addData(key, value);
-                      }
-                  }
-                  
-                  // Salva anche la relazione selezionata
-                  psychoJS.experiment.addData('selected_relation', expInfo.relation);
-                  
-                  // Salva l'indice del trial
-                  psychoJS.experiment.addData('trial_index', trialIndex);
-                  
-                  return true;
-              }
-              return false;
-          };
+          //psychoJS.experiment.addData('selected_relation', selectedRelation);
+          //expInfo.all_relations = [...new Set(records.map(r => r.relation))];
           
           console.log(`Relazione selezionata: ${selectedRelation}`);
           console.log(`Prime disponibili: ${availablePrimes.length}`);
@@ -368,17 +339,44 @@ async function experimentInit() {
       }
   }
   // Esegui la funzione
-  loadAndProcessCSV().catch(error => {
-      console.error('Errore non gestito:', error);
-      psychoJS.core.quit();
-  });
+  loadAndProcessCSV()
+      .then(() => {
+          // Imposta la durata casuale
+          empty_text_duration = Math.random() < 0.5 ? 0.049 : 0.301;
+          expInfo["blankDuration"] = empty_text_duration;
+          
+          // Salva i metadati solo dopo che loadAndProcessCSV è completato con successo
+          saveExperimentMetadata();
+      })
+      .catch(error => {
+          console.error('Errore non gestito:', error);
+          psychoJS.core.quit();
+      });
   
-  // IMPORTANTE: aggiungiamo una variabile globale per tenere traccia del trial corrente
-  expInfo.currentTrialIndex = 0;
-  
-  // Imposta la durata casuale
-  empty_text_duration = Math.random() < 0.5 ? 0.049 : 0.301;
-  expInfo["blankDuration"] = empty_text_duration;
+  // Funzione per salvare i metadati estratti dal CSV in modo appropriato
+  function saveExperimentMetadata() {
+      // Salva i metadati principali dell'esperimento
+      psychoJS.experiment.addData('selected_relation', expInfo.relation);
+      psychoJS.experiment.addData('blank_duration', empty_text_duration);
+      
+      // Verifica che filtered_data esista prima di usarlo
+      if (expInfo.filtered_data && Array.isArray(expInfo.filtered_data) && expInfo.filtered_data.length > 0) {
+          // Crea un JSON stringa per i primi 5 elementi (o meno se ci sono meno elementi)
+          const numElements = Math.min(5, expInfo.filtered_data.length);
+          const sampleData = JSON.stringify(expInfo.filtered_data.slice(0, numElements).map(row => ({
+              prime: row.prime,
+              target: row.target,
+              category: row.category,
+              relation: row.relation
+          })));
+          psychoJS.experiment.addData('sample_data_json', sampleData);
+          
+          console.log("Metadati dell'esperimento salvati correttamente");
+      } else {
+          console.error("Impossibile salvare sample_data_json: filtered_data non disponibile");
+          psychoJS.experiment.addData('sample_data_json', 'Dati non disponibili');
+      }
+  }
   
   // Inserisci questo codice in una Code Component (nella sezione "Begin Experiment")
   async function getIP() {
@@ -393,20 +391,21 @@ async function experimentInit() {
   }
   
   // Assegna l'IP ai dati dell'esperimento
-  function hashString(string) {
+  async function hashString(string) {
       try {
-          // Simple string hashing function
-          let hash = 0;
-          for (let i = 0; i < string.length; i++) {
-              const char = string.charCodeAt(i);
-              hash = ((hash << 5) - hash) + char;
-              hash = hash & hash; // Convert to 32bit integer
-          }
-          return Math.abs(hash).toString(16);
+          // Converti la stringa in un ArrayBuffer
+          const encoder = new TextEncoder();
+          const data = encoder.encode(string);
+          
+          // Genera l'hash SHA-256
+          const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+          
+          // Converti l'ArrayBuffer in stringa esadecimale
+          const hashArray = Array.from(new Uint8Array(hashBuffer));
+          return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
       } catch (error) {
-          console.error("Error hashing string:", error);
-          // Simple fallback - reverse and obfuscate
-          return string.split('.').reverse().join('-');
+          console.error("Errore durante la generazione dell'hash:", error);
+          return `unhashed-${Date.now()}`; // Fallback con timestamp per garantire un valore unico
       }
   }
   
@@ -843,6 +842,7 @@ var prime_duration;
 var mask_start;
 var mask_duration;
 var empty_text_start;
+var empty_text_duration;
 var target_text_start;
 var currentCategoryText;
 var _TargetKeyResponse_allKeys;
