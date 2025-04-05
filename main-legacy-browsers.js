@@ -333,6 +333,82 @@ async function experimentInit() {
       
   });
   
+  // Funzione per assicurare che i dati salvati nel CSV siano formattati correttamente
+  function setupProperDataSaving() {
+      // Salva il metodo originale per aggiungere dati
+      const originalAddData = psychoJS.experiment.addData;
+      
+      // Sostituisci con un metodo che pre-elabora i dati
+      psychoJS.experiment.addData = function(key, value) {
+          let processedValue = value;
+          
+          // Controlla se il valore è un oggetto complesso
+          if (value !== null && typeof value === 'object') {
+              try {
+                  // Se è un array, converti ogni elemento in stringa
+                  if (Array.isArray(value)) {
+                      processedValue = value.map(item => 
+                          typeof item === 'object' && item !== null ? 
+                          JSON.stringify(item) : String(item)
+                      ).join(',');
+                  } else {
+                      // Se è un oggetto, convertilo in JSON
+                      processedValue = JSON.stringify(value);
+                  }
+              } catch (e) {
+                  console.warn(`Impossibile convertire il valore per la chiave ${key}:`, e);
+                  processedValue = String(value);
+              }
+          }
+          
+          // Chiama il metodo originale con il valore elaborato
+          originalAddData.call(this, key, processedValue);
+      };
+      
+      // Assicurarsi che filtered_data ed eventuali altri dati complessi siano
+      // correttamente serializzati prima di essere salvati
+      if (expInfo.filtered_data) {
+          expInfo.filtered_data_json = JSON.stringify(expInfo.filtered_data);
+      }
+      
+      console.log("Sistema di salvataggio dati migliorato attivo");
+  }
+  
+  // Esegui la funzione di setup
+  setupProperDataSaving();
+  
+  // Sovrascrive la funzione di salvataggio per assicurare che tutte le colonne abbiano headers
+  const originalSaveData = psychoJS.experiment.save;
+  psychoJS.experiment.save = function(options) {
+      try {
+          // Aggiungi headers espliciti per tutte le colonne di dati
+          // che potrebbero mancare nel salvataggio online
+          const dataColumns = [
+              'trials.thisRepN', 'trials.thisTrialN', 'trials.thisN', 'trials.thisIndex', 
+              'trials.ran', 'category', 'target', 'prime', 'similarity', 'lev-distance', 
+              'frequency', 'is_in_category', 'target-frequency', 'prime-frequency',
+              'TargetKeyResponse.keys', 'TargetKeyResponse.corr', 'TargetKeyResponse.rt'
+          ];
+  
+          // Assicurati che almeno una riga contenga tutti questi headers
+          // Aggiungendo una riga vuota con tutti i possibili headers
+          dataColumns.forEach(col => {
+              if (!psychoJS.experiment._trialsData[0] || 
+                  !psychoJS.experiment._trialsData[0].hasOwnProperty(col)) {
+                  psychoJS.experiment.addData(col, '');
+              }
+          });
+          
+          console.log("Preparazione dei dati completata prima del salvataggio");
+          
+          // Chiama la funzione originale
+          return originalSaveData.call(this, options);
+      } catch (error) {
+          console.error('Errore durante il salvataggio dei dati:', error);
+          return originalSaveData.call(this, options);
+      }
+  };
+  
   
   
   // Initialize components for Routine "instructionRoutine"
