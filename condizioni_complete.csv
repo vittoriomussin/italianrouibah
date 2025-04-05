@@ -1,100 +1,100 @@
 category,target,prime,relation,similarity,lev-distance,frequency,is_in_category
-ANIMALI,cigno ,MAPPA,Unrelated-Nonrhyme,,,,left
-ANIMALI,cigno ,RAGNO,Related-Rhyme,,,,left
-ANIMALI,cigno ,OCA,Related-Nonrhyme,,,,left
-ANIMALI,cigno ,TIGLIO,Unrelated-Rhyme,,,,left
-ANIMALI,flauto,,Random,,,,right
-ANIMALI,gatto ,RATTO ,Related-Rhyme,,,,left
-ANIMALI,gatto ,CANE,Related-Nonrhyme,,,,left
-ANIMALI,gatto ,PIATTO,Unrelated-Rhyme,,,,left
-ANIMALI,gatto ,TAVOLO,Unrelated-Nonrhyme,,,,left
-ANIMALI,matita,,Random,,,,right
-ANIMALI,pollo,GALLO,Related-Rhyme,,,,left
-ANIMALI,pollo,TOPO,Related-Nonrhyme,,,,left
-ANIMALI,pollo,COLLO,Unrelated-Rhyme,,,,left
-ANIMALI,pollo,TRUCCO,Unrelated-Nonrhyme,,,,left
-ANIMALI,schiena,,Random,,,,right
-ANIMALI,secchio,,Random,,,,right
-ANIMALI,sveglia,,Random,,,,right
-ANIMALI,topo,SACCO,Unrelated-Nonrhyme,,,,left
-ANIMALI,topo,POLPO,Related-Rhyme,,,,left
-ANIMALI,topo,GATTO,Related-Nonrhyme,,,,left
-ANIMALI,topo,CUOCO,Unrelated-Rhyme,,,,left
-CIBO,biscotto,RISOTTO,Related-Rhyme,,,,left
-CIBO,biscotto,TORTA,Related-Nonrhyme,,,,left
-CIBO,biscotto,CAPPOTTO,Unrelated-Rhyme,,,,left
-CIBO,biscotto,VELO,Unrelated-Nonrhyme,,,,left
-CIBO,limone,MELONE,Related-Rhyme,,,,left
-CIBO,limone,ARANCIA,Related-Nonrhyme,,,,left
-CIBO,limone,SAPONE,Unrelated-Rhyme,,,,left
-CIBO,limone,TUTA,Unrelated-Nonrhyme,,,,left
-CIBO,olio,CHIAVE,Unrelated-Nonrhyme,,,,left
-CIBO,olio,AGLIO,Related-Rhyme,,,,left
-CIBO,olio,ACETO,Related-Nonrhyme,,,,left
-CIBO,olio,FOGLIO,Unrelated-Rhyme,,,,left
-CIBO,palla,,Random,,,,right
-CIBO,pane ,SALAME,Related-Rhyme,,,,left
-CIBO,pane ,PASTA,Related-Nonrhyme,,,,left
-CIBO,pane ,CANE,Unrelated-Rhyme,,,,left
-CIBO,pane ,TETTO,Unrelated-Nonrhyme,,,,left
-CIBO,patata,CAROTA,Related-Nonrhyme,,,,left
-CIBO,patata,CIABATTA ,Unrelated-Rhyme,,,,left
-CIBO,patata,PELO,Unrelated-Nonrhyme,,,,left
-CIBO,scopa,,Random,,,,right
-CIBO,specchio,,Random,,,,right
-CIBO,vaso,,Random,,,,right
-CIBO,zaino,,Random,,,,right
-COLORI,borsa,,Random,,,,right
-COLORI,giallo,CORALLO,Related-Rhyme,,,,left
-COLORI,giallo,BLU,Related-Nonrhyme,,,,left
-COLORI,giallo,CAVALLO,Unrelated-Rhyme,,,,left
-COLORI,giallo,TAZZA,Unrelated-Nonrhyme,,,,left
-COLORI,gola,,Random,,,,right
-COLORI,marrone,MATTONE,Related-Rhyme,,,,left
-COLORI,marrone,GIALLO,Related-Nonrhyme,,,,left
-COLORI,marrone,PALLONE,Unrelated-Rhyme,,,,left
-COLORI,marrone,TAPPETO,Unrelated-Nonrhyme,,,,left
-COLORI,penna,,Random,,,,right
-COLORI,radio,,Random,,,,right
-COLORI,rosso,ROSA,Related-Rhyme,,,,left
-COLORI,rosso,VERDE,Related-Nonrhyme,,,,left
-COLORI,rosso,FOSSO,Unrelated-Rhyme,,,,left
-COLORI,rosso,CERCHIO,Unrelated-Nonrhyme,,,,left
-COLORI,scala,,Random,,,,right
-COLORI,verde,CELESTE,Related-Rhyme,,,,left
-COLORI,verde,ROSSO,Related-Nonrhyme,,,,left
-COLORI,verde,VERME,Unrelated-Rhyme,,,,left
-COLORI,verde,SPALLA,Unrelated-Nonrhyme,,,,left
-COLORI,viola,BAFFO,Unrelated-Nonrhyme,,,,left
-COLORI,viola,LILLA,Related-Rhyme,,,,left
-COLORI,viola,ARANCIO,Related-Nonrhyme,,,,left
-COLORI,viola,SCUOLA,Unrelated-Rhyme,,,,left
-PAESAGGIO_NATURALE,bocca,,Random,,,,right
-PAESAGGIO_NATURALE,bosco,SCARPA,Unrelated-Nonrhyme,,,,left
-PAESAGGIO_NATURALE,bosco,MUSCHIO,Related-Rhyme,,,,left
-PAESAGGIO_NATURALE,bosco,FORESTA,Related-Nonrhyme,,,,left
-PAESAGGIO_NATURALE,bosco,CHIOSCO,Unrelated-Rhyme,,,,left
-PAESAGGIO_NATURALE,denti,,Random,,,,right
-PAESAGGIO_NATURALE,gamba,,Random,,,,right
-PAESAGGIO_NATURALE,luna,DUNA,Related-Rhyme,,,,left
-PAESAGGIO_NATURALE,luna,STELLE,Related-Nonrhyme,,,,left
-PAESAGGIO_NATURALE,luna,CULLA,Unrelated-Rhyme,,,,left
-PAESAGGIO_NATURALE,luna,SALE,Unrelated-Nonrhyme,,,,left
-PAESAGGIO_NATURALE,montagna,SEDIA,Unrelated-Nonrhyme,,,,left
-PAESAGGIO_NATURALE,montagna,CAMPAGNA,Related-Rhyme,,,,left
-PAESAGGIO_NATURALE,montagna,COLLINA,Related-Nonrhyme,,,,left
-PAESAGGIO_NATURALE,montagna,LASAGNA,Unrelated-Rhyme,,,,left
-PAESAGGIO_NATURALE,naso,,Random,,,,right
-PAESAGGIO_NATURALE,nebbia,BANCO,Unrelated-Nonrhyme,,,,left
-PAESAGGIO_NATURALE,nebbia,SABBIA,Related-Rhyme,,,,left
-PAESAGGIO_NATURALE,nebbia,FOSCHIA,Related-Nonrhyme,,,,left
-PAESAGGIO_NATURALE,nebbia,GABBIA,Unrelated-Rhyme,,,,left
-PAESAGGIO_NATURALE,pioggia,PALCO,Unrelated-Nonrhyme,,,,left
-PAESAGGIO_NATURALE,pioggia,SPIAGGIA,Related-Rhyme,,,,left
-PAESAGGIO_NATURALE,pioggia,NEVE,Related-Nonrhyme,,,,left
-PAESAGGIO_NATURALE,pioggia,LOGGIA,Unrelated-Rhyme,,,,left
-PAESAGGIO_NATURALE,viso,,Random,,,,right
-ANIMALI,cobra,ZEBRA ,Related-Rhyme,,,,left
-ANIMALI,cobra,VIPERA,Related-Nonrhyme,,,,left
-ANIMALI,cobra,CAPRA,Unrelated-Rhyme,,,,left
-ANIMALI,cobra,CASCO,Unrelated-Nonrhyme,,,,left
+ANIMALI,cigno ,MAPPA,Unrelated-Nonrhyme,,,,right
+ANIMALI,cigno ,RAGNO,Related-Rhyme,,,,right
+ANIMALI,cigno ,OCA,Related-Nonrhyme,,,,right
+ANIMALI,cigno ,TIGLIO,Unrelated-Rhyme,,,,right
+ANIMALI,flauto,,Random,,,,left
+ANIMALI,gatto ,RATTO ,Related-Rhyme,,,,right
+ANIMALI,gatto ,CANE,Related-Nonrhyme,,,,right
+ANIMALI,gatto ,PIATTO,Unrelated-Rhyme,,,,right
+ANIMALI,gatto ,TAVOLO,Unrelated-Nonrhyme,,,,right
+ANIMALI,matita,,Random,,,,left
+ANIMALI,pollo,GALLO,Related-Rhyme,,,,right
+ANIMALI,pollo,TOPO,Related-Nonrhyme,,,,right
+ANIMALI,pollo,COLLO,Unrelated-Rhyme,,,,right
+ANIMALI,pollo,TRUCCO,Unrelated-Nonrhyme,,,,right
+ANIMALI,schiena,,Random,,,,left
+ANIMALI,secchio,,Random,,,,left
+ANIMALI,sveglia,,Random,,,,left
+ANIMALI,topo,SACCO,Unrelated-Nonrhyme,,,,right
+ANIMALI,topo,POLPO,Related-Rhyme,,,,right
+ANIMALI,topo,GATTO,Related-Nonrhyme,,,,right
+ANIMALI,topo,CUOCO,Unrelated-Rhyme,,,,right
+CIBO,biscotto,RISOTTO,Related-Rhyme,,,,right
+CIBO,biscotto,TORTA,Related-Nonrhyme,,,,right
+CIBO,biscotto,CAPPOTTO,Unrelated-Rhyme,,,,right
+CIBO,biscotto,VELO,Unrelated-Nonrhyme,,,,right
+CIBO,limone,MELONE,Related-Rhyme,,,,right
+CIBO,limone,ARANCIA,Related-Nonrhyme,,,,right
+CIBO,limone,SAPONE,Unrelated-Rhyme,,,,right
+CIBO,limone,TUTA,Unrelated-Nonrhyme,,,,right
+CIBO,olio,CHIAVE,Unrelated-Nonrhyme,,,,right
+CIBO,olio,AGLIO,Related-Rhyme,,,,right
+CIBO,olio,ACETO,Related-Nonrhyme,,,,right
+CIBO,olio,FOGLIO,Unrelated-Rhyme,,,,right
+CIBO,palla,,Random,,,,left
+CIBO,pane ,SALAME,Related-Rhyme,,,,right
+CIBO,pane ,PASTA,Related-Nonrhyme,,,,right
+CIBO,pane ,CANE,Unrelated-Rhyme,,,,right
+CIBO,pane ,TETTO,Unrelated-Nonrhyme,,,,right
+CIBO,patata,CAROTA,Related-Nonrhyme,,,,right
+CIBO,patata,CIABATTA ,Unrelated-Rhyme,,,,right
+CIBO,patata,PELO,Unrelated-Nonrhyme,,,,right
+CIBO,scopa,,Random,,,,left
+CIBO,specchio,,Random,,,,left
+CIBO,vaso,,Random,,,,left
+CIBO,zaino,,Random,,,,left
+COLORI,borsa,,Random,,,,left
+COLORI,giallo,CORALLO,Related-Rhyme,,,,right
+COLORI,giallo,BLU,Related-Nonrhyme,,,,right
+COLORI,giallo,CAVALLO,Unrelated-Rhyme,,,,right
+COLORI,giallo,TAZZA,Unrelated-Nonrhyme,,,,right
+COLORI,gola,,Random,,,,left
+COLORI,marrone,MATTONE,Related-Rhyme,,,,right
+COLORI,marrone,GIALLO,Related-Nonrhyme,,,,right
+COLORI,marrone,PALLONE,Unrelated-Rhyme,,,,right
+COLORI,marrone,TAPPETO,Unrelated-Nonrhyme,,,,right
+COLORI,penna,,Random,,,,left
+COLORI,radio,,Random,,,,left
+COLORI,rosso,ROSA,Related-Rhyme,,,,right
+COLORI,rosso,VERDE,Related-Nonrhyme,,,,right
+COLORI,rosso,FOSSO,Unrelated-Rhyme,,,,right
+COLORI,rosso,CERCHIO,Unrelated-Nonrhyme,,,,right
+COLORI,scala,,Random,,,,left
+COLORI,verde,CELESTE,Related-Rhyme,,,,right
+COLORI,verde,ROSSO,Related-Nonrhyme,,,,right
+COLORI,verde,VERME,Unrelated-Rhyme,,,,right
+COLORI,verde,SPALLA,Unrelated-Nonrhyme,,,,right
+COLORI,viola,BAFFO,Unrelated-Nonrhyme,,,,right
+COLORI,viola,LILLA,Related-Rhyme,,,,right
+COLORI,viola,ARANCIO,Related-Nonrhyme,,,,right
+COLORI,viola,SCUOLA,Unrelated-Rhyme,,,,right
+PAESAGGIO_NATURALE,bocca,,Random,,,,left
+PAESAGGIO_NATURALE,bosco,SCARPA,Unrelated-Nonrhyme,,,,right
+PAESAGGIO_NATURALE,bosco,MUSCHIO,Related-Rhyme,,,,right
+PAESAGGIO_NATURALE,bosco,FORESTA,Related-Nonrhyme,,,,right
+PAESAGGIO_NATURALE,bosco,CHIOSCO,Unrelated-Rhyme,,,,right
+PAESAGGIO_NATURALE,denti,,Random,,,,left
+PAESAGGIO_NATURALE,gamba,,Random,,,,left
+PAESAGGIO_NATURALE,luna,DUNA,Related-Rhyme,,,,right
+PAESAGGIO_NATURALE,luna,STELLE,Related-Nonrhyme,,,,right
+PAESAGGIO_NATURALE,luna,CULLA,Unrelated-Rhyme,,,,right
+PAESAGGIO_NATURALE,luna,SALE,Unrelated-Nonrhyme,,,,right
+PAESAGGIO_NATURALE,montagna,SEDIA,Unrelated-Nonrhyme,,,,right
+PAESAGGIO_NATURALE,montagna,CAMPAGNA,Related-Rhyme,,,,right
+PAESAGGIO_NATURALE,montagna,COLLINA,Related-Nonrhyme,,,,right
+PAESAGGIO_NATURALE,montagna,LASAGNA,Unrelated-Rhyme,,,,right
+PAESAGGIO_NATURALE,naso,,Random,,,,left
+PAESAGGIO_NATURALE,nebbia,BANCO,Unrelated-Nonrhyme,,,,right
+PAESAGGIO_NATURALE,nebbia,SABBIA,Related-Rhyme,,,,right
+PAESAGGIO_NATURALE,nebbia,FOSCHIA,Related-Nonrhyme,,,,right
+PAESAGGIO_NATURALE,nebbia,GABBIA,Unrelated-Rhyme,,,,right
+PAESAGGIO_NATURALE,pioggia,PALCO,Unrelated-Nonrhyme,,,,right
+PAESAGGIO_NATURALE,pioggia,SPIAGGIA,Related-Rhyme,,,,right
+PAESAGGIO_NATURALE,pioggia,NEVE,Related-Nonrhyme,,,,right
+PAESAGGIO_NATURALE,pioggia,LOGGIA,Unrelated-Rhyme,,,,right
+PAESAGGIO_NATURALE,viso,,Random,,,,left
+ANIMALI,cobra,ZEBRA ,Related-Rhyme,,,,right
+ANIMALI,cobra,VIPERA,Related-Nonrhyme,,,,right
+ANIMALI,cobra,CAPRA,Unrelated-Rhyme,,,,right
+ANIMALI,cobra,CASCO,Unrelated-Nonrhyme,,,,right

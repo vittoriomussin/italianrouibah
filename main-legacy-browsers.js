@@ -102,8 +102,8 @@ var CodeRoutineClock;
 var empty_text_duration;
 var instructionRoutineClock;
 var InstructionText;
-var leftKey;
 var rightKey;
+var leftKey;
 var InstructionsKeyResponse;
 var trialRoutineClock;
 var Category;
@@ -397,7 +397,7 @@ async function experimentInit() {
   InstructionText = new visual.TextStim({
     win: psychoJS.window,
     name: 'InstructionText',
-    text: 'Benvenuto!\n\nIn questo esperimento, devi indicare se delle parole appartengono a delle determinate categorie.  Ti verrà prima mostrata la categoria come \n"È <nome della categoria>?"\nquindi:\n- Premi il tasto [freccia sinistra] (<-) se la parola successiva appartiene alla categoria indicata.\n- Premi il tasto [freccia destra] (->) se la parola successiva NON appartiene alla categoria indicata.\n\nCerca di rispondere il più velocemente possibile!\n\nDovrai valutare un totale di 40 parole.\n\npremi [SPAZIO] per continuare',
+    text: 'Benvenuto!\n\nIn questo esperimento, devi indicare se delle parole appartengono a delle determinate categorie.  Ti verrà prima mostrata la categoria come \n"È <nome della categoria>?"\nquindi:\n- Premi il tasto [freccia destra] (->) se la parola successiva appartiene alla categoria indicata.\n- Premi il tasto [freccia sinistra] (<-) se la parola successiva NON appartiene alla categoria indicata.\n\nCerca di rispondere il più velocemente possibile!\n\nDovrai valutare un totale di 40 parole.\n\npremi [SPAZIO] per continuare',
     font: 'Arial',
     units: undefined, 
     pos: [0, 0], draggable: false, height: 0.04,  wrapWidth: undefined, ori: 0.0,
@@ -406,10 +406,10 @@ async function experimentInit() {
     depth: 0.0 
   });
   
-  leftKey = new visual.TextStim({
+  rightKey = new visual.TextStim({
     win: psychoJS.window,
-    name: 'leftKey',
-    text: '[freccia sinistra] (<-)',
+    name: 'rightKey',
+    text: '[freccia destra] (->)',
     font: 'Arial',
     units: undefined, 
     pos: [0.025, 0.045], draggable: false, height: 0.04,  wrapWidth: undefined, ori: 0.0,
@@ -418,10 +418,10 @@ async function experimentInit() {
     depth: -1.0 
   });
   
-  rightKey = new visual.TextStim({
+  leftKey = new visual.TextStim({
     win: psychoJS.window,
-    name: 'rightKey',
-    text: '[freccia destra] (->)',
+    name: 'leftKey',
+    text: '[freccia sinistra] (<-)',
     font: 'Arial',
     units: undefined, 
     pos: [0.025, (- 0.045)], draggable: false, height: 0.04,  wrapWidth: undefined, ori: 0.0,
@@ -626,8 +626,8 @@ function instructionRoutineRoutineBegin(snapshot) {
     // keep track of which components have finished
     instructionRoutineComponents = [];
     instructionRoutineComponents.push(InstructionText);
-    instructionRoutineComponents.push(leftKey);
     instructionRoutineComponents.push(rightKey);
+    instructionRoutineComponents.push(leftKey);
     instructionRoutineComponents.push(InstructionsKeyResponse);
     
     instructionRoutineComponents.forEach( function(thisComponent) {
@@ -657,16 +657,6 @@ function instructionRoutineRoutineEachFrame() {
     }
     
     
-    // *leftKey* updates
-    if (t >= 0.0 && leftKey.status === PsychoJS.Status.NOT_STARTED) {
-      // keep track of start time/frame for later
-      leftKey.tStart = t;  // (not accounting for frame time here)
-      leftKey.frameNStart = frameN;  // exact frame index
-      
-      leftKey.setAutoDraw(true);
-    }
-    
-    
     // *rightKey* updates
     if (t >= 0.0 && rightKey.status === PsychoJS.Status.NOT_STARTED) {
       // keep track of start time/frame for later
@@ -674,6 +664,16 @@ function instructionRoutineRoutineEachFrame() {
       rightKey.frameNStart = frameN;  // exact frame index
       
       rightKey.setAutoDraw(true);
+    }
+    
+    
+    // *leftKey* updates
+    if (t >= 0.0 && leftKey.status === PsychoJS.Status.NOT_STARTED) {
+      // keep track of start time/frame for later
+      leftKey.tStart = t;  // (not accounting for frame time here)
+      leftKey.frameNStart = frameN;  // exact frame index
+      
+      leftKey.setAutoDraw(true);
     }
     
     
