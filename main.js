@@ -107,6 +107,7 @@ async function updateInfo() {
 
 
 var CodeRoutineClock;
+var empty_text_duration;
 var instructionRoutineClock;
 var InstructionText;
 var rightKey;
@@ -197,7 +198,6 @@ async function experimentInit() {
           }
           
           // 8.5 Riordinamento delle righe per evitare categorie consecutive uguali
-          // e non più di tre target "left" consecutivi
           const shuffleData = () => {
               const originalData = [...expInfo.filtered_data];
               const reorderedData = [];
@@ -219,60 +219,35 @@ async function experimentInit() {
               
               // 2. Controlla la categoria della prima riga
               let lastCategory = firstRow.category;
-              let consecutiveLeftCount = firstRow.is_in_category === "left" ? 1 : 0;
               
               // Continua finché ci sono righe nell'array originale
               while (originalData.length > 0) {
                   // 3. Ottieni le righe che non hanno l'ultima categoria
-                  let availableRows = originalData.filter(r => r.category !== lastCategory);
+                  const availableRows = originalData.filter(r => r.category !== lastCategory);
                   
-                  // Aggiungi vincolo: se abbiamo già 3 "left" consecutivi, escludi le righe "left"
-                  if (consecutiveLeftCount >= 3) {
-                      availableRows = availableRows.filter(r => r.is_in_category !== "left");
-                      // Se non ci sono righe disponibili non-left, allora filtra solo in base alla categoria
-                      if (availableRows.length === 0) {
-                          availableRows = originalData.filter(r => r.category !== lastCategory && r.is_in_category !== "left");
-                      }
-                  }
-                  
-                  // Se non ci sono righe disponibili con i vincoli attuali
+                  // Se non ci sono righe disponibili con categoria diversa,
+                  // prendi una qualsiasi delle righe rimaste
                   if (availableRows.length === 0) {
-                      console.warn(`Non è stato possibile evitare una ripetizione della categoria ${lastCategory} o più di 3 "left" consecutivi`);
-                      // Priorità più alta: evitare più di 3 "left" consecutivi
-                      if (consecutiveLeftCount >= 3) {
-                          const nonLeftRows = originalData.filter(r => r.is_in_category !== "left");
-                          if (nonLeftRows.length > 0) {
-                              const nextRandomIndex = Math.floor(Math.random() * nonLeftRows.length);
-                              const nextRow = nonLeftRows[nextRandomIndex];
-                              const indexInOriginal = originalData.findIndex(r => r === nextRow);
-                              originalData.splice(indexInOriginal, 1);
-                              reorderedData.push(nextRow);
-                              lastCategory = nextRow.category;
-                              consecutiveLeftCount = 0; // Reset perché non è "left"
-                              continue;
-                          }
-                      }
-                      
-                      // Se non possiamo soddisfare i vincoli, prendiamo una riga qualsiasi
+                      console.warn(`Non è stato possibile evitare una ripetizione della categoria ${lastCategory}`);
                       const nextRow = originalData.splice(0, 1)[0];
                       reorderedData.push(nextRow);
                       lastCategory = nextRow.category;
-                      consecutiveLeftCount = nextRow.is_in_category === "left" ? consecutiveLeftCount + 1 : 0;
                   } else {
                       // 4. Estrai casualmente una riga dalle righe disponibili
                       const nextRandomIndex = Math.floor(Math.random() * availableRows.length);
                       const nextRow = availableRows[nextRandomIndex];
                       
                       // Rimuovi la riga scelta dall'array originale
-                      const indexInOriginal = originalData.findIndex(r => r === nextRow);
+                      const indexInOriginal = originalData.findIndex(r => 
+                          r === nextRow // Confronto per riferimento
+                      );
                       originalData.splice(indexInOriginal, 1);
                       
                       // Aggiungi la riga scelta al nuovo array
                       reorderedData.push(nextRow);
                       
-                      // 5. Aggiorna l'ultima categoria e il conteggio consecutivo
+                      // 5. Aggiorna l'ultima categoria
                       lastCategory = nextRow.category;
-                      consecutiveLeftCount = nextRow.is_in_category === "left" ? consecutiveLeftCount + 1 : 0;
                   }
               }
               
@@ -288,24 +263,6 @@ async function experimentInit() {
               if (!hasConsecutiveSameCategory) {
                   console.log("Riordinamento completato con successo: nessuna categoria consecutiva uguale");
               }
-              
-              // Verifica dei "left" consecutivi
-              let maxConsecutiveLeft = 0;
-              let currentConsecutiveLeft = 0;
-              for (let i = 0; i < reorderedData.length; i++) {
-                  if (reorderedData[i].is_in_category === "left") {
-                      currentConsecutiveLeft++;
-                      maxConsecutiveLeft = Math.max(maxConsecutiveLeft, currentConsecutiveLeft);
-                  } else {
-                      currentConsecutiveLeft = 0;
-                  }
-              }
-              
-              console.log(`Numero massimo di "left" consecutivi: ${maxConsecutiveLeft}`);
-              
-              // Stampa la sequenza di is_in_category
-              console.log('Sequenza is_in_category:');
-              console.log(reorderedData.map(r => r.is_in_category).join(', '));
               
               return reorderedData;
           };
@@ -339,44 +296,13 @@ async function experimentInit() {
       }
   }
   // Esegui la funzione
-  loadAndProcessCSV()
-      .then(() => {
-          // Imposta la durata casuale
-          empty_text_duration = Math.random() < 0.5 ? 0.049 : 0.301;
-          expInfo["blankDuration"] = empty_text_duration;
-          
-          // Salva i metadati solo dopo che loadAndProcessCSV è completato con successo
-          saveExperimentMetadata();
-      })
-      .catch(error => {
-          console.error('Errore non gestito:', error);
-          psychoJS.core.quit();
-      });
-  
-  // Funzione per salvare i metadati estratti dal CSV in modo appropriato
-  function saveExperimentMetadata() {
-      // Salva i metadati principali dell'esperimento
-      psychoJS.experiment.addData('selected_relation', expInfo.relation);
-      psychoJS.experiment.addData('blank_duration', empty_text_duration);
-      
-      // Verifica che filtered_data esista prima di usarlo
-      if (expInfo.filtered_data && Array.isArray(expInfo.filtered_data) && expInfo.filtered_data.length > 0) {
-          // Crea un JSON stringa per i primi 5 elementi (o meno se ci sono meno elementi)
-          const numElements = Math.min(5, expInfo.filtered_data.length);
-          const sampleData = JSON.stringify(expInfo.filtered_data.slice(0, numElements).map(row => ({
-              prime: row.prime,
-              target: row.target,
-              category: row.category,
-              relation: row.relation
-          })));
-          psychoJS.experiment.addData('sample_data_json', sampleData);
-          
-          console.log("Metadati dell'esperimento salvati correttamente");
-      } else {
-          console.error("Impossibile salvare sample_data_json: filtered_data non disponibile");
-          psychoJS.experiment.addData('sample_data_json', 'Dati non disponibili');
-      }
-  }
+  loadAndProcessCSV().catch(error => {
+      console.error('Errore non gestito:', error);
+      psychoJS.core.quit();
+  });
+  // Imposta la durata casuale
+  empty_text_duration = Math.random() < 0.5 ? 0.049 : 0.301;
+  expInfo["blankDuration"] = empty_text_duration;
   
   // Inserisci questo codice in una Code Component (nella sezione "Begin Experiment")
   async function getIP() {
@@ -842,7 +768,6 @@ var prime_duration;
 var mask_start;
 var mask_duration;
 var empty_text_start;
-var empty_text_duration;
 var target_text_start;
 var currentCategoryText;
 var _TargetKeyResponse_allKeys;
