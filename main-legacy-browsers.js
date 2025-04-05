@@ -6,7 +6,7 @@
 // store info about the experiment session:
 let expName = 'main';  // from the Builder filename that created this script
 let expInfo = {
-    'participant': `${util.pad(Number.parseFloat(util.randint(0, 999999)).toFixed(0), 6)}`,
+    'età': '20',
 };
 
 // Start code blocks for 'Before Experiment'
@@ -102,14 +102,16 @@ var CodeRoutineClock;
 var empty_text_duration;
 var instructionRoutineClock;
 var InstructionText;
-var key_resp;
+var leftKey;
+var rightKey;
+var InstructionsKeyResponse;
 var trialRoutineClock;
 var Category;
 var Prime;
 var Mask;
 var EmptyInterval;
 var Target;
-var key_resp_2;
+var TargetKeyResponse;
 var ThanksRoutineClock;
 var text_3;
 var globalClock;
@@ -123,7 +125,7 @@ async function experimentInit() {
       try {
           // 1. Caricamento CSV con cache-buster
           const cacheBuster = `?t=${new Date().getTime()}`;
-          const response = await fetch(`condizioni_complete.csv${cacheBuster}`);
+          const response = await fetch(`condizioni_complete_for_exp.csv${cacheBuster}`);
           
           if (!response.ok) {
               throw new Error(`HTTP error! Status: ${response.status}`);
@@ -180,22 +182,143 @@ async function experimentInit() {
                   if (row.relation === "Random") {
                       const randomIndex = Math.floor(Math.random() * availablePrimes.length);
                       row.prime = availablePrimes[randomIndex];
-                      row.original_prime = row.original_prime || row.prime; // Mantiene traccia
+                      //row.original_prime = row.original_prime || row.prime; // Mantiene traccia
                   }
               });
           } else {
               console.warn("Nessun prime disponibile dalle righe scartate");
           }
           
+          // 8.5 Riordinamento delle righe per evitare categorie consecutive uguali
+          // e non più di tre target "left" consecutivi
+          const shuffleData = () => {
+              const originalData = [...expInfo.filtered_data];
+              const reorderedData = [];
+              
+              // Estrai tutte le categorie uniche
+              const uniqueCategories = [...new Set(originalData.map(r => r.category))];
+              console.log("Categorie uniche:", uniqueCategories);
+              
+              // Se c'è una sola categoria, non possiamo evitare ripetizioni
+              if (uniqueCategories.length === 1) {
+                  console.warn("Solo una categoria presente, impossibile evitare ripetizioni");
+                  return originalData;
+              }
+              
+              // 1. Estrai la prima riga casualmente
+              const randomIndex = Math.floor(Math.random() * originalData.length);
+              const firstRow = originalData.splice(randomIndex, 1)[0];
+              reorderedData.push(firstRow);
+              
+              // 2. Controlla la categoria della prima riga
+              let lastCategory = firstRow.category;
+              let consecutiveLeftCount = firstRow.is_in_category === "left" ? 1 : 0;
+              
+              // Continua finché ci sono righe nell'array originale
+              while (originalData.length > 0) {
+                  // 3. Ottieni le righe che non hanno l'ultima categoria
+                  let availableRows = originalData.filter(r => r.category !== lastCategory);
+                  
+                  // Aggiungi vincolo: se abbiamo già 3 "left" consecutivi, escludi le righe "left"
+                  if (consecutiveLeftCount >= 3) {
+                      availableRows = availableRows.filter(r => r.is_in_category !== "left");
+                      // Se non ci sono righe disponibili non-left, allora filtra solo in base alla categoria
+                      if (availableRows.length === 0) {
+                          availableRows = originalData.filter(r => r.category !== lastCategory && r.is_in_category !== "left");
+                      }
+                  }
+                  
+                  // Se non ci sono righe disponibili con i vincoli attuali
+                  if (availableRows.length === 0) {
+                      console.warn(`Non è stato possibile evitare una ripetizione della categoria ${lastCategory} o più di 3 "left" consecutivi`);
+                      // Priorità più alta: evitare più di 3 "left" consecutivi
+                      if (consecutiveLeftCount >= 3) {
+                          const nonLeftRows = originalData.filter(r => r.is_in_category !== "left");
+                          if (nonLeftRows.length > 0) {
+                              const nextRandomIndex = Math.floor(Math.random() * nonLeftRows.length);
+                              const nextRow = nonLeftRows[nextRandomIndex];
+                              const indexInOriginal = originalData.findIndex(r => r === nextRow);
+                              originalData.splice(indexInOriginal, 1);
+                              reorderedData.push(nextRow);
+                              lastCategory = nextRow.category;
+                              consecutiveLeftCount = 0; // Reset perché non è "left"
+                              continue;
+                          }
+                      }
+                      
+                      // Se non possiamo soddisfare i vincoli, prendiamo una riga qualsiasi
+                      const nextRow = originalData.splice(0, 1)[0];
+                      reorderedData.push(nextRow);
+                      lastCategory = nextRow.category;
+                      consecutiveLeftCount = nextRow.is_in_category === "left" ? consecutiveLeftCount + 1 : 0;
+                  } else {
+                      // 4. Estrai casualmente una riga dalle righe disponibili
+                      const nextRandomIndex = Math.floor(Math.random() * availableRows.length);
+                      const nextRow = availableRows[nextRandomIndex];
+                      
+                      // Rimuovi la riga scelta dall'array originale
+                      const indexInOriginal = originalData.findIndex(r => r === nextRow);
+                      originalData.splice(indexInOriginal, 1);
+                      
+                      // Aggiungi la riga scelta al nuovo array
+                      reorderedData.push(nextRow);
+                      
+                      // 5. Aggiorna l'ultima categoria e il conteggio consecutivo
+                      lastCategory = nextRow.category;
+                      consecutiveLeftCount = nextRow.is_in_category === "left" ? consecutiveLeftCount + 1 : 0;
+                  }
+              }
+              
+              // Verifica finale: nessuna categoria consecutiva uguale?
+              let hasConsecutiveSameCategory = false;
+              for (let i = 1; i < reorderedData.length; i++) {
+                  if (reorderedData[i].category === reorderedData[i-1].category) {
+                      hasConsecutiveSameCategory = true;
+                      console.warn(`Categorie consecutive uguali trovate: ${reorderedData[i].category} alle posizioni ${i-1} e ${i}`);
+                  }
+              }
+              
+              if (!hasConsecutiveSameCategory) {
+                  console.log("Riordinamento completato con successo: nessuna categoria consecutiva uguale");
+              }
+              
+              // Verifica dei "left" consecutivi
+              let maxConsecutiveLeft = 0;
+              let currentConsecutiveLeft = 0;
+              for (let i = 0; i < reorderedData.length; i++) {
+                  if (reorderedData[i].is_in_category === "left") {
+                      currentConsecutiveLeft++;
+                      maxConsecutiveLeft = Math.max(maxConsecutiveLeft, currentConsecutiveLeft);
+                  } else {
+                      currentConsecutiveLeft = 0;
+                  }
+              }
+              
+              console.log(`Numero massimo di "left" consecutivi: ${maxConsecutiveLeft}`);
+              
+              // Stampa la sequenza di is_in_category
+              console.log('Sequenza is_in_category:');
+              console.log(reorderedData.map(r => r.is_in_category).join(', '));
+              
+              return reorderedData;
+          };
+          
+          // Applica l'algoritmo di riordinamento
+          expInfo.filtered_data = shuffleData();
+          
           // 9. Setup variabili globali
           expInfo.relation = selectedRelation;
-          psychoJS.experiment.addData('selected_relation', selectedRelation);
-          expInfo.all_relations = [...new Set(records.map(r => r.relation))];
+          //psychoJS.experiment.addData('selected_relation', selectedRelation);
+          //expInfo.all_relations = [...new Set(records.map(r => r.relation))];
           
           console.log(`Relazione selezionata: ${selectedRelation}`);
           console.log(`Prime disponibili: ${availablePrimes.length}`);
           console.log(`Righe filtrate: ${expInfo.filtered_data.length}`);
-          console.log('Dati finali:', JSON.stringify(expInfo.filtered_data.slice(0, 3), null, 2));
+          console.log('Dati finali (primi 3):', JSON.stringify(expInfo.filtered_data.slice(0, 3), null, 2));
+          
+          // Log aggiuntivo per verificare le categorie consecutive
+          console.log('Sequenza categorie:');
+          console.log(expInfo.filtered_data.map(r => r.category).join(', '));
           
       } catch (error) {
           console.error('Errore critico:', error);
@@ -208,8 +331,7 @@ async function experimentInit() {
           psychoJS.core.quit();
       }
   }
-  
-  // Esegui la funzione e gestisci promise
+  // Esegui la funzione
   loadAndProcessCSV().catch(error => {
       console.error('Errore non gestito:', error);
       psychoJS.core.quit();
@@ -217,21 +339,80 @@ async function experimentInit() {
   // Imposta la durata casuale
   empty_text_duration = Math.random() < 0.5 ? 0.049 : 0.301;
   expInfo["blankDuration"] = empty_text_duration;
+  
+  // Inserisci questo codice in una Code Component (nella sezione "Begin Experiment")
+  async function getIP() {
+      try {
+          const response = await fetch("https://api.ipify.org?format=json");
+          const data = await response.json();
+          return data.ip;
+      } catch (error) {
+          console.error("Errore nel recupero dell'IP:", error);
+          return "unknown";
+      }
+  }
+  
+  // Assegna l'IP ai dati dell'esperimento
+  async function hashString(string) {
+      // Converti la stringa in un ArrayBuffer
+      const encoder = new TextEncoder();
+      const data = encoder.encode(string);
+      
+      // Genera l'hash SHA-256
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      
+      // Converti l'ArrayBuffer in stringa esadecimale
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+  
+  getIP().then(async (ip) => {
+      const hashedIP = await hashString(ip);
+      expInfo["ip_address_hashed"] = hashedIP;
+      
+  });
+  
+  
+  
   // Initialize components for Routine "instructionRoutine"
   instructionRoutineClock = new util.Clock();
   InstructionText = new visual.TextStim({
     win: psychoJS.window,
     name: 'InstructionText',
-    text: 'Benvenuto!\n\nIn questo eperimento il tuo compito è indicare se la parola appartiene alla categoria indicata con il tasto freccia sinistra (<-) e freccia destra (->) se non appartiene alla categoria indicata\n\nCerca di rispondere il più velocemente possibile!\n\nLa categoria ti apparirà nelllo step successivo\n\npremi [SPAZIO] per continuare',
+    text: 'Benvenuto!\n\nIn questo esperimento, devi indicare se delle parole appartengono a delle determinate categorie.  Ti verrà prima mostrata la categoria come \n"È <nome della categoria>?"\nquindi:\n- Premi il tasto [freccia sinistra] (<-) se la parola successiva appartiene alla categoria indicata.\n- Premi il tasto [freccia destra] (->) se la parola successiva NON appartiene alla categoria indicata.\n\nCerca di rispondere il più velocemente possibile!\n\nDovrai valutare un totale di 40 parole.\n\npremi [SPAZIO] per continuare',
     font: 'Arial',
     units: undefined, 
-    pos: [0, 0], draggable: false, height: 0.05,  wrapWidth: undefined, ori: 0.0,
+    pos: [0, 0], draggable: false, height: 0.04,  wrapWidth: undefined, ori: 0.0,
     languageStyle: 'LTR',
     color: new util.Color('white'),  opacity: undefined,
     depth: 0.0 
   });
   
-  key_resp = new core.Keyboard({psychoJS: psychoJS, clock: new util.Clock(), waitForStart: true});
+  leftKey = new visual.TextStim({
+    win: psychoJS.window,
+    name: 'leftKey',
+    text: '[freccia sinistra] (<-)',
+    font: 'Arial',
+    units: undefined, 
+    pos: [0.025, 0.045], draggable: false, height: 0.04,  wrapWidth: undefined, ori: 0.0,
+    languageStyle: 'LTR',
+    color: new util.Color([(- 1.0), 0.0039, (- 1.0)]),  opacity: undefined,
+    depth: -1.0 
+  });
+  
+  rightKey = new visual.TextStim({
+    win: psychoJS.window,
+    name: 'rightKey',
+    text: '[freccia destra] (->)',
+    font: 'Arial',
+    units: undefined, 
+    pos: [0.025, (- 0.045)], draggable: false, height: 0.04,  wrapWidth: undefined, ori: 0.0,
+    languageStyle: 'LTR',
+    color: new util.Color([1.0, (- 1.0), (- 1.0)]),  opacity: undefined,
+    depth: -2.0 
+  });
+  
+  InstructionsKeyResponse = new core.Keyboard({psychoJS: psychoJS, clock: new util.Clock(), waitForStart: true});
   
   // Initialize components for Routine "trialRoutine"
   trialRoutineClock = new util.Clock();
@@ -295,7 +476,7 @@ async function experimentInit() {
     depth: -5.0 
   });
   
-  key_resp_2 = new core.Keyboard({psychoJS: psychoJS, clock: new util.Clock(), waitForStart: true});
+  TargetKeyResponse = new core.Keyboard({psychoJS: psychoJS, clock: new util.Clock(), waitForStart: true});
   
   // Initialize components for Routine "ThanksRoutine"
   ThanksRoutineClock = new util.Clock();
@@ -337,7 +518,6 @@ function CodeRoutineRoutineBegin(snapshot) {
     routineTimer.reset();
     CodeRoutineMaxDurationReached = false;
     // update component parameters for each repeat
-    psychoJS.experiment.addData('CodeRoutine.started', globalClock.getTime());
     CodeRoutineMaxDuration = null
     // keep track of which components have finished
     CodeRoutineComponents = [];
@@ -393,7 +573,6 @@ function CodeRoutineRoutineEnd(snapshot) {
         thisComponent.setAutoDraw(false);
       }
     });
-    psychoJS.experiment.addData('CodeRoutine.stopped', globalClock.getTime());
     // the Routine "CodeRoutine" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset();
     
@@ -407,7 +586,7 @@ function CodeRoutineRoutineEnd(snapshot) {
 
 
 var instructionRoutineMaxDurationReached;
-var _key_resp_allKeys;
+var _InstructionsKeyResponse_allKeys;
 var instructionRoutineMaxDuration;
 var instructionRoutineComponents;
 function instructionRoutineRoutineBegin(snapshot) {
@@ -422,15 +601,16 @@ function instructionRoutineRoutineBegin(snapshot) {
     routineTimer.reset();
     instructionRoutineMaxDurationReached = false;
     // update component parameters for each repeat
-    key_resp.keys = undefined;
-    key_resp.rt = undefined;
-    _key_resp_allKeys = [];
-    psychoJS.experiment.addData('instructionRoutine.started', globalClock.getTime());
+    InstructionsKeyResponse.keys = undefined;
+    InstructionsKeyResponse.rt = undefined;
+    _InstructionsKeyResponse_allKeys = [];
     instructionRoutineMaxDuration = null
     // keep track of which components have finished
     instructionRoutineComponents = [];
     instructionRoutineComponents.push(InstructionText);
-    instructionRoutineComponents.push(key_resp);
+    instructionRoutineComponents.push(leftKey);
+    instructionRoutineComponents.push(rightKey);
+    instructionRoutineComponents.push(InstructionsKeyResponse);
     
     instructionRoutineComponents.forEach( function(thisComponent) {
       if ('status' in thisComponent)
@@ -459,25 +639,45 @@ function instructionRoutineRoutineEachFrame() {
     }
     
     
-    // *key_resp* updates
-    if (t >= 0.0 && key_resp.status === PsychoJS.Status.NOT_STARTED) {
+    // *leftKey* updates
+    if (t >= 0.0 && leftKey.status === PsychoJS.Status.NOT_STARTED) {
       // keep track of start time/frame for later
-      key_resp.tStart = t;  // (not accounting for frame time here)
-      key_resp.frameNStart = frameN;  // exact frame index
+      leftKey.tStart = t;  // (not accounting for frame time here)
+      leftKey.frameNStart = frameN;  // exact frame index
       
-      // keyboard checking is just starting
-      psychoJS.window.callOnFlip(function() { key_resp.clock.reset(); });  // t=0 on next screen flip
-      psychoJS.window.callOnFlip(function() { key_resp.start(); }); // start on screen flip
-      psychoJS.window.callOnFlip(function() { key_resp.clearEvents(); });
+      leftKey.setAutoDraw(true);
     }
     
-    if (key_resp.status === PsychoJS.Status.STARTED) {
-      let theseKeys = key_resp.getKeys({keyList: ['space'], waitRelease: false});
-      _key_resp_allKeys = _key_resp_allKeys.concat(theseKeys);
-      if (_key_resp_allKeys.length > 0) {
-        key_resp.keys = _key_resp_allKeys[_key_resp_allKeys.length - 1].name;  // just the last key pressed
-        key_resp.rt = _key_resp_allKeys[_key_resp_allKeys.length - 1].rt;
-        key_resp.duration = _key_resp_allKeys[_key_resp_allKeys.length - 1].duration;
+    
+    // *rightKey* updates
+    if (t >= 0.0 && rightKey.status === PsychoJS.Status.NOT_STARTED) {
+      // keep track of start time/frame for later
+      rightKey.tStart = t;  // (not accounting for frame time here)
+      rightKey.frameNStart = frameN;  // exact frame index
+      
+      rightKey.setAutoDraw(true);
+    }
+    
+    
+    // *InstructionsKeyResponse* updates
+    if (t >= 0.0 && InstructionsKeyResponse.status === PsychoJS.Status.NOT_STARTED) {
+      // keep track of start time/frame for later
+      InstructionsKeyResponse.tStart = t;  // (not accounting for frame time here)
+      InstructionsKeyResponse.frameNStart = frameN;  // exact frame index
+      
+      // keyboard checking is just starting
+      psychoJS.window.callOnFlip(function() { InstructionsKeyResponse.clock.reset(); });  // t=0 on next screen flip
+      psychoJS.window.callOnFlip(function() { InstructionsKeyResponse.start(); }); // start on screen flip
+      psychoJS.window.callOnFlip(function() { InstructionsKeyResponse.clearEvents(); });
+    }
+    
+    if (InstructionsKeyResponse.status === PsychoJS.Status.STARTED) {
+      let theseKeys = InstructionsKeyResponse.getKeys({keyList: ['space'], waitRelease: false});
+      _InstructionsKeyResponse_allKeys = _InstructionsKeyResponse_allKeys.concat(theseKeys);
+      if (_InstructionsKeyResponse_allKeys.length > 0) {
+        InstructionsKeyResponse.keys = _InstructionsKeyResponse_allKeys[_InstructionsKeyResponse_allKeys.length - 1].name;  // just the last key pressed
+        InstructionsKeyResponse.rt = _InstructionsKeyResponse_allKeys[_InstructionsKeyResponse_allKeys.length - 1].rt;
+        InstructionsKeyResponse.duration = _InstructionsKeyResponse_allKeys[_InstructionsKeyResponse_allKeys.length - 1].duration;
         // a response ends the routine
         continueRoutine = false;
       }
@@ -518,19 +718,7 @@ function instructionRoutineRoutineEnd(snapshot) {
         thisComponent.setAutoDraw(false);
       }
     });
-    psychoJS.experiment.addData('instructionRoutine.stopped', globalClock.getTime());
-    // update the trial handler
-    if (currentLoop instanceof MultiStairHandler) {
-      currentLoop.addResponse(key_resp.corr, level);
-    }
-    psychoJS.experiment.addData('key_resp.keys', key_resp.keys);
-    if (typeof key_resp.keys !== 'undefined') {  // we had a response
-        psychoJS.experiment.addData('key_resp.rt', key_resp.rt);
-        psychoJS.experiment.addData('key_resp.duration', key_resp.duration);
-        routineTimer.reset();
-        }
-    
-    key_resp.stop();
+    InstructionsKeyResponse.stop();
     // the Routine "instructionRoutine" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset();
     
@@ -551,7 +739,7 @@ function trialsLoopBegin(trialsLoopScheduler, snapshot) {
     // set up handler to look after randomisation of conditions etc
     trials = new TrialHandler({
       psychoJS: psychoJS,
-      nReps: 1, method: TrialHandler.Method.RANDOM,
+      nReps: 1, method: TrialHandler.Method.SEQUENTIAL,
       extraInfo: expInfo, originPath: undefined,
       trialList: expInfo.filtered_data,
       seed: undefined, name: 'trials'
@@ -616,7 +804,7 @@ var mask_duration;
 var empty_text_start;
 var target_text_start;
 var currentCategoryText;
-var _key_resp_2_allKeys;
+var _TargetKeyResponse_allKeys;
 var trialRoutineMaxDuration;
 var trialRoutineComponents;
 function trialRoutineRoutineBegin(snapshot) {
@@ -646,14 +834,14 @@ function trialRoutineRoutineBegin(snapshot) {
     
     target_text_start = empty_text_start + empty_text_duration;
     
-    currentCategoryText = `È ${category}?`;
+    currentCategoryText = `È ${category.replace(/_/g, ' ')}?`;
     Category.setText(currentCategoryText);
     Prime.setText(prime);
     EmptyInterval.setText('');
     Target.setText(target);
-    key_resp_2.keys = undefined;
-    key_resp_2.rt = undefined;
-    _key_resp_2_allKeys = [];
+    TargetKeyResponse.keys = undefined;
+    TargetKeyResponse.rt = undefined;
+    _TargetKeyResponse_allKeys = [];
     psychoJS.experiment.addData('trialRoutine.started', globalClock.getTime());
     trialRoutineMaxDuration = null
     // keep track of which components have finished
@@ -663,7 +851,7 @@ function trialRoutineRoutineBegin(snapshot) {
     trialRoutineComponents.push(Mask);
     trialRoutineComponents.push(EmptyInterval);
     trialRoutineComponents.push(Target);
-    trialRoutineComponents.push(key_resp_2);
+    trialRoutineComponents.push(TargetKeyResponse);
     
     trialRoutineComponents.forEach( function(thisComponent) {
       if ('status' in thisComponent)
@@ -753,30 +941,30 @@ function trialRoutineRoutineEachFrame() {
     }
     
     
-    // *key_resp_2* updates
-    if (t >= 0.0 && key_resp_2.status === PsychoJS.Status.NOT_STARTED) {
+    // *TargetKeyResponse* updates
+    if (t >= target_text_start && TargetKeyResponse.status === PsychoJS.Status.NOT_STARTED) {
       // keep track of start time/frame for later
-      key_resp_2.tStart = t;  // (not accounting for frame time here)
-      key_resp_2.frameNStart = frameN;  // exact frame index
+      TargetKeyResponse.tStart = t;  // (not accounting for frame time here)
+      TargetKeyResponse.frameNStart = frameN;  // exact frame index
       
       // keyboard checking is just starting
-      psychoJS.window.callOnFlip(function() { key_resp_2.clock.reset(); });  // t=0 on next screen flip
-      psychoJS.window.callOnFlip(function() { key_resp_2.start(); }); // start on screen flip
-      psychoJS.window.callOnFlip(function() { key_resp_2.clearEvents(); });
+      psychoJS.window.callOnFlip(function() { TargetKeyResponse.clock.reset(); });  // t=0 on next screen flip
+      psychoJS.window.callOnFlip(function() { TargetKeyResponse.start(); }); // start on screen flip
+      psychoJS.window.callOnFlip(function() { TargetKeyResponse.clearEvents(); });
     }
     
-    if (key_resp_2.status === PsychoJS.Status.STARTED) {
-      let theseKeys = key_resp_2.getKeys({keyList: ['left', 'right'], waitRelease: false});
-      _key_resp_2_allKeys = _key_resp_2_allKeys.concat(theseKeys);
-      if (_key_resp_2_allKeys.length > 0) {
-        key_resp_2.keys = _key_resp_2_allKeys[_key_resp_2_allKeys.length - 1].name;  // just the last key pressed
-        key_resp_2.rt = _key_resp_2_allKeys[_key_resp_2_allKeys.length - 1].rt;
-        key_resp_2.duration = _key_resp_2_allKeys[_key_resp_2_allKeys.length - 1].duration;
+    if (TargetKeyResponse.status === PsychoJS.Status.STARTED) {
+      let theseKeys = TargetKeyResponse.getKeys({keyList: ['left', 'right'], waitRelease: false});
+      _TargetKeyResponse_allKeys = _TargetKeyResponse_allKeys.concat(theseKeys);
+      if (_TargetKeyResponse_allKeys.length > 0) {
+        TargetKeyResponse.keys = _TargetKeyResponse_allKeys[_TargetKeyResponse_allKeys.length - 1].name;  // just the last key pressed
+        TargetKeyResponse.rt = _TargetKeyResponse_allKeys[_TargetKeyResponse_allKeys.length - 1].rt;
+        TargetKeyResponse.duration = _TargetKeyResponse_allKeys[_TargetKeyResponse_allKeys.length - 1].duration;
         // was this correct?
-        if (key_resp_2.keys == '') {
-            key_resp_2.corr = 1;
+        if (TargetKeyResponse.keys == is_in_category) {
+            TargetKeyResponse.corr = 1;
         } else {
-            key_resp_2.corr = 0;
+            TargetKeyResponse.corr = 0;
         }
         // a response ends the routine
         continueRoutine = false;
@@ -810,6 +998,7 @@ function trialRoutineRoutineEachFrame() {
 }
 
 
+var hashedIP;
 function trialRoutineRoutineEnd(snapshot) {
   return async function () {
     //--- Ending Routine 'trialRoutine' ---
@@ -820,30 +1009,40 @@ function trialRoutineRoutineEnd(snapshot) {
     });
     psychoJS.experiment.addData('trialRoutine.stopped', globalClock.getTime());
     // was no response the correct answer?!
-    if (key_resp_2.keys === undefined) {
-      if (['None','none',undefined].includes('')) {
-         key_resp_2.corr = 1;  // correct non-response
+    if (TargetKeyResponse.keys === undefined) {
+      if (['None','none',undefined].includes(is_in_category)) {
+         TargetKeyResponse.corr = 1;  // correct non-response
       } else {
-         key_resp_2.corr = 0;  // failed to respond (incorrectly)
+         TargetKeyResponse.corr = 0;  // failed to respond (incorrectly)
       }
     }
     // store data for current loop
     // update the trial handler
     if (currentLoop instanceof MultiStairHandler) {
-      currentLoop.addResponse(key_resp_2.corr, level);
+      currentLoop.addResponse(TargetKeyResponse.corr, level);
     }
-    psychoJS.experiment.addData('key_resp_2.keys', key_resp_2.keys);
-    psychoJS.experiment.addData('key_resp_2.corr', key_resp_2.corr);
-    if (typeof key_resp_2.keys !== 'undefined') {  // we had a response
-        psychoJS.experiment.addData('key_resp_2.rt', key_resp_2.rt);
-        psychoJS.experiment.addData('key_resp_2.duration', key_resp_2.duration);
+    psychoJS.experiment.addData('TargetKeyResponse.keys', TargetKeyResponse.keys);
+    psychoJS.experiment.addData('TargetKeyResponse.corr', TargetKeyResponse.corr);
+    if (typeof TargetKeyResponse.keys !== 'undefined') {  // we had a response
+        psychoJS.experiment.addData('TargetKeyResponse.rt', TargetKeyResponse.rt);
+        psychoJS.experiment.addData('TargetKeyResponse.duration', TargetKeyResponse.duration);
         routineTimer.reset();
         }
     
-    key_resp_2.stop();
+    TargetKeyResponse.stop();
     // Run 'End Routine' code from saveBlankDuration
     psychoJS._experiment.addData("blankDuration", empty_text_duration);
-    
+    hashedIP = expInfo["ip_address_hashed"]
+    psychoJS.experiment.addData('ip_address_hashed', hashedIP);
+    psychoJS.experiment.addData('browser_userAgent', navigator.userAgent);
+    psychoJS.experiment.addData('browser_platform', navigator.platform);
+    psychoJS.experiment.addData('browser_language', navigator.language);
+    psychoJS.experiment.addData('browser_vendor', navigator.vendor);
+    psychoJS.experiment.addData('browser_cookiesEnabled', navigator.cookieEnabled);
+    psychoJS.experiment.addData('screen_resolution', `${window.screen.width}x${window.screen.height}`);
+    psychoJS.experiment.addData('screen_colorDepth', window.screen.colorDepth);
+    psychoJS.experiment.addData('screen_pixelDepth', window.screen.pixelDepth);
+    psychoJS.experiment.addData('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone);
     // the Routine "trialRoutine" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset();
     
@@ -872,7 +1071,7 @@ function ThanksRoutineRoutineBegin(snapshot) {
     ThanksRoutineMaxDurationReached = false;
     // update component parameters for each repeat
     // Disable downloading results to browser
-    psychoJS._saveResults = 1; //should be set to 0
+    psychoJS._saveResults = 0; //should be set to 0
     
     // Generate filename for results
     let filename = psychoJS._experiment._experimentName + '_' + psychoJS._experiment._datetime + '.csv';
@@ -905,7 +1104,6 @@ function ThanksRoutineRoutineBegin(snapshot) {
         console.log(data);
         quitPsychoJS();
     });
-    psychoJS.experiment.addData('ThanksRoutine.started', globalClock.getTime());
     ThanksRoutineMaxDuration = null
     // keep track of which components have finished
     ThanksRoutineComponents = [];
@@ -977,7 +1175,6 @@ function ThanksRoutineRoutineEnd(snapshot) {
         thisComponent.setAutoDraw(false);
       }
     });
-    psychoJS.experiment.addData('ThanksRoutine.stopped', globalClock.getTime());
     if (ThanksRoutineMaxDurationReached) {
         ThanksRoutineClock.add(ThanksRoutineMaxDuration);
     } else {

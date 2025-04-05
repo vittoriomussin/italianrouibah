@@ -1,23 +1,86 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <title>main [PsychoPy]</title>
-    <!-- styles -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-ui-dist@1.12.1/jquery-ui.min.css">
-    <link rel="stylesheet" href="./lib/psychojs-2024.2.4.css">
-  </head>
-  <body>
-    <div id="root"></div>
-    <!-- external libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-ui-dist@1.12.1/jquery-ui.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/preloadjs@1.0.1/lib/preloadjs.min.js"></script>
-    <!-- experiment -->
-    <script src="./main.js" type="module"></script>
-    <!-- legacy browsers -->
-    <script src="./lib/psychojs-2024.2.4.iife.js" nomodule></script>
-    <script src="./main-legacy-browsers.js" nomodule></script>
-  </body>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Benvenuto all'Esperimento</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
+      background-color: white;
+      color: black;
+      font-size: 20px;
+    }
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+      font-size: 32px;
+    }
+    p {
+      margin-bottom: 20px;
+      font-size: 22px;
+    }
+    .btn {
+      display: inline-block;
+      background-color: #3498db;
+      color: white;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-size: 20px;
+      transition: background-color 0.3s;
+    }
+    .btn:hover {
+      background-color: #2980b9;
+    }
+    footer {
+      margin-top: 60px;
+      padding-top: 20px;
+      border-top: 1px solid #eaeaea;
+      font-size: 14px;
+      color: #555;
+      text-align: left;
+    }
+    .citation {
+      margin-bottom: 15px;
+    }
+    h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #2c3e50;
+    }
+  </style>
+</head>
+<body>
+  <h1>Benvenuto al nostro esperimento di psicolinguistica</h1>
+  
+  <p>Grazie per la tua partecipazione a questo studio.</p>
+  
+  <p>L'esperimento richiederà circa 1-2 minuti per essere completato. Ti preghiamo di assicurarti di essere in un ambiente tranquillo e senza distrazioni. È necessario utilizzare un computer desktop o laptop o un dispositivo munito di tastiera.</p>
+
+  <p>Quando sei pronto/a per iniziare l'esperimento, fai clic sul pulsante qui sotto.</p>
+  
+  <a href="experiment.html" class="btn">Inizia l'esperimento</a>
+
+  <footer>
+    <h3>Crediti</h3>
+    <p>Questo esperimento è stato realizzato con PsychoPy.</p>
+    
+    <div class="citation">
+      <h3>Citazioni PsychoPy:</h3>
+      <p>Peirce, J. W., Gray, J. R., Simpson, S., MacAskill, M. R., Höchenberger, R., Sogo, H., Kastman, E., Lindeløv, J. (2019). PsychoPy2: experiments in behavior made easy. Behavior Research Methods. 10.3758/s13428-018-01193-y</p>
+      <p>Peirce, J. W., Hirst, R. J. & MacAskill, M. R. (2022). Building Experiments in PsychoPy. 2nd Edn London: Sage.</p>
+    </div>
+    
+    <div class="citation">
+      <h3>Esperimento originale (esperimento n°2):</h3>
+      <p>Rouibah, Aïcha & Tiberghien, Guy & Lupker, Stephen. (1999). Phonological and semantic priming: Evidence for task-independent effects. Memory & cognition. 27. 422-37. 10.3758/BF03211538.</p>
+    </div>
+  </footer>
+</body>
 </html>
