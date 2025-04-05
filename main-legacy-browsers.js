@@ -308,8 +308,36 @@ async function experimentInit() {
           
           // 9. Setup variabili globali
           expInfo.relation = selectedRelation;
-          //psychoJS.experiment.addData('selected_relation', selectedRelation);
-          //expInfo.all_relations = [...new Set(records.map(r => r.relation))];
+          
+          // Debugging: controlla la struttura dei dati prima di salvarli
+          console.log('Esempio struttura riga dati:', JSON.stringify(expInfo.filtered_data[0], null, 2));
+          
+          // 10. NUOVO: Aggiungiamo una funzione per salvare i dati in modo corretto
+          // Questa funzione dovrebbe essere chiamata all'inizio di ogni trial
+          expInfo.saveCurrentTrialData = function(trialIndex) {
+              if (trialIndex >= 0 && trialIndex < expInfo.filtered_data.length) {
+                  const row = expInfo.filtered_data[trialIndex];
+                  
+                  // Salva ogni campo primitivo separatamente
+                  for (const [key, value] of Object.entries(row)) {
+                      // Converte oggetti/array in stringhe JSON
+                      if (value !== null && typeof value === 'object') {
+                          psychoJS.experiment.addData(key, JSON.stringify(value));
+                      } else {
+                          psychoJS.experiment.addData(key, value);
+                      }
+                  }
+                  
+                  // Salva anche la relazione selezionata
+                  psychoJS.experiment.addData('selected_relation', expInfo.relation);
+                  
+                  // Salva l'indice del trial
+                  psychoJS.experiment.addData('trial_index', trialIndex);
+                  
+                  return true;
+              }
+              return false;
+          };
           
           console.log(`Relazione selezionata: ${selectedRelation}`);
           console.log(`Prime disponibili: ${availablePrimes.length}`);
@@ -336,6 +364,10 @@ async function experimentInit() {
       console.error('Errore non gestito:', error);
       psychoJS.core.quit();
   });
+  
+  // IMPORTANTE: aggiungiamo una variabile globale per tenere traccia del trial corrente
+  expInfo.currentTrialIndex = 0;
+  
   // Imposta la durata casuale
   empty_text_duration = Math.random() < 0.5 ? 0.049 : 0.301;
   expInfo["blankDuration"] = empty_text_duration;
@@ -354,35 +386,17 @@ async function experimentInit() {
   
   // Assegna l'IP ai dati dell'esperimento
   async function hashString(string) {
-        try {
-            // Converti la stringa in un ArrayBuffer
-            const encoder = new TextEncoder();
-            const data = encoder.encode(string);
-            
-            // Verifica se crypto.subtle è disponibile
-            if (window.crypto && window.crypto.subtle) {
-                // Genera l'hash SHA-256
-                const hashBuffer = await window.crypto.subtle.digest('SHA-256', data);
-                
-                // Converti l'ArrayBuffer in stringa esadecimale
-                const hashArray = Array.from(new Uint8Array(hashBuffer));
-                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-            } else {
-                // Fallback semplice quando crypto.subtle non è disponibile
-                let hash = 0;
-                for (let i = 0; i < string.length; i++) {
-                    const char = string.charCodeAt(i);
-                    hash = ((hash << 5) - hash) + char;
-                    hash = hash & hash; // Converti in integer a 32 bit
-                }
-                // Converti il numero in stringa esadecimale e aggiungi un prefisso
-                return 'fallback_' + (hash >>> 0).toString(16);
-            }
-        } catch (error) {
-            console.error('Error in hashString:', error);
-            return 'hash_error_' + Date.now().toString(16);
-        }
-    }
+      // Converti la stringa in un ArrayBuffer
+      const encoder = new TextEncoder();
+      const data = encoder.encode(string);
+      
+      // Genera l'hash SHA-256
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      
+      // Converti l'ArrayBuffer in stringa esadecimale
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  }
   
   getIP().then(async (ip) => {
       const hashedIP = await hashString(ip);
@@ -1089,7 +1103,7 @@ function ThanksRoutineRoutineBegin(snapshot) {
     ThanksRoutineMaxDurationReached = false;
     // update component parameters for each repeat
     // Disable downloading results to browser
-    psychoJS._saveResults = 0; //should be set to 0
+    psychoJS._saveResults = 1; //should be set to 0
     
     // Generate filename for results
     let filename = psychoJS._experiment._experimentName + '_' + psychoJS._experiment._datetime + '.csv';
