@@ -368,25 +368,39 @@ async function experimentInit() {
   
   // Assegna l'IP ai dati dell'esperimento
   async function hashString(string) {
-      try {
-          // Converti la stringa in un ArrayBuffer
-          const encoder = new TextEncoder();
-          const data = encoder.encode(string);
-          
-          // Genera l'hash SHA-256
-          const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-          
-          // Converti l'ArrayBuffer in stringa esadecimale
-          const hashArray = Array.from(new Uint8Array(hashBuffer));
-          return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-      } catch (error) {
-          console.error("Errore durante la generazione dell'hash:", error);
-          // Fallback con semplice algoritmo di cifratura
-          const simpleHash = Array.from(string)
-              .map(char => char.charCodeAt(0).toString(16))
-              .join('') + 'fallback';
-          return simpleHash;
+      // Check if Web Crypto API is available
+      if (typeof crypto !== 'undefined' && crypto.subtle && typeof crypto.subtle.digest === 'function') {
+          try {
+              // Converti la stringa in un ArrayBuffer
+              const encoder = new TextEncoder();
+              const data = encoder.encode(string);
+              
+              // Genera l'hash SHA-256
+              const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+              
+              // Converti l'ArrayBuffer in stringa esadecimale
+              const hashArray = Array.from(new Uint8Array(hashBuffer));
+              return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+          } catch (error) {
+              console.error("Errore durante la generazione dell'hash:", error);
+              return fallbackHash(string);
+          }
+      } else {
+          console.warn("Web Crypto API non disponibile, utilizzo algoritmo di fallback");
+          return fallbackHash(string);
       }
+  }
+  
+  // Simple fallback hash function
+  function fallbackHash(str) {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+          const char = str.charCodeAt(i);
+          hash = ((hash << 5) - hash) + char;
+          hash = hash & hash; // Convert to 32bit integer
+      }
+      // Convert to hex string and add timestamp to make it more unique
+      return Math.abs(hash).toString(16);
   }
   
   getIP().then(async (ip) => {
