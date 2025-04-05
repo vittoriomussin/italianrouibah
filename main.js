@@ -381,7 +381,11 @@ async function experimentInit() {
           return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
       } catch (error) {
           console.error("Errore durante la generazione dell'hash:", error);
-          return `unhashed-${Date.now()}`; // Fallback con timestamp per garantire un valore unico
+          // Fallback con semplice algoritmo di cifratura
+          const simpleHash = Array.from(string)
+              .map(char => char.charCodeAt(0).toString(16))
+              .join('') + 'fallback';
+          return simpleHash;
       }
   }
   
