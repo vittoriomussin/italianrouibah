@@ -198,77 +198,121 @@ async function experimentInit() {
           }
           
           // 8.5 Riordinamento delle righe per evitare categorie consecutive uguali
-          const shuffleData = () => {
-              const originalData = [...expInfo.filtered_data];
-              const reorderedData = [];
-              
-              // Estrai tutte le categorie uniche
-              const uniqueCategories = [...new Set(originalData.map(r => r.category))];
-              console.log("Categorie uniche:", uniqueCategories);
-              
-              // Se c'è una sola categoria, non possiamo evitare ripetizioni
-              if (uniqueCategories.length === 1) {
-                  console.warn("Solo una categoria presente, impossibile evitare ripetizioni");
-                  return originalData;
-              }
-              
-              // 1. Estrai la prima riga casualmente
-              const randomIndex = Math.floor(Math.random() * originalData.length);
-              const firstRow = originalData.splice(randomIndex, 1)[0];
-              reorderedData.push(firstRow);
-              
-              // 2. Controlla la categoria della prima riga
-              let lastCategory = firstRow.category;
-              
-              // Continua finché ci sono righe nell'array originale
-              while (originalData.length > 0) {
-                  // 3. Ottieni le righe che non hanno l'ultima categoria
-                  const availableRows = originalData.filter(r => r.category !== lastCategory);
-                  
-                  // Se non ci sono righe disponibili con categoria diversa,
-                  // prendi una qualsiasi delle righe rimaste
-                  if (availableRows.length === 0) {
-                      console.warn(`Non è stato possibile evitare una ripetizione della categoria ${lastCategory}`);
-                      const nextRow = originalData.splice(0, 1)[0];
-                      reorderedData.push(nextRow);
-                      lastCategory = nextRow.category;
-                  } else {
-                      // 4. Estrai casualmente una riga dalle righe disponibili
-                      const nextRandomIndex = Math.floor(Math.random() * availableRows.length);
-                      const nextRow = availableRows[nextRandomIndex];
-                      
-                      // Rimuovi la riga scelta dall'array originale
-                      const indexInOriginal = originalData.findIndex(r => 
-                          r === nextRow // Confronto per riferimento
-                      );
-                      originalData.splice(indexInOriginal, 1);
-                      
-                      // Aggiungi la riga scelta al nuovo array
-                      reorderedData.push(nextRow);
-                      
-                      // 5. Aggiorna l'ultima categoria
-                      lastCategory = nextRow.category;
-                  }
-              }
-              
-              // Verifica finale: nessuna categoria consecutiva uguale?
-              let hasConsecutiveSameCategory = false;
-              for (let i = 1; i < reorderedData.length; i++) {
-                  if (reorderedData[i].category === reorderedData[i-1].category) {
-                      hasConsecutiveSameCategory = true;
-                      console.warn(`Categorie consecutive uguali trovate: ${reorderedData[i].category} alle posizioni ${i-1} e ${i}`);
-                  }
-              }
-              
-              if (!hasConsecutiveSameCategory) {
-                  console.log("Riordinamento completato con successo: nessuna categoria consecutiva uguale");
-              }
-              
-              return reorderedData;
-          };
-          
-          // Applica l'algoritmo di riordinamento
-          expInfo.filtered_data = shuffleData();
+             // e non più di tre target "right" consecutivi
+             const shuffleData = () => {
+                 const originalData = [...expInfo.filtered_data];
+                 const reorderedData = [];
+                 
+                 // Estrai tutte le categorie uniche
+                 const uniqueCategories = [...new Set(originalData.map(r => r.category))];
+                 console.log("Categorie uniche:", uniqueCategories);
+                 
+                 // Se c'è una sola categoria, non possiamo evitare ripetizioni
+                 if (uniqueCategories.length === 1) {
+                     console.warn("Solo una categoria presente, impossibile evitare ripetizioni");
+                     return originalData;
+                 }
+                 
+                 // 1. Estrai la prima riga casualmente
+                 const randomIndex = Math.floor(Math.random() * originalData.length);
+                 const firstRow = originalData.splice(randomIndex, 1)[0];
+                 reorderedData.push(firstRow);
+                 
+                 // 2. Controlla la categoria della prima riga
+                 let lastCategory = firstRow.category;
+                 let consecutiveLeftCount = firstRow.is_in_category === "right" ? 1 : 0;
+                 
+                 // Continua finché ci sono righe nell'array originale
+                 while (originalData.length > 0) {
+                     // 3. Ottieni le righe che non hanno l'ultima categoria
+                     let availableRows = originalData.filter(r => r.category !== lastCategory);
+                     
+                     // Aggiungi vincolo: se abbiamo già 3 "right" consecutivi, escludi le righe "right"
+                     if (consecutiveLeftCount >= 3) {
+                         availableRows = availableRows.filter(r => r.is_in_category !== "right");
+                         // Se non ci sono righe disponibili non-left, allora filtra solo in base alla categoria
+                         if (availableRows.length === 0) {
+                             availableRows = originalData.filter(r => r.category !== lastCategory && r.is_in_category !== "right");
+                         }
+                     }
+                     
+                     // Se non ci sono righe disponibili con i vincoli attuali
+                     if (availableRows.length === 0) {
+                         console.warn(`Non è stato possibile evitare una ripetizione della categoria ${lastCategory} o più di 3 "right" consecutivi`);
+                         // Priorità più alta: evitare più di 3 "right" consecutivi
+                         if (consecutiveLeftCount >= 3) {
+                             const nonLeftRows = originalData.filter(r => r.is_in_category !== "right");
+                             if (nonLeftRows.length > 0) {
+                                 const nextRandomIndex = Math.floor(Math.random() * nonLeftRows.length);
+                                 const nextRow = nonLeftRows[nextRandomIndex];
+                                 const indexInOriginal = originalData.findIndex(r => r === nextRow);
+                                 originalData.splice(indexInOriginal, 1);
+                                 reorderedData.push(nextRow);
+                                 lastCategory = nextRow.category;
+                                 consecutiveLeftCount = 0; // Reset perché non è "right"
+                                 continue;
+                             }
+                         }
+                         
+                         // Se non possiamo soddisfare i vincoli, prendiamo una riga qualsiasi
+                         const nextRow = originalData.splice(0, 1)[0];
+                         reorderedData.push(nextRow);
+                         lastCategory = nextRow.category;
+                         consecutiveLeftCount = nextRow.is_in_category === "right" ? consecutiveLeftCount + 1 : 0;
+                     } else {
+                         // 4. Estrai casualmente una riga dalle righe disponibili
+                         const nextRandomIndex = Math.floor(Math.random() * availableRows.length);
+                         const nextRow = availableRows[nextRandomIndex];
+                         
+                         // Rimuovi la riga scelta dall'array originale
+                         const indexInOriginal = originalData.findIndex(r => r === nextRow);
+                         originalData.splice(indexInOriginal, 1);
+                         
+                         // Aggiungi la riga scelta al nuovo array
+                         reorderedData.push(nextRow);
+                         
+                         // 5. Aggiorna l'ultima categoria e il conteggio consecutivo
+                         lastCategory = nextRow.category;
+                         consecutiveLeftCount = nextRow.is_in_category === "right" ? consecutiveLeftCount + 1 : 0;
+                     }
+                 }
+                 
+                 // Verifica finale: nessuna categoria consecutiva uguale?
+                 let hasConsecutiveSameCategory = false;
+                 for (let i = 1; i < reorderedData.length; i++) {
+                     if (reorderedData[i].category === reorderedData[i-1].category) {
+                         hasConsecutiveSameCategory = true;
+                         console.warn(`Categorie consecutive uguali trovate: ${reorderedData[i].category} alle posizioni ${i-1} e ${i}`);
+                     }
+                 }
+                 
+                 if (!hasConsecutiveSameCategory) {
+                     console.log("Riordinamento completato con successo: nessuna categoria consecutiva uguale");
+                 }
+                 
+                 // Verifica dei "right" consecutivi
+                 let maxConsecutiveLeft = 0;
+                 let currentConsecutiveLeft = 0;
+                 for (let i = 0; i < reorderedData.length; i++) {
+                     if (reorderedData[i].is_in_category === "right") {
+                         currentConsecutiveLeft++;
+                         maxConsecutiveLeft = Math.max(maxConsecutiveLeft, currentConsecutiveLeft);
+                     } else {
+                         currentConsecutiveLeft = 0;
+                     }
+                 }
+                 
+                 console.log(`Numero massimo di "right" consecutivi: ${maxConsecutiveLeft}`);
+                 
+                 // Stampa la sequenza di is_in_category
+                 console.log('Sequenza is_in_category:');
+                 console.log(reorderedData.map(r => r.is_in_category).join(', '));
+                 
+                 return reorderedData;
+             };
+             
+             // Applica l'algoritmo di riordinamento
+             expInfo.filtered_data = shuffleData();
           
           // 9. Setup variabili globali
           expInfo.relation = selectedRelation;
@@ -283,6 +327,12 @@ async function experimentInit() {
           // Log aggiuntivo per verificare le categorie consecutive
           console.log('Sequenza categorie:');
           console.log(expInfo.filtered_data.map(r => r.category).join(', '));
+  
+          // Log per verificare i valori di is_in_category
+          console.log('Sequenza is_in_category:');
+          console.log(expInfo.filtered_data.map(r => r.is_in_category).join(', '));
+          
+  
           
       } catch (error) {
           console.error('Errore critico:', error);
@@ -340,85 +390,6 @@ async function experimentInit() {
       expInfo["ip_address_hashed"] = hashedIP;
       
   });
-  
-  // Funzione per assicurare che i dati salvati nel CSV siano formattati correttamente
-  function setupProperDataSaving() {
-      // Salva il metodo originale per aggiungere dati
-      const originalAddData = psychoJS.experiment.addData;
-      
-      // Sostituisci con un metodo che pre-elabora i dati
-      psychoJS.experiment.addData = function(key, value) {
-          let processedValue = value;
-          
-          // Controlla se il valore è un oggetto complesso
-          if (value !== null && typeof value === 'object') {
-              try {
-                  // Se è un array, converti ogni elemento in stringa
-                  if (Array.isArray(value)) {
-                      processedValue = value.map(item => 
-                          typeof item === 'object' && item !== null ? 
-                          JSON.stringify(item) : String(item)
-                      ).join(',');
-                  } else {
-                      // Se è un oggetto, convertilo in JSON
-                      processedValue = JSON.stringify(value);
-                  }
-              } catch (e) {
-                  console.warn(`Impossibile convertire il valore per la chiave ${key}:`, e);
-                  processedValue = String(value);
-              }
-          }
-          
-          // Chiama il metodo originale con il valore elaborato
-          originalAddData.call(this, key, processedValue);
-      };
-      
-      // Assicurarsi che filtered_data ed eventuali altri dati complessi siano
-      // correttamente serializzati prima di essere salvati
-      if (expInfo.filtered_data) {
-          expInfo.filtered_data_json = JSON.stringify(expInfo.filtered_data);
-      }
-      
-      console.log("Sistema di salvataggio dati migliorato attivo");
-  }
-  
-  // Esegui la funzione di setup
-  setupProperDataSaving();
-  
-  // Sovrascrive la funzione di salvataggio per assicurare che tutte le colonne abbiano headers
-  const originalSaveData = psychoJS.experiment.save;
-  psychoJS.experiment.save = function(options) {
-      try {
-          // Aggiungi headers espliciti per tutte le colonne di dati
-          // che potrebbero mancare nel salvataggio online
-          const dataColumns = [
-              'trials.thisRepN', 'trials.thisTrialN', 'trials.thisN', 'trials.thisIndex', 
-              'trials.ran', 'category', 'target', 'prime', 'similarity', 'lev-distance', 
-              'frequency', 'is_in_category', 'target-frequency', 'prime-frequency',
-              'TargetKeyResponse.keys', 'TargetKeyResponse.corr', 'TargetKeyResponse.rt'
-          ];
-  
-          // Assicurati che almeno una riga contenga tutti questi headers
-          // Aggiungendo una riga vuota con tutti i possibili headers
-          dataColumns.forEach(col => {
-              if (!psychoJS.experiment._trialsData[0] || 
-                  !psychoJS.experiment._trialsData[0].hasOwnProperty(col)) {
-                  psychoJS.experiment.addData(col, '');
-              }
-          });
-          
-          console.log("Preparazione dei dati completata prima del salvataggio");
-          
-          // Chiama la funzione originale
-          return originalSaveData.call(this, options);
-      } catch (error) {
-          console.error('Errore durante il salvataggio dei dati:', error);
-          return originalSaveData.call(this, options);
-      }
-  };
-  
-  
-  
   // Initialize components for Routine "instructionRoutine"
   instructionRoutineClock = new util.Clock();
   InstructionText = new visual.TextStim({
@@ -1074,16 +1045,16 @@ function trialRoutineRoutineEnd(snapshot) {
     // Run 'End Routine' code from saveBlankDuration
     psychoJS._experiment.addData("blankDuration", empty_text_duration);
     hashedIP = expInfo["ip_address_hashed"]
-    psychoJS.experiment.addData('ip_address_hashed', hashedIP);
-    psychoJS.experiment.addData('browser_userAgent', navigator.userAgent);
-    psychoJS.experiment.addData('browser_platform', navigator.platform);
-    psychoJS.experiment.addData('browser_language', navigator.language);
-    psychoJS.experiment.addData('browser_vendor', navigator.vendor);
-    psychoJS.experiment.addData('browser_cookiesEnabled', navigator.cookieEnabled);
-    psychoJS.experiment.addData('screen_resolution', `${window.screen.width}x${window.screen.height}`);
-    psychoJS.experiment.addData('screen_colorDepth', window.screen.colorDepth);
-    psychoJS.experiment.addData('screen_pixelDepth', window.screen.pixelDepth);
-    psychoJS.experiment.addData('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone);
+    psychoJS._experiment.addData('ip_address_hashed', hashedIP);
+    psychoJS._experiment.addData('browser_userAgent', navigator.userAgent);
+    psychoJS._experiment.addData('browser_platform', navigator.platform);
+    psychoJS._experiment.addData('browser_language', navigator.language);
+    psychoJS._experiment.addData('browser_vendor', navigator.vendor);
+    psychoJS._experiment.addData('browser_cookiesEnabled', navigator.cookieEnabled);
+    psychoJS._experiment.addData('screen_resolution', `${window.screen.width}x${window.screen.height}`);
+    psychoJS._experiment.addData('screen_colorDepth', window.screen.colorDepth);
+    psychoJS._experiment.addData('screen_pixelDepth', window.screen.pixelDepth);
+    psychoJS._experiment.addData('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone);
     // the Routine "trialRoutine" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset();
     
@@ -1117,12 +1088,41 @@ function ThanksRoutineRoutineBegin(snapshot) {
     // Generate filename for results
     let filename = psychoJS._experiment._experimentName + '_' + psychoJS._experiment._datetime + '.csv';
     
-    // Extract data object from experiment
-    let dataObj = psychoJS._experiment._trialsData;
+    // Extract data object from experiment and filter only rows with trialRoutine.started
+    let dataObj = psychoJS._experiment._trialsData.filter(row => 'trialRoutine.started' in row);
+    
+    // Remove 'filtered_data' field from each row if it exists
+    dataObj.forEach(row => {
+        if ('filtered_data' in row) {
+            delete row['filtered_data'];
+        }
+    });
     
     // Convert data object to CSV
-    let data = [Object.keys(dataObj[0])].concat(dataObj).map(it => {
-        return Object.values(it).toString();
+    let headers = Object.keys(dataObj[0]);
+    let data = headers.join(',') + '\n' + dataObj.map(row => {
+        return headers.map(header => {
+            let value = row[header];
+            
+            // Convert all values to strings for consistent handling
+            if (value === null || value === undefined) {
+                return '';
+            }
+            
+            // Handle objects, arrays, and other complex types
+            if (typeof value === 'object') {
+                value = JSON.stringify(value).replace(/,/g, ';');
+            } else {
+                value = String(value);
+            }
+            
+            // Properly escape for CSV - enclose in quotes and double any quotes inside
+            if (value.includes(',') || value.includes('"') || value.includes('\n') || value.includes('\r')) {
+                return '"' + value.replace(/"/g, '""') + '"';
+            }
+            
+            return value;
+        }).join(',');
     }).join('\n');
     
     // Send data to OSF (${}) DataPipe
@@ -1134,7 +1134,7 @@ function ThanksRoutineRoutineBegin(snapshot) {
             'Accept': '*/*',
         },
         body: JSON.stringify({
-            experimentID: 'zg5BLmb8g0ch', // * UPDATE WITH YOUR DATAPIPE EXPERIMENT ID *
+            experimentID: 'Y21w7ySgKD5l', // * UPDATE WITH YOUR DATAPIPE EXPERIMENT ID *
             filename: filename,
             data: data,
         })
