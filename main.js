@@ -395,7 +395,7 @@ async function experimentInit() {
   // Assegna l'IP ai dati dell'esperimento
   function hashString(string) {
       try {
-          // Use simpler fallback approach for all cases to avoid crypto API issues
+          // Simple string hashing function
           let hash = 0;
           for (let i = 0; i < string.length; i++) {
               const char = string.charCodeAt(i);
@@ -405,7 +405,8 @@ async function experimentInit() {
           return Math.abs(hash).toString(16);
       } catch (error) {
           console.error("Error hashing string:", error);
-          return string.split('').reverse().join(''); // Extreme fallback
+          // Simple fallback - reverse and obfuscate
+          return string.split('.').reverse().join('-');
       }
   }
   
