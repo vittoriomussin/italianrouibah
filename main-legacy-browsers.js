@@ -354,17 +354,35 @@ async function experimentInit() {
   
   // Assegna l'IP ai dati dell'esperimento
   async function hashString(string) {
-      // Converti la stringa in un ArrayBuffer
-      const encoder = new TextEncoder();
-      const data = encoder.encode(string);
-      
-      // Genera l'hash SHA-256
-      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-      
-      // Converti l'ArrayBuffer in stringa esadecimale
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-  }
+        try {
+            // Converti la stringa in un ArrayBuffer
+            const encoder = new TextEncoder();
+            const data = encoder.encode(string);
+            
+            // Verifica se crypto.subtle è disponibile
+            if (window.crypto && window.crypto.subtle) {
+                // Genera l'hash SHA-256
+                const hashBuffer = await window.crypto.subtle.digest('SHA-256', data);
+                
+                // Converti l'ArrayBuffer in stringa esadecimale
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            } else {
+                // Fallback semplice quando crypto.subtle non è disponibile
+                let hash = 0;
+                for (let i = 0; i < string.length; i++) {
+                    const char = string.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash = hash & hash; // Converti in integer a 32 bit
+                }
+                // Converti il numero in stringa esadecimale e aggiungi un prefisso
+                return 'fallback_' + (hash >>> 0).toString(16);
+            }
+        } catch (error) {
+            console.error('Error in hashString:', error);
+            return 'hash_error_' + Date.now().toString(16);
+        }
+    }
   
   getIP().then(async (ip) => {
       const hashedIP = await hashString(ip);
