@@ -1,0 +1,587 @@
+﻿<?xml version="1.0" ?>
+<PsychoPy2experiment encoding="utf-8" version="2024.2.4">
+  <Settings>
+    <Param val="3" valType="str" updates="None" name="Audio latency priority"/>
+    <Param val="ptb" valType="str" updates="None" name="Audio lib"/>
+    <Param val="" valType="str" updates="None" name="Completed URL"/>
+    <Param val="auto" valType="str" updates="None" name="Data file delimiter"/>
+    <Param val="u'data/%s_%s_%s' % (expInfo['participant'], expName, expInfo['date'])" valType="code" updates="None" name="Data filename"/>
+    <Param val="True" valType="bool" updates="None" name="Enable Escape"/>
+    <Param val="Thank you for your patience." valType="str" updates="None" name="End Message"/>
+    <Param val="{'età': '20'}" valType="code" updates="None" name="Experiment info"/>
+    <Param val="True" valType="bool" updates="None" name="Force stereo"/>
+    <Param val="True" valType="bool" updates="None" name="Full-screen window"/>
+    <Param val="" valType="str" updates="None" name="HTML path"/>
+    <Param val="" valType="str" updates="None" name="Incomplete URL"/>
+    <Param val="testMonitor" valType="str" updates="None" name="Monitor"/>
+    <Param val="[]" valType="list" updates="None" name="Resources"/>
+    <Param val="False" valType="bool" updates="None" name="Save csv file"/>
+    <Param val="False" valType="bool" updates="None" name="Save excel file"/>
+    <Param val="False" valType="bool" updates="None" name="Save hdf5 file"/>
+    <Param val="True" valType="bool" updates="None" name="Save log file"/>
+    <Param val="True" valType="bool" updates="None" name="Save psydat file"/>
+    <Param val="True" valType="bool" updates="None" name="Save wide csv file"/>
+    <Param val="1" valType="num" updates="None" name="Screen"/>
+    <Param val="True" valType="bool" updates="None" name="Show info dlg"/>
+    <Param val="False" valType="bool" updates="None" name="Show mouse"/>
+    <Param val="height" valType="str" updates="None" name="Units"/>
+    <Param val="2024.2.4" valType="str" updates="None" name="Use version"/>
+    <Param val="[1280, 853]" valType="list" updates="None" name="Window size (pixels)"/>
+    <Param val="none" valType="str" updates="None" name="backgroundFit"/>
+    <Param val="" valType="str" updates="None" name="backgroundImg"/>
+    <Param val="avg" valType="str" updates="None" name="blendMode"/>
+    <Param val="float" valType="str" updates="None" name="clockFormat"/>
+    <Param val="{'thisRow.t': 'priority.CRITICAL', 'expName': 'priority.LOW'}" valType="dict" updates="None" name="colPriority"/>
+    <Param val="-1.0000, -1.0000, -1.0000" valType="color" updates="None" name="color"/>
+    <Param val="rgb" valType="str" updates="None" name="colorSpace"/>
+    <Param val="warning" valType="code" updates="None" name="consoleLoggingLevel"/>
+    <Param val="default" valType="str" updates="None" name="ecSampleRate"/>
+    <Param val="100.1.1.1" valType="str" updates="None" name="elAddress"/>
+    <Param val="FILTER_LEVEL_2" valType="str" updates="None" name="elDataFiltering"/>
+    <Param val="FILTER_LEVEL_OFF" valType="str" updates="None" name="elLiveFiltering"/>
+    <Param val="EYELINK 1000 DESKTOP" valType="str" updates="None" name="elModel"/>
+    <Param val="ELLIPSE_FIT" valType="str" updates="None" name="elPupilAlgorithm"/>
+    <Param val="PUPIL_AREA" valType="str" updates="None" name="elPupilMeasure"/>
+    <Param val="1000" valType="num" updates="None" name="elSampleRate"/>
+    <Param val="False" valType="bool" updates="None" name="elSimMode"/>
+    <Param val="RIGHT_EYE" valType="str" updates="None" name="elTrackEyes"/>
+    <Param val="PUPIL_CR_TRACKING" valType="str" updates="None" name="elTrackingMode"/>
+    <Param val="main" valType="str" updates="None" name="expName"/>
+    <Param val="on Sync" valType="str" updates="None" name="exportHTML"/>
+    <Param val="None" valType="str" updates="None" name="eyetracker"/>
+    <Param val="" valType="code" updates="None" name="frameRate"/>
+    <Param val="Attempting to measure frame rate of screen, please wait..." valType="str" updates="None" name="frameRateMsg"/>
+    <Param val="127.0.0.1" valType="str" updates="None" name="gpAddress"/>
+    <Param val="4242" valType="num" updates="None" name="gpPort"/>
+    <Param val="ioHub" valType="str" updates="None" name="keyboardBackend"/>
+    <Param val="info" valType="code" updates="None" name="logging level"/>
+    <Param val="True" valType="bool" updates="None" name="measureFrameRate"/>
+    <Param val="('MIDDLE_BUTTON',)" valType="list" updates="None" name="mgBlink"/>
+    <Param val="CONTINUOUS" valType="str" updates="None" name="mgMove"/>
+    <Param val="0.5" valType="num" updates="None" name="mgSaccade"/>
+    <Param val="neon.local" valType="str" updates="None" name="plCompanionAddress"/>
+    <Param val="8080" valType="num" updates="None" name="plCompanionPort"/>
+    <Param val="True" valType="bool" updates="None" name="plCompanionRecordingEnabled"/>
+    <Param val="0.6" valType="num" updates="None" name="plConfidenceThreshold"/>
+    <Param val="True" valType="bool" updates="None" name="plPupilCaptureRecordingEnabled"/>
+    <Param val="" valType="str" updates="None" name="plPupilCaptureRecordingLocation"/>
+    <Param val="127.0.0.1" valType="str" updates="None" name="plPupilRemoteAddress"/>
+    <Param val="50020" valType="num" updates="None" name="plPupilRemotePort"/>
+    <Param val="1000" valType="num" updates="None" name="plPupilRemoteTimeoutMs"/>
+    <Param val="False" valType="bool" updates="None" name="plPupillometryOnly"/>
+    <Param val="psychopy_iohub_surface" valType="str" updates="None" name="plSurfaceName"/>
+    <Param val="0" valType="code" updates="None" name="runMode"/>
+    <Param val="False" valType="bool" updates="None" name="rush"/>
+    <Param val="time" valType="str" updates="None" name="sortColumns"/>
+    <Param val="" valType="str" updates="None" name="tbLicenseFile"/>
+    <Param val="" valType="str" updates="None" name="tbModel"/>
+    <Param val="60" valType="num" updates="None" name="tbSampleRate"/>
+    <Param val="" valType="str" updates="None" name="tbSerialNo"/>
+    <Param val="pyglet" valType="str" updates="None" name="winBackend"/>
+  </Settings>
+  <Routines>
+    <Routine name="instructionRoutine">
+      <RoutineSettingsComponent name="instructionRoutine" plugin="None">
+        <Param val="none" valType="str" updates="None" name="backgroundFit"/>
+        <Param val="" valType="str" updates="None" name="backgroundImg"/>
+        <Param val="$[0,0,0]" valType="color" updates="None" name="color"/>
+        <Param val="rgb" valType="str" updates="None" name="colorSpace"/>
+        <Param val="" valType="str" updates="constant" name="desc"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="False" valType="code" updates="None" name="forceNonSlip"/>
+        <Param val="instructionRoutine" valType="code" updates="None" name="name"/>
+        <Param val="False" valType="bool" updates="None" name="saveStartStop"/>
+        <Param val="" valType="code" updates="constant" name="skipIf"/>
+        <Param val="duration (s)" valType="str" updates="None" name="stopType"/>
+        <Param val="" valType="code" updates="constant" name="stopVal"/>
+        <Param val="False" valType="bool" updates="None" name="useWindowParams"/>
+      </RoutineSettingsComponent>
+      <TextComponent name="InstructionText" plugin="None">
+        <Param val="white" valType="color" updates="constant" name="color"/>
+        <Param val="rgb" valType="str" updates="constant" name="colorSpace"/>
+        <Param val="1" valType="num" updates="constant" name="contrast"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="False" valType="code" updates="constant" name="draggable"/>
+        <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="None" valType="str" updates="constant" name="flip"/>
+        <Param val="Arial" valType="str" updates="constant" name="font"/>
+        <Param val="LTR" valType="str" updates="None" name="languageStyle"/>
+        <Param val="0.04" valType="num" updates="constant" name="letterHeight"/>
+        <Param val="InstructionText" valType="code" updates="None" name="name"/>
+        <Param val="" valType="num" updates="constant" name="opacity"/>
+        <Param val="0" valType="num" updates="constant" name="ori"/>
+        <Param val="(0, 0)" valType="list" updates="constant" name="pos"/>
+        <Param val="False" valType="bool" updates="None" name="saveStartStop"/>
+        <Param val="" valType="code" updates="None" name="startEstim"/>
+        <Param val="time (s)" valType="str" updates="None" name="startType"/>
+        <Param val="0.0" valType="code" updates="None" name="startVal"/>
+        <Param val="duration (s)" valType="str" updates="None" name="stopType"/>
+        <Param val="" valType="code" updates="constant" name="stopVal"/>
+        <Param val="True" valType="bool" updates="None" name="syncScreenRefresh"/>
+        <Param val="Benvenuto!&amp;#10;&amp;#10;In questo esperimento, devi indicare se delle parole appartengono a delle determinate categorie.  Ti verrà prima mostrata la categoria come &amp;#10;&quot;È &lt;nome della categoria&gt;?&quot;&amp;#10;quindi:&amp;#10;- Premi il tasto [freccia destra] (-&gt;) se la parola successiva appartiene alla categoria indicata.&amp;#10;- Premi il tasto [freccia sinistra] (&lt;-) se la parola successiva NON appartiene alla categoria indicata.&amp;#10;&amp;#10;Cerca di rispondere il più velocemente possibile!&amp;#10;&amp;#10;Dovrai valutare un totale di 40 parole.&amp;#10;&amp;#10;premi [SPAZIO] per continuare" valType="str" updates="constant" name="text"/>
+        <Param val="from exp settings" valType="str" updates="None" name="units"/>
+        <Param val="" valType="code" updates="None" name="validator"/>
+        <Param val="" valType="num" updates="constant" name="wrapWidth"/>
+      </TextComponent>
+      <TextComponent name="rightKey" plugin="None">
+        <Param val="-1.0000, 0.0039, -1.0000" valType="color" updates="constant" name="color"/>
+        <Param val="rgb" valType="str" updates="constant" name="colorSpace"/>
+        <Param val="1" valType="num" updates="constant" name="contrast"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="False" valType="code" updates="constant" name="draggable"/>
+        <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="None" valType="str" updates="constant" name="flip"/>
+        <Param val="Arial" valType="str" updates="constant" name="font"/>
+        <Param val="LTR" valType="str" updates="None" name="languageStyle"/>
+        <Param val="0.04" valType="num" updates="constant" name="letterHeight"/>
+        <Param val="rightKey" valType="code" updates="None" name="name"/>
+        <Param val="" valType="num" updates="constant" name="opacity"/>
+        <Param val="0" valType="num" updates="constant" name="ori"/>
+        <Param val="(0.025, 0.045)" valType="list" updates="constant" name="pos"/>
+        <Param val="False" valType="bool" updates="None" name="saveStartStop"/>
+        <Param val="" valType="code" updates="None" name="startEstim"/>
+        <Param val="time (s)" valType="str" updates="None" name="startType"/>
+        <Param val="0.0" valType="code" updates="None" name="startVal"/>
+        <Param val="duration (s)" valType="str" updates="None" name="stopType"/>
+        <Param val="" valType="code" updates="constant" name="stopVal"/>
+        <Param val="True" valType="bool" updates="None" name="syncScreenRefresh"/>
+        <Param val="[freccia destra] (-&gt;)" valType="str" updates="constant" name="text"/>
+        <Param val="from exp settings" valType="str" updates="None" name="units"/>
+        <Param val="" valType="code" updates="None" name="validator"/>
+        <Param val="" valType="num" updates="constant" name="wrapWidth"/>
+      </TextComponent>
+      <TextComponent name="leftKey" plugin="None">
+        <Param val="1.0000, -1.0000, -1.0000" valType="color" updates="constant" name="color"/>
+        <Param val="rgb" valType="str" updates="constant" name="colorSpace"/>
+        <Param val="1" valType="num" updates="constant" name="contrast"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="False" valType="code" updates="constant" name="draggable"/>
+        <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="None" valType="str" updates="constant" name="flip"/>
+        <Param val="Arial" valType="str" updates="constant" name="font"/>
+        <Param val="LTR" valType="str" updates="None" name="languageStyle"/>
+        <Param val="0.04" valType="num" updates="constant" name="letterHeight"/>
+        <Param val="leftKey" valType="code" updates="None" name="name"/>
+        <Param val="" valType="num" updates="constant" name="opacity"/>
+        <Param val="0" valType="num" updates="constant" name="ori"/>
+        <Param val="(0.025, -0.045)" valType="list" updates="constant" name="pos"/>
+        <Param val="False" valType="bool" updates="None" name="saveStartStop"/>
+        <Param val="" valType="code" updates="None" name="startEstim"/>
+        <Param val="time (s)" valType="str" updates="None" name="startType"/>
+        <Param val="0.0" valType="code" updates="None" name="startVal"/>
+        <Param val="duration (s)" valType="str" updates="None" name="stopType"/>
+        <Param val="" valType="code" updates="constant" name="stopVal"/>
+        <Param val="True" valType="bool" updates="None" name="syncScreenRefresh"/>
+        <Param val="[freccia sinistra] (&lt;-)" valType="str" updates="constant" name="text"/>
+        <Param val="from exp settings" valType="str" updates="None" name="units"/>
+        <Param val="" valType="code" updates="None" name="validator"/>
+        <Param val="" valType="num" updates="constant" name="wrapWidth"/>
+      </TextComponent>
+      <KeyboardComponent name="InstructionsKeyResponse" plugin="None">
+        <Param val="'space'" valType="list" updates="constant" name="allowedKeys"/>
+        <Param val="" valType="str" updates="constant" name="correctAns"/>
+        <Param val="" valType="str" updates="None" name="deviceLabel"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="True" valType="bool" updates="constant" name="discard previous"/>
+        <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="True" valType="bool" updates="constant" name="forceEndRoutine"/>
+        <Param val="InstructionsKeyResponse" valType="code" updates="None" name="name"/>
+        <Param val="press" valType="str" updates="constant" name="registerOn"/>
+        <Param val="False" valType="bool" updates="None" name="saveStartStop"/>
+        <Param val="" valType="code" updates="None" name="startEstim"/>
+        <Param val="time (s)" valType="str" updates="None" name="startType"/>
+        <Param val="0.0" valType="code" updates="None" name="startVal"/>
+        <Param val="duration (s)" valType="str" updates="None" name="stopType"/>
+        <Param val="" valType="code" updates="constant" name="stopVal"/>
+        <Param val="nothing" valType="str" updates="constant" name="store"/>
+        <Param val="False" valType="bool" updates="constant" name="storeCorrect"/>
+        <Param val="True" valType="bool" updates="constant" name="syncScreenRefresh"/>
+      </KeyboardComponent>
+    </Routine>
+    <Routine name="trialRoutine">
+      <RoutineSettingsComponent name="trialRoutine" plugin="None">
+        <Param val="none" valType="str" updates="None" name="backgroundFit"/>
+        <Param val="" valType="str" updates="None" name="backgroundImg"/>
+        <Param val="$[0,0,0]" valType="color" updates="None" name="color"/>
+        <Param val="rgb" valType="str" updates="None" name="colorSpace"/>
+        <Param val="" valType="str" updates="constant" name="desc"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="False" valType="code" updates="None" name="forceNonSlip"/>
+        <Param val="trialRoutine" valType="code" updates="None" name="name"/>
+        <Param val="True" valType="bool" updates="None" name="saveStartStop"/>
+        <Param val="" valType="code" updates="constant" name="skipIf"/>
+        <Param val="duration (s)" valType="str" updates="None" name="stopType"/>
+        <Param val="" valType="code" updates="constant" name="stopVal"/>
+        <Param val="False" valType="bool" updates="None" name="useWindowParams"/>
+      </RoutineSettingsComponent>
+      <CodeComponent name="code" plugin="None">
+        <Param val="" valType="extendedCode" updates="constant" name="Before Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Before JS Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Begin Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Begin JS Experiment"/>
+        <Param val="// Nel tab &quot;Begin Routine&quot;&amp;#10;&amp;#10;category_duration = 1.498;&amp;#10;&amp;#10;prime_start = category_duration;&amp;#10;prime_duration = 0.049;&amp;#10;&amp;#10;mask_start = prime_start + prime_duration;&amp;#10;mask_duration = 0.049;&amp;#10;&amp;#10;empty_text_start = mask_start + mask_duration;&amp;#10;empty_text_duration = expInfo['blankDuration'];&amp;#10;&amp;#10;target_text_start = empty_text_start + empty_text_duration;&amp;#10;&amp;#10;currentCategoryText = `È ${category.replace(/_/g, ' ')}?`;" valType="extendedCode" updates="constant" name="Begin JS Routine"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Begin Routine"/>
+        <Param val="JS" valType="str" updates="None" name="Code Type"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Each Frame"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Each JS Frame"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End JS Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End JS Routine"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End Routine"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="code" valType="code" updates="None" name="name"/>
+      </CodeComponent>
+      <TextComponent name="Category" plugin="None">
+        <Param val="white" valType="color" updates="constant" name="color"/>
+        <Param val="rgb" valType="str" updates="constant" name="colorSpace"/>
+        <Param val="1" valType="num" updates="constant" name="contrast"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="False" valType="code" updates="constant" name="draggable"/>
+        <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="None" valType="str" updates="constant" name="flip"/>
+        <Param val="Arial" valType="str" updates="constant" name="font"/>
+        <Param val="LTR" valType="str" updates="None" name="languageStyle"/>
+        <Param val="0.05" valType="num" updates="constant" name="letterHeight"/>
+        <Param val="Category" valType="code" updates="None" name="name"/>
+        <Param val="" valType="num" updates="constant" name="opacity"/>
+        <Param val="0" valType="num" updates="constant" name="ori"/>
+        <Param val="(0, 0)" valType="list" updates="constant" name="pos"/>
+        <Param val="True" valType="bool" updates="None" name="saveStartStop"/>
+        <Param val="" valType="code" updates="None" name="startEstim"/>
+        <Param val="time (s)" valType="str" updates="None" name="startType"/>
+        <Param val="0.0" valType="code" updates="None" name="startVal"/>
+        <Param val="duration (s)" valType="str" updates="None" name="stopType"/>
+        <Param val="$category_duration" valType="code" updates="constant" name="stopVal"/>
+        <Param val="True" valType="bool" updates="None" name="syncScreenRefresh"/>
+        <Param val="$currentCategoryText" valType="str" updates="set every repeat" name="text"/>
+        <Param val="from exp settings" valType="str" updates="None" name="units"/>
+        <Param val="" valType="code" updates="None" name="validator"/>
+        <Param val="" valType="num" updates="constant" name="wrapWidth"/>
+      </TextComponent>
+      <TextComponent name="Prime" plugin="None">
+        <Param val="white" valType="color" updates="constant" name="color"/>
+        <Param val="rgb" valType="str" updates="constant" name="colorSpace"/>
+        <Param val="1" valType="num" updates="constant" name="contrast"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="False" valType="code" updates="constant" name="draggable"/>
+        <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="None" valType="str" updates="constant" name="flip"/>
+        <Param val="Arial" valType="str" updates="constant" name="font"/>
+        <Param val="LTR" valType="str" updates="None" name="languageStyle"/>
+        <Param val="0.05" valType="num" updates="constant" name="letterHeight"/>
+        <Param val="Prime" valType="code" updates="None" name="name"/>
+        <Param val="" valType="num" updates="constant" name="opacity"/>
+        <Param val="0" valType="num" updates="constant" name="ori"/>
+        <Param val="(0, 0)" valType="list" updates="constant" name="pos"/>
+        <Param val="True" valType="bool" updates="None" name="saveStartStop"/>
+        <Param val="" valType="code" updates="None" name="startEstim"/>
+        <Param val="time (s)" valType="str" updates="None" name="startType"/>
+        <Param val="$prime_start" valType="code" updates="None" name="startVal"/>
+        <Param val="duration (s)" valType="str" updates="None" name="stopType"/>
+        <Param val="$prime_duration" valType="code" updates="constant" name="stopVal"/>
+        <Param val="True" valType="bool" updates="None" name="syncScreenRefresh"/>
+        <Param val="$prime" valType="str" updates="set every repeat" name="text"/>
+        <Param val="from exp settings" valType="str" updates="None" name="units"/>
+        <Param val="" valType="code" updates="None" name="validator"/>
+        <Param val="" valType="num" updates="constant" name="wrapWidth"/>
+      </TextComponent>
+      <TextComponent name="Mask" plugin="None">
+        <Param val="white" valType="color" updates="constant" name="color"/>
+        <Param val="rgb" valType="str" updates="constant" name="colorSpace"/>
+        <Param val="1" valType="num" updates="constant" name="contrast"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="False" valType="code" updates="constant" name="draggable"/>
+        <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="None" valType="str" updates="constant" name="flip"/>
+        <Param val="Arial" valType="str" updates="constant" name="font"/>
+        <Param val="LTR" valType="str" updates="None" name="languageStyle"/>
+        <Param val="0.05" valType="num" updates="constant" name="letterHeight"/>
+        <Param val="Mask" valType="code" updates="None" name="name"/>
+        <Param val="" valType="num" updates="constant" name="opacity"/>
+        <Param val="0" valType="num" updates="constant" name="ori"/>
+        <Param val="(0, 0)" valType="list" updates="constant" name="pos"/>
+        <Param val="True" valType="bool" updates="None" name="saveStartStop"/>
+        <Param val="" valType="code" updates="None" name="startEstim"/>
+        <Param val="time (s)" valType="str" updates="None" name="startType"/>
+        <Param val="$mask_start" valType="code" updates="None" name="startVal"/>
+        <Param val="duration (s)" valType="str" updates="None" name="stopType"/>
+        <Param val="$mask_duration" valType="code" updates="constant" name="stopVal"/>
+        <Param val="True" valType="bool" updates="None" name="syncScreenRefresh"/>
+        <Param val="XXXXXXXXX" valType="str" updates="constant" name="text"/>
+        <Param val="from exp settings" valType="str" updates="None" name="units"/>
+        <Param val="" valType="code" updates="None" name="validator"/>
+        <Param val="" valType="num" updates="constant" name="wrapWidth"/>
+      </TextComponent>
+      <TextComponent name="EmptyInterval" plugin="None">
+        <Param val="white" valType="color" updates="constant" name="color"/>
+        <Param val="rgb" valType="str" updates="constant" name="colorSpace"/>
+        <Param val="1" valType="num" updates="constant" name="contrast"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="False" valType="code" updates="constant" name="draggable"/>
+        <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="None" valType="str" updates="constant" name="flip"/>
+        <Param val="Arial" valType="str" updates="constant" name="font"/>
+        <Param val="LTR" valType="str" updates="None" name="languageStyle"/>
+        <Param val="0.05" valType="num" updates="constant" name="letterHeight"/>
+        <Param val="EmptyInterval" valType="code" updates="None" name="name"/>
+        <Param val="" valType="num" updates="constant" name="opacity"/>
+        <Param val="0" valType="num" updates="constant" name="ori"/>
+        <Param val="(0, 0)" valType="list" updates="constant" name="pos"/>
+        <Param val="True" valType="bool" updates="None" name="saveStartStop"/>
+        <Param val="" valType="code" updates="None" name="startEstim"/>
+        <Param val="time (s)" valType="str" updates="None" name="startType"/>
+        <Param val="$empty_text_start" valType="code" updates="None" name="startVal"/>
+        <Param val="duration (s)" valType="str" updates="None" name="stopType"/>
+        <Param val="$empty_text_duration" valType="code" updates="constant" name="stopVal"/>
+        <Param val="True" valType="bool" updates="None" name="syncScreenRefresh"/>
+        <Param val="" valType="str" updates="set every repeat" name="text"/>
+        <Param val="from exp settings" valType="str" updates="None" name="units"/>
+        <Param val="" valType="code" updates="None" name="validator"/>
+        <Param val="" valType="num" updates="constant" name="wrapWidth"/>
+      </TextComponent>
+      <TextComponent name="Target" plugin="None">
+        <Param val="white" valType="color" updates="constant" name="color"/>
+        <Param val="rgb" valType="str" updates="constant" name="colorSpace"/>
+        <Param val="1" valType="num" updates="constant" name="contrast"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="False" valType="code" updates="constant" name="draggable"/>
+        <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="None" valType="str" updates="constant" name="flip"/>
+        <Param val="Arial" valType="str" updates="constant" name="font"/>
+        <Param val="LTR" valType="str" updates="None" name="languageStyle"/>
+        <Param val="0.05" valType="num" updates="constant" name="letterHeight"/>
+        <Param val="Target" valType="code" updates="None" name="name"/>
+        <Param val="" valType="num" updates="constant" name="opacity"/>
+        <Param val="0" valType="num" updates="constant" name="ori"/>
+        <Param val="(0, 0)" valType="list" updates="constant" name="pos"/>
+        <Param val="True" valType="bool" updates="None" name="saveStartStop"/>
+        <Param val="" valType="code" updates="None" name="startEstim"/>
+        <Param val="time (s)" valType="str" updates="None" name="startType"/>
+        <Param val="$target_text_start" valType="code" updates="None" name="startVal"/>
+        <Param val="duration (s)" valType="str" updates="None" name="stopType"/>
+        <Param val="" valType="code" updates="constant" name="stopVal"/>
+        <Param val="True" valType="bool" updates="None" name="syncScreenRefresh"/>
+        <Param val="$target" valType="str" updates="set every repeat" name="text"/>
+        <Param val="from exp settings" valType="str" updates="None" name="units"/>
+        <Param val="" valType="code" updates="None" name="validator"/>
+        <Param val="" valType="num" updates="constant" name="wrapWidth"/>
+      </TextComponent>
+      <KeyboardComponent name="TargetKeyResponse" plugin="None">
+        <Param val="'left','right'" valType="list" updates="constant" name="allowedKeys"/>
+        <Param val="$is_in_category" valType="str" updates="constant" name="correctAns"/>
+        <Param val="" valType="str" updates="None" name="deviceLabel"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="True" valType="bool" updates="constant" name="discard previous"/>
+        <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="True" valType="bool" updates="constant" name="forceEndRoutine"/>
+        <Param val="TargetKeyResponse" valType="code" updates="None" name="name"/>
+        <Param val="press" valType="str" updates="constant" name="registerOn"/>
+        <Param val="True" valType="bool" updates="None" name="saveStartStop"/>
+        <Param val="" valType="code" updates="None" name="startEstim"/>
+        <Param val="time (s)" valType="str" updates="None" name="startType"/>
+        <Param val="$target_text_start" valType="code" updates="None" name="startVal"/>
+        <Param val="duration (s)" valType="str" updates="None" name="stopType"/>
+        <Param val="" valType="code" updates="constant" name="stopVal"/>
+        <Param val="last key" valType="str" updates="constant" name="store"/>
+        <Param val="True" valType="bool" updates="constant" name="storeCorrect"/>
+        <Param val="True" valType="bool" updates="constant" name="syncScreenRefresh"/>
+      </KeyboardComponent>
+      <CodeComponent name="saveBlankDuration" plugin="None">
+        <Param val="" valType="extendedCode" updates="constant" name="Before Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Before JS Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Begin Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Begin JS Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Begin JS Routine"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Begin Routine"/>
+        <Param val="JS" valType="str" updates="None" name="Code Type"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Each Frame"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Each JS Frame"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End JS Experiment"/>
+        <Param val="psychoJS._experiment.addData(&quot;blankDuration&quot;, empty_text_duration);&amp;#10;hashedIP = expInfo[&quot;ip_address_hashed&quot;]&amp;#10;psychoJS._experiment.addData('ip_address_hashed', hashedIP);&amp;#10;psychoJS._experiment.addData('browser_userAgent', navigator.userAgent);&amp;#10;psychoJS._experiment.addData('browser_platform', navigator.platform);&amp;#10;psychoJS._experiment.addData('browser_language', navigator.language);&amp;#10;psychoJS._experiment.addData('browser_vendor', navigator.vendor);&amp;#10;psychoJS._experiment.addData('browser_cookiesEnabled', navigator.cookieEnabled);&amp;#10;psychoJS._experiment.addData('screen_resolution', `${window.screen.width}x${window.screen.height}`);&amp;#10;psychoJS._experiment.addData('screen_colorDepth', window.screen.colorDepth);&amp;#10;psychoJS._experiment.addData('screen_pixelDepth', window.screen.pixelDepth);&amp;#10;psychoJS._experiment.addData('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone);" valType="extendedCode" updates="constant" name="End JS Routine"/>
+        <Param val="psychoJS._experiment.addData('blankDuration', empty_text_duration);" valType="extendedCode" updates="constant" name="End Routine"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="saveBlankDuration" valType="code" updates="None" name="name"/>
+      </CodeComponent>
+    </Routine>
+    <Routine name="SemanticCategory">
+      <RoutineSettingsComponent name="SemanticCategory" plugin="None">
+        <Param val="none" valType="str" updates="None" name="backgroundFit"/>
+        <Param val="" valType="str" updates="None" name="backgroundImg"/>
+        <Param val="$[0,0,0]" valType="color" updates="None" name="color"/>
+        <Param val="rgb" valType="str" updates="None" name="colorSpace"/>
+        <Param val="" valType="str" updates="constant" name="desc"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="False" valType="code" updates="None" name="forceNonSlip"/>
+        <Param val="SemanticCategory" valType="code" updates="None" name="name"/>
+        <Param val="True" valType="bool" updates="None" name="saveStartStop"/>
+        <Param val="" valType="code" updates="constant" name="skipIf"/>
+        <Param val="duration (s)" valType="str" updates="None" name="stopType"/>
+        <Param val="" valType="code" updates="constant" name="stopVal"/>
+        <Param val="False" valType="bool" updates="None" name="useWindowParams"/>
+      </RoutineSettingsComponent>
+      <CodeComponent name="code_2" plugin="None">
+        <Param val="" valType="extendedCode" updates="constant" name="Before Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Before JS Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Begin Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Begin JS Experiment"/>
+        <Param val="category = expInfo[&quot;category&quot;];&amp;#10;testo_dinamico = `&amp;#10;${category} (&lt;-)`&amp;#10;;&amp;#10;category_text.setText(testo_dinamico);&amp;#10;" valType="extendedCode" updates="constant" name="Begin JS Routine"/>
+        <Param val="# Nel tab &quot;Begin Routine&quot;&amp;#10;# Recupera le variabili&amp;#10;category = expInfo['category']&amp;#10;&amp;#10;# Formatta il testo&amp;#10;testo_dinamico = f&quot;&quot;&quot;&amp;#10;{category} (&lt;-)&amp;#10;&quot;&quot;&quot;&amp;#10;&amp;#10;# Aggiorna il componente Text&amp;#10;category_text.setText(testo_dinamico)" valType="extendedCode" updates="constant" name="Begin Routine"/>
+        <Param val="Auto-&gt;JS" valType="str" updates="None" name="Code Type"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Each Frame"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Each JS Frame"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End JS Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End JS Routine"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End Routine"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="code_2" valType="code" updates="None" name="name"/>
+      </CodeComponent>
+      <TextComponent name="category_text" plugin="None">
+        <Param val="white" valType="color" updates="constant" name="color"/>
+        <Param val="rgb" valType="str" updates="constant" name="colorSpace"/>
+        <Param val="1" valType="num" updates="constant" name="contrast"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="False" valType="code" updates="constant" name="draggable"/>
+        <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="None" valType="str" updates="constant" name="flip"/>
+        <Param val="Arial" valType="str" updates="constant" name="font"/>
+        <Param val="LTR" valType="str" updates="None" name="languageStyle"/>
+        <Param val="0.05" valType="num" updates="constant" name="letterHeight"/>
+        <Param val="category_text" valType="code" updates="None" name="name"/>
+        <Param val="" valType="num" updates="constant" name="opacity"/>
+        <Param val="0" valType="num" updates="constant" name="ori"/>
+        <Param val="(0, 0)" valType="list" updates="constant" name="pos"/>
+        <Param val="True" valType="bool" updates="None" name="saveStartStop"/>
+        <Param val="" valType="code" updates="None" name="startEstim"/>
+        <Param val="time (s)" valType="str" updates="None" name="startType"/>
+        <Param val="0.0" valType="code" updates="None" name="startVal"/>
+        <Param val="duration (s)" valType="str" updates="None" name="stopType"/>
+        <Param val="1.498" valType="code" updates="constant" name="stopVal"/>
+        <Param val="True" valType="bool" updates="None" name="syncScreenRefresh"/>
+        <Param val="" valType="str" updates="constant" name="text"/>
+        <Param val="from exp settings" valType="str" updates="None" name="units"/>
+        <Param val="" valType="code" updates="None" name="validator"/>
+        <Param val="" valType="num" updates="constant" name="wrapWidth"/>
+      </TextComponent>
+    </Routine>
+    <Routine name="ThanksRoutine">
+      <RoutineSettingsComponent name="ThanksRoutine" plugin="None">
+        <Param val="none" valType="str" updates="None" name="backgroundFit"/>
+        <Param val="" valType="str" updates="None" name="backgroundImg"/>
+        <Param val="$[0,0,0]" valType="color" updates="None" name="color"/>
+        <Param val="rgb" valType="str" updates="None" name="colorSpace"/>
+        <Param val="" valType="str" updates="constant" name="desc"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="False" valType="code" updates="None" name="forceNonSlip"/>
+        <Param val="ThanksRoutine" valType="code" updates="None" name="name"/>
+        <Param val="False" valType="bool" updates="None" name="saveStartStop"/>
+        <Param val="" valType="code" updates="constant" name="skipIf"/>
+        <Param val="duration (s)" valType="str" updates="None" name="stopType"/>
+        <Param val="" valType="code" updates="constant" name="stopVal"/>
+        <Param val="False" valType="bool" updates="None" name="useWindowParams"/>
+      </RoutineSettingsComponent>
+      <TextComponent name="text_3" plugin="None">
+        <Param val="white" valType="color" updates="constant" name="color"/>
+        <Param val="rgb" valType="str" updates="constant" name="colorSpace"/>
+        <Param val="1" valType="num" updates="constant" name="contrast"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="False" valType="code" updates="constant" name="draggable"/>
+        <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="None" valType="str" updates="constant" name="flip"/>
+        <Param val="Arial" valType="str" updates="constant" name="font"/>
+        <Param val="LTR" valType="str" updates="None" name="languageStyle"/>
+        <Param val="0.05" valType="num" updates="constant" name="letterHeight"/>
+        <Param val="text_3" valType="code" updates="None" name="name"/>
+        <Param val="" valType="num" updates="constant" name="opacity"/>
+        <Param val="0" valType="num" updates="constant" name="ori"/>
+        <Param val="(0, 0)" valType="list" updates="constant" name="pos"/>
+        <Param val="False" valType="bool" updates="None" name="saveStartStop"/>
+        <Param val="" valType="code" updates="None" name="startEstim"/>
+        <Param val="time (s)" valType="str" updates="None" name="startType"/>
+        <Param val="0.0" valType="code" updates="None" name="startVal"/>
+        <Param val="duration (s)" valType="str" updates="None" name="stopType"/>
+        <Param val="3.0" valType="code" updates="constant" name="stopVal"/>
+        <Param val="True" valType="bool" updates="None" name="syncScreenRefresh"/>
+        <Param val="Grazie per la tua partecipazione!&amp;#10;&amp;#10;Sto salvando i risultati...&amp;#10;&amp;#10;Attendi qualche istante prima di chiudere la scheda" valType="str" updates="constant" name="text"/>
+        <Param val="from exp settings" valType="str" updates="None" name="units"/>
+        <Param val="" valType="code" updates="None" name="validator"/>
+        <Param val="" valType="num" updates="constant" name="wrapWidth"/>
+      </TextComponent>
+      <CodeComponent name="code_3" plugin="None">
+        <Param val="" valType="extendedCode" updates="constant" name="Before Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Before JS Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Begin Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Begin JS Experiment"/>
+        <Param val="// Disable downloading results to browser&amp;#10;psychoJS._saveResults = 0; //should be set to 0&amp;#10;&amp;#10;// Generate filename for results&amp;#10;let filename = psychoJS._experiment._experimentName + '_' + psychoJS._experiment._datetime + '.csv';&amp;#10;&amp;#10;// Extract data object from experiment and filter only rows with trialRoutine.started&amp;#10;let dataObj = psychoJS._experiment._trialsData.filter(row =&gt; 'trialRoutine.started' in row);&amp;#10;&amp;#10;// Remove 'filtered_data' field from each row if it exists&amp;#10;dataObj.forEach(row =&gt; {&amp;#10;    if ('filtered_data' in row) {&amp;#10;        delete row['filtered_data'];&amp;#10;    }&amp;#10;});&amp;#10;&amp;#10;// Convert data object to CSV&amp;#10;let headers = Object.keys(dataObj[0]);&amp;#10;let data = headers.join(',') + '\n' + dataObj.map(row =&gt; {&amp;#10;    return headers.map(header =&gt; {&amp;#10;        let value = row[header];&amp;#10;        &amp;#10;        // Convert all values to strings for consistent handling&amp;#10;        if (value === null || value === undefined) {&amp;#10;            return '';&amp;#10;        }&amp;#10;        &amp;#10;        // Handle objects, arrays, and other complex types&amp;#10;        if (typeof value === 'object') {&amp;#10;            value = JSON.stringify(value).replace(/,/g, ';');&amp;#10;        } else {&amp;#10;            value = String(value);&amp;#10;        }&amp;#10;        &amp;#10;        // Properly escape for CSV - enclose in quotes and double any quotes inside&amp;#10;        if (value.includes(',') || value.includes('&quot;') || value.includes('\n') || value.includes('\r')) {&amp;#10;            return '&quot;' + value.replace(/&quot;/g, '&quot;&quot;') + '&quot;';&amp;#10;        }&amp;#10;        &amp;#10;        return value;&amp;#10;    }).join(',');&amp;#10;}).join('\n');&amp;#10;&amp;#10;// Send data to OSF (${}) DataPipe&amp;#10;console.log('Saving data...');&amp;#10;fetch('https://pipe.jspsych.org/api/data', {&amp;#10;    method: 'POST',&amp;#10;    headers: {&amp;#10;        'Content-Type': 'application/json',&amp;#10;        'Accept': '*/*',&amp;#10;    },&amp;#10;    body: JSON.stringify({&amp;#10;        experimentID: 'Y21w7ySgKD5l', // * UPDATE WITH YOUR DATAPIPE EXPERIMENT ID *&amp;#10;        filename: filename,&amp;#10;        data: data,&amp;#10;    })&amp;#10;})&amp;#10;.then(response =&gt; response.json())&amp;#10;.then(data =&gt; {&amp;#10;    // Log response and force experiment end&amp;#10;    console.log(data);&amp;#10;    quitPsychoJS();&amp;#10;});" valType="extendedCode" updates="constant" name="Begin JS Routine"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Begin Routine"/>
+        <Param val="JS" valType="str" updates="None" name="Code Type"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Each Frame"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Each JS Frame"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End JS Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End JS Routine"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End Routine"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="code_3" valType="code" updates="None" name="name"/>
+      </CodeComponent>
+    </Routine>
+    <Routine name="CodeRoutine">
+      <RoutineSettingsComponent name="CodeRoutine" plugin="None">
+        <Param val="none" valType="str" updates="None" name="backgroundFit"/>
+        <Param val="" valType="str" updates="None" name="backgroundImg"/>
+        <Param val="$[0,0,0]" valType="color" updates="None" name="color"/>
+        <Param val="rgb" valType="str" updates="None" name="colorSpace"/>
+        <Param val="" valType="str" updates="constant" name="desc"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="" valType="code" updates="None" name="durationEstim"/>
+        <Param val="False" valType="code" updates="None" name="forceNonSlip"/>
+        <Param val="CodeRoutine" valType="code" updates="None" name="name"/>
+        <Param val="False" valType="bool" updates="None" name="saveStartStop"/>
+        <Param val="" valType="code" updates="constant" name="skipIf"/>
+        <Param val="duration (s)" valType="str" updates="None" name="stopType"/>
+        <Param val="" valType="code" updates="constant" name="stopVal"/>
+        <Param val="False" valType="bool" updates="None" name="useWindowParams"/>
+      </RoutineSettingsComponent>
+      <CodeComponent name="SamplingCSV" plugin="None">
+        <Param val="" valType="extendedCode" updates="constant" name="Before Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Before JS Experiment"/>
+        <Param val="# Begin Experiment (Python)&amp;#10;import pandas as pd&amp;#10;import random&amp;#10;&amp;#10;# Carica il CSV&amp;#10;df_categorie = pd.read_csv(&quot;condizioni.csv&quot;)&amp;#10;&amp;#10;# Scegli riga casuale&amp;#10;riga_casuale = random.choice(df_categorie.to_dict('records'))&amp;#10;&amp;#10;# Salva in expInfo&amp;#10;expInfo['category'] = riga_casuale['category']&amp;#10;expInfo['contrary'] = riga_casuale['contrary']" valType="extendedCode" updates="constant" name="Begin Experiment"/>
+        <Param val="// Inserire questo codice in una componente &quot;Begin Experiment&quot;&amp;#10;async function loadAndProcessCSV() {&amp;#10;    try {&amp;#10;        // 1. Caricamento CSV con cache-buster&amp;#10;        const cacheBuster = `?t=${new Date().getTime()}`;&amp;#10;        const response = await fetch(`condizioni_complete_for_exp.csv${cacheBuster}`);&amp;#10;        &amp;#10;        if (!response.ok) {&amp;#10;            throw new Error(`HTTP error! Status: ${response.status}`);&amp;#10;        }&amp;#10;        &amp;#10;        const csvText = await response.text();&amp;#10;        &amp;#10;        // 2. Parsing avanzato del CSV&amp;#10;        const lines = csvText.split(/\r\n|\n/).filter(line =&gt; line.trim() !== '');&amp;#10;        const headers = lines[0].split(',').map(h =&gt; h.trim().replace(/&quot;/g, ''));&amp;#10;        &amp;#10;        const records = [];&amp;#10;        for (let i = 1; i &lt; lines.length; i++) {&amp;#10;            const values = lines[i].split(/,(?=(?:[^&quot;]*&quot;[^&quot;]*&quot;)*[^&quot;]*$)/)&amp;#10;                             .map(v =&gt; v.trim().replace(/^&quot;|&quot;$/g, ''));&amp;#10;            &amp;#10;            const record = {};&amp;#10;            for (let j = 0; j &lt; headers.length; j++) {&amp;#10;                record[headers[j]] = values[j] || '';&amp;#10;            }&amp;#10;            records.push(record);&amp;#10;        }&amp;#10;        &amp;#10;        // 3. Log di debug SICURO&amp;#10;        console.log('CSV caricato correttamente:');&amp;#10;        console.log('Headers:', headers);&amp;#10;        console.log('Prime 3 righe:', JSON.stringify(records.slice(0, 3), null, 2));&amp;#10;        console.log('Ultime 3 righe:', JSON.stringify(records.slice(-3), null, 2));&amp;#10;        &amp;#10;        // 4. Selezione casuale della relazione (escludendo &quot;Random&quot;)&amp;#10;        const relations = [...new Set(records.map(r =&gt; r.relation))]&amp;#10;                          .filter(r =&gt; r !== &quot;Random&quot;);&amp;#10;        console.log(&quot;Relation options:&quot;, relations);&amp;#10;        const selectedRelation = relations[Math.floor(Math.random() * relations.length)];&amp;#10;        &amp;#10;        // 5. Filtro dei dati e creazione copie&amp;#10;        expInfo.filtered_data = records.filter(r =&gt; &amp;#10;            r.relation === selectedRelation || r.relation === &quot;Random&quot;&amp;#10;        ).map(row =&gt; ({ ...row })); // Crea copie per evitare side effects&amp;#10;        &amp;#10;        // 6. Raccogli righe scartate&amp;#10;        const discardedRows = records.filter(r =&gt; &amp;#10;            r.relation !== selectedRelation &amp;&amp; r.relation !== &quot;Random&quot;&amp;#10;        );&amp;#10;        &amp;#10;        // 7. Estrai primes validi dalle righe scartate&amp;#10;        const availablePrimes = discardedRows&amp;#10;            .map(r =&gt; r.prime)&amp;#10;            .filter(p =&gt; p.trim() !== &quot;&quot;);&amp;#10;        &amp;#10;        // 8. Assegnazione casuale dei prime alle righe &quot;Random&quot;&amp;#10;        if (availablePrimes.length &gt; 0) {&amp;#10;            expInfo.filtered_data.forEach(row =&gt; {&amp;#10;                if (row.relation === &quot;Random&quot;) {&amp;#10;                    const randomIndex = Math.floor(Math.random() * availablePrimes.length);&amp;#10;                    row.prime = availablePrimes[randomIndex];&amp;#10;                    //row.original_prime = row.original_prime || row.prime; // Mantiene traccia&amp;#10;                }&amp;#10;            });&amp;#10;        } else {&amp;#10;            console.warn(&quot;Nessun prime disponibile dalle righe scartate&quot;);&amp;#10;        }&amp;#10;        &amp;#10;        // 8.5 Riordinamento delle righe per evitare categorie consecutive uguali&amp;#10;           // e non più di tre target &quot;right&quot; consecutivi&amp;#10;           const shuffleData = () =&gt; {&amp;#10;               const originalData = [...expInfo.filtered_data];&amp;#10;               const reorderedData = [];&amp;#10;               &amp;#10;               // Estrai tutte le categorie uniche&amp;#10;               const uniqueCategories = [...new Set(originalData.map(r =&gt; r.category))];&amp;#10;               console.log(&quot;Categorie uniche:&quot;, uniqueCategories);&amp;#10;               &amp;#10;               // Se c'è una sola categoria, non possiamo evitare ripetizioni&amp;#10;               if (uniqueCategories.length === 1) {&amp;#10;                   console.warn(&quot;Solo una categoria presente, impossibile evitare ripetizioni&quot;);&amp;#10;                   return originalData;&amp;#10;               }&amp;#10;               &amp;#10;               // 1. Estrai la prima riga casualmente&amp;#10;               const randomIndex = Math.floor(Math.random() * originalData.length);&amp;#10;               const firstRow = originalData.splice(randomIndex, 1)[0];&amp;#10;               reorderedData.push(firstRow);&amp;#10;               &amp;#10;               // 2. Controlla la categoria della prima riga&amp;#10;               let lastCategory = firstRow.category;&amp;#10;               let consecutiveLeftCount = firstRow.is_in_category === &quot;right&quot; ? 1 : 0;&amp;#10;               &amp;#10;               // Continua finché ci sono righe nell'array originale&amp;#10;               while (originalData.length &gt; 0) {&amp;#10;                   // 3. Ottieni le righe che non hanno l'ultima categoria&amp;#10;                   let availableRows = originalData.filter(r =&gt; r.category !== lastCategory);&amp;#10;                   &amp;#10;                   // Aggiungi vincolo: se abbiamo già 3 &quot;right&quot; consecutivi, escludi le righe &quot;right&quot;&amp;#10;                   if (consecutiveLeftCount &gt;= 3) {&amp;#10;                       availableRows = availableRows.filter(r =&gt; r.is_in_category !== &quot;right&quot;);&amp;#10;                       // Se non ci sono righe disponibili non-left, allora filtra solo in base alla categoria&amp;#10;                       if (availableRows.length === 0) {&amp;#10;                           availableRows = originalData.filter(r =&gt; r.category !== lastCategory &amp;&amp; r.is_in_category !== &quot;right&quot;);&amp;#10;                       }&amp;#10;                   }&amp;#10;                   &amp;#10;                   // Se non ci sono righe disponibili con i vincoli attuali&amp;#10;                   if (availableRows.length === 0) {&amp;#10;                       console.warn(`Non è stato possibile evitare una ripetizione della categoria ${lastCategory} o più di 3 &quot;right&quot; consecutivi`);&amp;#10;                       // Priorità più alta: evitare più di 3 &quot;right&quot; consecutivi&amp;#10;                       if (consecutiveLeftCount &gt;= 3) {&amp;#10;                           const nonLeftRows = originalData.filter(r =&gt; r.is_in_category !== &quot;right&quot;);&amp;#10;                           if (nonLeftRows.length &gt; 0) {&amp;#10;                               const nextRandomIndex = Math.floor(Math.random() * nonLeftRows.length);&amp;#10;                               const nextRow = nonLeftRows[nextRandomIndex];&amp;#10;                               const indexInOriginal = originalData.findIndex(r =&gt; r === nextRow);&amp;#10;                               originalData.splice(indexInOriginal, 1);&amp;#10;                               reorderedData.push(nextRow);&amp;#10;                               lastCategory = nextRow.category;&amp;#10;                               consecutiveLeftCount = 0; // Reset perché non è &quot;right&quot;&amp;#10;                               continue;&amp;#10;                           }&amp;#10;                       }&amp;#10;                       &amp;#10;                       // Se non possiamo soddisfare i vincoli, prendiamo una riga qualsiasi&amp;#10;                       const nextRow = originalData.splice(0, 1)[0];&amp;#10;                       reorderedData.push(nextRow);&amp;#10;                       lastCategory = nextRow.category;&amp;#10;                       consecutiveLeftCount = nextRow.is_in_category === &quot;right&quot; ? consecutiveLeftCount + 1 : 0;&amp;#10;                   } else {&amp;#10;                       // 4. Estrai casualmente una riga dalle righe disponibili&amp;#10;                       const nextRandomIndex = Math.floor(Math.random() * availableRows.length);&amp;#10;                       const nextRow = availableRows[nextRandomIndex];&amp;#10;                       &amp;#10;                       // Rimuovi la riga scelta dall'array originale&amp;#10;                       const indexInOriginal = originalData.findIndex(r =&gt; r === nextRow);&amp;#10;                       originalData.splice(indexInOriginal, 1);&amp;#10;                       &amp;#10;                       // Aggiungi la riga scelta al nuovo array&amp;#10;                       reorderedData.push(nextRow);&amp;#10;                       &amp;#10;                       // 5. Aggiorna l'ultima categoria e il conteggio consecutivo&amp;#10;                       lastCategory = nextRow.category;&amp;#10;                       consecutiveLeftCount = nextRow.is_in_category === &quot;right&quot; ? consecutiveLeftCount + 1 : 0;&amp;#10;                   }&amp;#10;               }&amp;#10;               &amp;#10;               // Verifica finale: nessuna categoria consecutiva uguale?&amp;#10;               let hasConsecutiveSameCategory = false;&amp;#10;               for (let i = 1; i &lt; reorderedData.length; i++) {&amp;#10;                   if (reorderedData[i].category === reorderedData[i-1].category) {&amp;#10;                       hasConsecutiveSameCategory = true;&amp;#10;                       console.warn(`Categorie consecutive uguali trovate: ${reorderedData[i].category} alle posizioni ${i-1} e ${i}`);&amp;#10;                   }&amp;#10;               }&amp;#10;               &amp;#10;               if (!hasConsecutiveSameCategory) {&amp;#10;                   console.log(&quot;Riordinamento completato con successo: nessuna categoria consecutiva uguale&quot;);&amp;#10;               }&amp;#10;               &amp;#10;               // Verifica dei &quot;right&quot; consecutivi&amp;#10;               let maxConsecutiveLeft = 0;&amp;#10;               let currentConsecutiveLeft = 0;&amp;#10;               for (let i = 0; i &lt; reorderedData.length; i++) {&amp;#10;                   if (reorderedData[i].is_in_category === &quot;right&quot;) {&amp;#10;                       currentConsecutiveLeft++;&amp;#10;                       maxConsecutiveLeft = Math.max(maxConsecutiveLeft, currentConsecutiveLeft);&amp;#10;                   } else {&amp;#10;                       currentConsecutiveLeft = 0;&amp;#10;                   }&amp;#10;               }&amp;#10;               &amp;#10;               console.log(`Numero massimo di &quot;right&quot; consecutivi: ${maxConsecutiveLeft}`);&amp;#10;               &amp;#10;               // Stampa la sequenza di is_in_category&amp;#10;               console.log('Sequenza is_in_category:');&amp;#10;               console.log(reorderedData.map(r =&gt; r.is_in_category).join(', '));&amp;#10;               &amp;#10;               return reorderedData;&amp;#10;           };&amp;#10;           &amp;#10;           // Applica l'algoritmo di riordinamento&amp;#10;           expInfo.filtered_data = shuffleData();&amp;#10;        &amp;#10;        // 9. Setup variabili globali&amp;#10;        expInfo.relation = selectedRelation;&amp;#10;        //psychoJS.experiment.addData('selected_relation', selectedRelation);&amp;#10;        //expInfo.all_relations = [...new Set(records.map(r =&gt; r.relation))];&amp;#10;        &amp;#10;        console.log(`Relazione selezionata: ${selectedRelation}`);&amp;#10;        console.log(`Prime disponibili: ${availablePrimes.length}`);&amp;#10;        console.log(`Righe filtrate: ${expInfo.filtered_data.length}`);&amp;#10;        console.log('Dati finali (primi 3):', JSON.stringify(expInfo.filtered_data.slice(0, 3), null, 2));&amp;#10;        &amp;#10;        // Log aggiuntivo per verificare le categorie consecutive&amp;#10;        console.log('Sequenza categorie:');&amp;#10;        console.log(expInfo.filtered_data.map(r =&gt; r.category).join(', '));&amp;#10;&amp;#10;        // Log per verificare i valori di is_in_category&amp;#10;        console.log('Sequenza is_in_category:');&amp;#10;        console.log(expInfo.filtered_data.map(r =&gt; r.is_in_category).join(', '));&amp;#10;        &amp;#10;&amp;#10;        &amp;#10;    } catch (error) {&amp;#10;        console.error('Errore critico:', error);&amp;#10;        psychoJS.gui.dialog.error({&amp;#10;            msg: `Errore nel caricamento del CSV: ${error.message}\n\nVerifica che: &amp;#10;            - Il file condizioni.csv esista&amp;#10;            - Sia nella stessa cartella dell'esperimento&amp;#10;            - Abbia i permessi corretti`&amp;#10;        });&amp;#10;        psychoJS.core.quit();&amp;#10;    }&amp;#10;}&amp;#10;// Esegui la funzione&amp;#10;loadAndProcessCSV().catch(error =&gt; {&amp;#10;    console.error('Errore non gestito:', error);&amp;#10;    psychoJS.core.quit();&amp;#10;});&amp;#10;// Imposta la durata casuale&amp;#10;empty_text_duration = Math.random() &lt; 0.5 ? 0.049 : 0.301;&amp;#10;expInfo[&quot;blankDuration&quot;] = empty_text_duration;&amp;#10;&amp;#10;// Inserisci questo codice in una Code Component (nella sezione &quot;Begin Experiment&quot;)&amp;#10;async function getIP() {&amp;#10;    try {&amp;#10;        const response = await fetch(&quot;https://api.ipify.org?format=json&quot;);&amp;#10;        const data = await response.json();&amp;#10;        return data.ip;&amp;#10;    } catch (error) {&amp;#10;        console.error(&quot;Errore nel recupero dell'IP:&quot;, error);&amp;#10;        return &quot;unknown&quot;;&amp;#10;    }&amp;#10;}&amp;#10;&amp;#10;// Assegna l'IP ai dati dell'esperimento&amp;#10;async function hashString(string) {&amp;#10;    // Check if Web Crypto API is available&amp;#10;    if (typeof crypto !== 'undefined' &amp;&amp; crypto.subtle &amp;&amp; typeof crypto.subtle.digest === 'function') {&amp;#10;        try {&amp;#10;            // Converti la stringa in un ArrayBuffer&amp;#10;            const encoder = new TextEncoder();&amp;#10;            const data = encoder.encode(string);&amp;#10;            &amp;#10;            // Genera l'hash SHA-256&amp;#10;            const hashBuffer = await crypto.subtle.digest('SHA-256', data);&amp;#10;            &amp;#10;            // Converti l'ArrayBuffer in stringa esadecimale&amp;#10;            const hashArray = Array.from(new Uint8Array(hashBuffer));&amp;#10;            return hashArray.map(b =&gt; b.toString(16).padStart(2, '0')).join('');&amp;#10;        } catch (error) {&amp;#10;            console.error(&quot;Errore durante la generazione dell'hash:&quot;, error);&amp;#10;            return fallbackHash(string);&amp;#10;        }&amp;#10;    } else {&amp;#10;        console.warn(&quot;Web Crypto API non disponibile, utilizzo algoritmo di fallback&quot;);&amp;#10;        return fallbackHash(string);&amp;#10;    }&amp;#10;}&amp;#10;&amp;#10;// Simple fallback hash function&amp;#10;function fallbackHash(str) {&amp;#10;    let hash = 0;&amp;#10;    for (let i = 0; i &lt; str.length; i++) {&amp;#10;        const char = str.charCodeAt(i);&amp;#10;        hash = ((hash &lt;&lt; 5) - hash) + char;&amp;#10;        hash = hash &amp; hash; // Convert to 32bit integer&amp;#10;    }&amp;#10;    // Convert to hex string and add timestamp to make it more unique&amp;#10;    return Math.abs(hash).toString(16);&amp;#10;}&amp;#10;&amp;#10;getIP().then(async (ip) =&gt; {&amp;#10;    const hashedIP = await hashString(ip);&amp;#10;    expInfo[&quot;ip_address_hashed&quot;] = hashedIP;&amp;#10;    &amp;#10;});" valType="extendedCode" updates="constant" name="Begin JS Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Begin JS Routine"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Begin Routine"/>
+        <Param val="JS" valType="str" updates="None" name="Code Type"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Each Frame"/>
+        <Param val="" valType="extendedCode" updates="constant" name="Each JS Frame"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End JS Experiment"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End JS Routine"/>
+        <Param val="" valType="extendedCode" updates="constant" name="End Routine"/>
+        <Param val="False" valType="bool" updates="None" name="disabled"/>
+        <Param val="SamplingCSV" valType="code" updates="None" name="name"/>
+      </CodeComponent>
+    </Routine>
+  </Routines>
+  <Flow>
+    <Routine name="CodeRoutine"/>
+    <Routine name="instructionRoutine"/>
+    <LoopInitiator loopType="TrialHandler" name="trials">
+      <Param name="Selected rows" updates="None" val="" valType="str"/>
+      <Param name="conditions" updates="None" val="[OrderedDict([('category', 'ANIMALI'), ('prime', 'RATTO'), ('target', 'gatto'), ('soa', 147), ('condizione_fon', 'rima'), ('condizione_sem', 'correlato'), ('corretta_risposta', 's')]), OrderedDict([('category', 'ANIMALI'), ('prime', 'CANE'), ('target', 'cane'), ('soa', 147), ('condizione_fon', 'no_rima'), ('condizione_sem', 'correlato'), ('corretta_risposta', 's')]), OrderedDict([('category', 'ANIMALI'), ('prime', 'RATTO'), ('target', 'tetto'), ('soa', 147), ('condizione_fon', 'rima'), ('condizione_sem', 'correlato'), ('corretta_risposta', 's')]), OrderedDict([('category', 'ANIMALI'), ('prime', 'CANE'), ('target', 'pane'), ('soa', 147), ('condizione_fon', 'no_rima'), ('condizione_sem', 'correlato'), ('corretta_risposta', 's')])]" valType="str"/>
+      <Param name="conditionsFile" updates="None" val="$expInfo.filtered_data" valType="file"/>
+      <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
+      <Param name="isTrials" updates="None" val="True" valType="bool"/>
+      <Param name="loopType" updates="None" val="sequential" valType="str"/>
+      <Param name="nReps" updates="None" val="1" valType="num"/>
+      <Param name="name" updates="None" val="trials" valType="code"/>
+      <Param name="random seed" updates="None" val="" valType="code"/>
+    </LoopInitiator>
+    <Routine name="trialRoutine"/>
+    <LoopTerminator name="trials"/>
+    <Routine name="ThanksRoutine"/>
+  </Flow>
+</PsychoPy2experiment>
