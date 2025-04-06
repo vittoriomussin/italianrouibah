@@ -68,6 +68,21 @@ The original study investigated the automaticity of semantic and phonological pr
 | **Stimulus Criteria**    | Frequency, Length, OS Control         | Frequency (itTenTen20), Bisyllabic pref. |
 | **Orthographic Control** | Yes (Van Orden formula)               | Considered, but not formula-based     |
 
+## Participate in the Experiment
+
+You can participate in the Italian version of this experiment online via the following link:
+
+**[italianrouibah99.online](http://www.italianrouibah99.online/)**
+
+The experiment takes approximately **1 to 2 minutes** to complete.
+
+**Requirements:**
+
+*   You must be a **native Italian speaker**.
+*   You must be using a **desktop or laptop computer** (PC/Mac) or a device with a physical keyboard.
+
+Your participation is greatly appreciated and will contribute to research in psycholinguistics!
+
 ## References
 
 *   Rouibah, Aïcha & Tiberghien, Guy & Lupker, Stephen. (1999). Phonological and semantic priming: Evidence for task-independent effects. Memory & cognition. 27. 422-37. 10.3758/BF03211538.
