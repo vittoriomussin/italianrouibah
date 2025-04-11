@@ -405,7 +405,7 @@ async function experimentInit() {
   InstructionText = new visual.TextStim({
     win: psychoJS.window,
     name: 'InstructionText',
-    text: 'Benvenuto!\n\nIn questo esperimento, devi indicare se delle parole appartengono a delle determinate categorie.  Ti verrà prima mostrata la categoria come \n"È <nome della categoria>?"\nquindi:\n- Premi il tasto [freccia destra] (->) se la parola successiva appartiene alla categoria indicata.\n- Premi il tasto [freccia sinistra] (<-) se la parola successiva NON appartiene alla categoria indicata.\n\nCerca di rispondere il più velocemente possibile!\n\nDovrai valutare un totale di 40 parole.\n\npremi [SPAZIO] per continuare',
+    text: 'Benvenuto!\n\nIn questo esperimento, devi indicare se delle parole appartengono a delle determinate categorie.  Ti verrà prima mostrata la categoria come \n"È <nome della categoria>?"\nquindi premi il tasto:\n\n\n\n\n\n\nCerca di rispondere il più velocemente possibile!\n\nDovrai valutare un totale di 40 parole.\n\npremi [SPAZIO] per continuare',
     font: 'Arial',
     units: undefined, 
     pos: [0, 0], draggable: false, height: 0.04,  wrapWidth: undefined, ori: 0.0,
@@ -417,10 +417,10 @@ async function experimentInit() {
   rightKey = new visual.TextStim({
     win: psychoJS.window,
     name: 'rightKey',
-    text: '[freccia destra] (->)',
+    text: '[freccia destra] (->) \n\nse la parola successiva \nAPPARTIENE\nalla categoria indicata.',
     font: 'Arial',
     units: undefined, 
-    pos: [0.025, 0.045], draggable: false, height: 0.04,  wrapWidth: undefined, ori: 0.0,
+    pos: [0.4, (- 0.05)], draggable: false, height: 0.04,  wrapWidth: undefined, ori: 0.0,
     languageStyle: 'LTR',
     color: new util.Color([(- 1.0), 0.0039, (- 1.0)]),  opacity: undefined,
     depth: -1.0 
@@ -429,10 +429,10 @@ async function experimentInit() {
   leftKey = new visual.TextStim({
     win: psychoJS.window,
     name: 'leftKey',
-    text: '[freccia sinistra] (<-)',
+    text: '[freccia sinistra] (<-) \n\nse la parola successiva \nNON APPARTIENE\nalla categoria indicata.',
     font: 'Arial',
     units: undefined, 
-    pos: [0.025, (- 0.045)], draggable: false, height: 0.04,  wrapWidth: undefined, ori: 0.0,
+    pos: [(- 0.4), (- 0.05)], draggable: false, height: 0.04,  wrapWidth: undefined, ori: 0.0,
     languageStyle: 'LTR',
     color: new util.Color([1.0, (- 1.0), (- 1.0)]),  opacity: undefined,
     depth: -2.0 
