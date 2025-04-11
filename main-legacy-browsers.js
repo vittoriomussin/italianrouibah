@@ -417,7 +417,7 @@ async function experimentInit() {
   rightKey = new visual.TextStim({
     win: psychoJS.window,
     name: 'rightKey',
-    text: '[freccia destra] (->) \n\nse la parola successiva \nAPPARTIENE\nalla categoria indicata.',
+    text: '[freccia destra] (->)\n\nse la parola successiva \nAPPARTIENE\nalla categoria indicata.',
     font: 'Arial',
     units: undefined, 
     pos: [0.4, (- 0.05)], draggable: false, height: 0.04,  wrapWidth: undefined, ori: 0.0,
@@ -429,7 +429,7 @@ async function experimentInit() {
   leftKey = new visual.TextStim({
     win: psychoJS.window,
     name: 'leftKey',
-    text: '[freccia sinistra] (<-) \n\nse la parola successiva \nNON APPARTIENE\nalla categoria indicata.',
+    text: '[freccia sinistra] (<-)\n\nse la parola successiva \nNON APPARTIENE\nalla categoria indicata.',
     font: 'Arial',
     units: undefined, 
     pos: [(- 0.4), (- 0.05)], draggable: false, height: 0.04,  wrapWidth: undefined, ori: 0.0,
